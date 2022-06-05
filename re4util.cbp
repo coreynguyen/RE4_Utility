@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="re4util" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/re4util" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option parameters='&quot;G:\SteamLibrary\steamapps\common\Resident_Evil_4_Tools\Tools\EFF Tool (2)\2.FBX&quot;' />
+				<Compiler>
+					<Add option="-g" />
+					<Add directory="include" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/re4util" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O3" />
+					<Add directory="include" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add option="-static-libstdc++" />
+					<Add option="-static-libgcc" />
+				</Linker>
+				<ExtraCommands>
+					<Add after="version.bat" />
+					<Mode after="always" />
+				</ExtraCommands>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+			<Add option="-DUNICODE" />
+			<Add directory="include" />
+		</Compiler>
+		<Linker>
+			<Add library="comdlg32" />
+			<Add library="ole32" />
+			<Add library="shlwapi" />
+		</Linker>
+		<Unit filename="CHANGELOG" />
+		<Unit filename="TODO" />
+		<Unit filename="include/appsettings.h" />
+		<Unit filename="include/bytestream.h" />
+		<Unit filename="include/filesystem.h" />
+		<Unit filename="include/fmtAEV.h" />
+		<Unit filename="include/fmtATARI.h" />
+		<Unit filename="include/fmtDAT.h" />
+		<Unit filename="include/fmtEFF.h" />
+		<Unit filename="include/fmtESL.h" />
+		<Unit filename="include/fmtEST.h" />
+		<Unit filename="include/fmtETS.h" />
+		<Unit filename="include/fmtFBX.h" />
+		<Unit filename="include/fmtFCV.h" />
+		<Unit filename="include/fmtFIX.h" />
+		<Unit filename="include/fmtFNT.h" />
+		<Unit filename="include/fmtITA.h" />
+		<Unit filename="include/fmtPACK.h" />
+		<Unit filename="include/fmtROOM.h" />
+		<Unit filename="include/fmtSEQ.h" />
+		<Unit filename="include/fmtSYM.h" />
+		<Unit filename="include/fmtTPL.h" />
+		<Unit filename="include/fmtUDAS.h" />
+		<Unit filename="include/registry.h" />
+		<Unit filename="include/resource.h" />
+		<Unit filename="include/scriptini.h" />
+		<Unit filename="include/stringenc.h" />
+		<Unit filename="include/stringext.h" />
+		<Unit filename="include/vectorext.h" />
+		<Unit filename="include/wregistry.h" />
+		<Unit filename="include/wstringext.h" />
+		<Unit filename="main.cpp" />
+		<Unit filename="src/appsettings.cpp" />
+		<Unit filename="src/bytestream.cpp" />
+		<Unit filename="src/filesystem.cpp" />
+		<Unit filename="src/fmtAEV.cpp" />
+		<Unit filename="src/fmtATARI.cpp" />
+		<Unit filename="src/fmtDAT.cpp" />
+		<Unit filename="src/fmtEFF.cpp" />
+		<Unit filename="src/fmtESL.cpp" />
+		<Unit filename="src/fmtEST.cpp" />
+		<Unit filename="src/fmtETS.cpp" />
+		<Unit filename="src/fmtFBX.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="src/fmtFCV.cpp" />
+		<Unit filename="src/fmtFIX.cpp" />
+		<Unit filename="src/fmtFNT.cpp" />
+		<Unit filename="src/fmtITA.cpp" />
+		<Unit filename="src/fmtPACK.cpp" />
+		<Unit filename="src/fmtROOM.cpp" />
+		<Unit filename="src/fmtSEQ.cpp" />
+		<Unit filename="src/fmtSYM.cpp" />
+		<Unit filename="src/fmtTPL.cpp" />
+		<Unit filename="src/fmtUDAS.cpp" />
+		<Unit filename="src/icon.rc">
+			<Option compilerVar="WINDRES" />
+		</Unit>
+		<Unit filename="src/registry.cpp" />
+		<Unit filename="src/scriptini.cpp" />
+		<Unit filename="src/stringenc.cpp" />
+		<Unit filename="src/stringext.cpp" />
+		<Unit filename="src/wregistry.cpp" />
+		<Unit filename="src/wstringext.cpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

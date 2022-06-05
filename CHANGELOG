@@ -1,0 +1,30 @@
+Change Log:
+
+[2022-05-21]
+	- renamed the project to 're4util'
+	- wrote a 'version.bat' which creates a small text file 'version.h'
+	  the bat regenerates the version.h on each compile and inserts
+	  the date in the application title, should help with version
+	  control
+	- added additional 32bit checksums for fun, still going to use crc32
+	- wrote pseudo code for repacking the pack files
+	- ported pack database, however there was faults with the hashes
+	  database removed until the hashes are collected again.
+	- modified ini string write to include index in the var name
+
+[2022-05-21]
+	- looked at fnt, wrote function to read fnt
+	- added function to retrieve the texture from a tpl
+	- added function for the font page to be extracted from the pack
+	- indices in FNT don't seem like codepage, need to investigate
+
+[2022-05-06]
+	merged in structure work for ITA
+
+[2022-05-04]
+	eff structure still needs to be completed
+	start work on exporting lines as obj
+	Wrote exporter and importer for Text output for Sprite Animations
+
+[2022-04-19]
+	wrote it !

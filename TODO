@@ -1,0 +1,185 @@
+.AEV	Active Events for Stages, Trigger zones
+		- need to make a interface to send and receive data
+
+.BIN	Mesh Binary, Items Characters, and Stages
+		- need to complete format study
+
+.BLK	Block Connections, cuts map into loading areas
+		- need to review this with the game
+
+.CAM	Camera Data, for setting up camera zones for events and other trigger types
+		- need to re-write this using field names from debug menu
+
+.CNS	Constants, numbers to be stored by the map
+		- need to write up
+
+.CSV	Comma Separated Values, contains basic spreadsheet of values
+		- need to write interface
+
+.DAT	General Data Container
+		- review how unpack and repack works with ini system
+
+.DCT	Some Menu words from Mercs
+		- need to create spec and write
+
+.DRA	not affects visible after nulling
+		- search for any occurrence, other wise write as a dummy
+
+.DSE	nulling it, removes audio when traveling through a room transition door
+		- confirm is DSE is same as FSE?
+		- write spec for
+
+.EAR	according to MC trigger zones for effects?
+		- write spec for
+
+.EAT	MC: collision map for bullets (SEE SAT)
+		- need to review export code, collision bound box division is
+		  not great also need to optimize the bound boxes
+
+.EFF	Effect Package, Contains Models, Textures, Animation Data
+		- need to decide how i want to deal with unpack and repack
+
+.EMI	MC: waypoints? nulling it had no visible affect in game
+		- review, and write for
+
+.ESE	MC: Enviromential sounds such as fire, running water etc
+		- write spec for
+
+.ESL	Enemy Spawn List
+		- im not happy with the export method, review and needs import method
+
+.EST	Effect Sprite
+		- review method for unpack and repacking make sense
+
+.ETM	MC: Interactable Models, exploding barrels, moving furniture, doors, windows, etc
+		- confirm if same as ITM?
+		- waiting on BIN completion of BIN format
+
+.ETS	MC: positions of ETM objects?
+		- confirm this is the same as ITA?
+
+.EVD	Event Package (Assets for Cutscenes) (is a container)
+		- unpack method has issues, review it
+
+.EXE	Executable machine code that can be ran by your computer
+		- review what can be done with the exe, such as code patches
+		- decide how that interface will work, likely i'll need to make a UI
+
+.FBX	Film Box Scene
+		- need to reverse so i can send and receive scene data
+
+.FCS	?
+		- research what this is?
+
+.FCV	nulled it, animations where missing for leon during a cutscene, and trying to dash out a window
+		- review structure
+		- finish export and import methods
+
+.FIX	DDS Image Container
+		- create import method
+
+.FNT	Font File?  seems to contain codepages and a TPL
+		- research how the code pages work
+		- work on import method
+
+.FSE	MC: foot sound effects?
+		- research how this works
+
+.HED
+		- research file
+		- create parse method
+
+.ITA	MC: Positions for Items like treasure and ammo
+		- review format, create import and export method
+
+.ITM	MC: objects for pickups, treasure, ammo etc
+		- waiting on BIN completion of BIN format
+
+.LFS
+		- need to figure out how to decompress using both 32bit and 64bit libs
+
+.LIT	MC: Lights?
+		- review, write structure for
+		- need import and export interface aswell
+
+.MDT	MC: dictionary of words and text
+		- fix parsing method, not working
+
+.MHT	Same As SAT, EAT is a collision file found in the CMN folder
+		- research and write spec
+
+.OSD	file full of 0's
+		- search for any occurrence, other wise write as a dummy
+
+.PACK	is a image container
+		- implement repack method
+		- and extension system
+
+.REL	Wii File?
+		- look into if anything can be derived or linked back to the exe
+
+.RTP	MC: Route Points, path NCPs and enemies follow
+		- review, port maxscript to cpp
+		- write repack method
+
+.SAR	MC: toggles lights?
+		- review, and port code I think?
+
+.SAT	MC: Stage collision (SEE EAT)
+		- the export algo needs to be reviewed, bound box code needs revising
+
+.SEQ	MC: speed of animation playback?
+		- review if import and export methods are acceptable
+
+.SHD	nulled it and only thing noticible is the shadow of the zombie as he watches leon is gone
+		- basically waiting on BIN format to be completely
+		- write structure for in the mean while
+
+.SMD	Stage Models?
+		- basically waiting on BIN format to be completely
+		- need to do testing, some maps dont import or crash
+
+.SMX	Local Character Lighting?
+		- review this code, with the GC debug menu
+		- figure out how this connects with the other data such as the BIN
+
+.SND	Sound?
+		- need figure out if this is the same as the snd in the udas
+		- research parsing method
+
+.SST	(SEE EST)
+		- presumable this is the same as EST but specific for events
+		- confirm if these show up in the EVD files
+
+.STB	Sound Table nulled it and sound was missing when jumping through the window
+		- review and port maxscript to cpp
+
+.TEX	Texture related however, no affect seen after nulling
+		- review and port maxscript to cpp
+
+.TPL	Texture Palette Library, modified to reference images in ImagePack folder
+		- review how this will import and export
+
+.UDAS	Asset Container * some udas files have reverse endian
+		- review pack and repack integrity some complaints that the new udas is bad
+
+.UWF
+		- alot more research is needed for this, check with gc debug menu
+
+.VIB	Vibration Data for Controller
+		- complete review, come up with a way to visualize and edit the data
+
+.XGS	Xbox Game Sound
+		- need to review in maxscript, there was an unresolved problem
+
+.XSB	Xbox Sound Bank
+		- need to review in maxscript, there was an unresolved problem
+
+.XWB	Xbox Wave Bank
+		- review, need to write import and export methods
+
+.YZ2	Same as LFS on PC, other wise YZ2 compression is not entirely defeated
+
+
+
+

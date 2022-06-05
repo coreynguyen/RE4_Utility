@@ -1,0 +1,409 @@
+# depslib dependency file v1.0
+1653194802 source:g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\main.cpp
+	<iostream>
+	<string>
+	<sstream>
+	<vector>
+	<algorithm>
+	"appsettings.h"
+	"scriptini.h"
+	"bytestream.h"
+	"stringext.h"
+	"wstringext.h"
+	"filesystem.h"
+	"fmtATARI.h"
+	"fmtEST.h"
+	"fmtEFF.h"
+	"fmtITA.h"
+	"fmtFCV.h"
+	"fmtETS.h"
+	"fmtSEQ.h"
+	"fmtDAT.h"
+	"fmtFIX.h"
+	"fmtFBX.h"
+	"fmtFNT.h"
+	"fmtUDAS.h"
+	"fmtPACK.h"
+	"fmtAEV.h"
+	"wregistry.h"
+	"stringenc.h"
+	"resource.h"
+	"version.h"
+
+1647924816 g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\include\resource.h
+
+1653140494 g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\include\bytestream.h
+	<iostream>
+	<string>
+	<cmath>
+	<cstdint>
+	<windows.h>
+	<type_traits>
+
+1653015487 g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\include\stringext.h
+	<iostream>
+	<cstdint>
+	<cctype>
+	<sstream>
+	<iomanip>
+	<string>
+	<algorithm>
+	<vector>
+	<windows.h>
+	<time.h>
+	<shlwapi.h>
+	<Shlobj.h>
+
+1652490707 g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\include\wstringext.h
+	<iostream>
+	<string>
+	<vector>
+	<windows.h>
+	<shlwapi.h>
+	<shlobj.h>
+
+1652063174 g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\include\filesystem.h
+	<iostream>
+	<cmath>
+	<string>
+	<sstream>
+	<cstring>
+	<windows.h>
+	<shlwapi.h>
+	<tchar.h>
+	"stringext.h"
+	"wstringext.h"
+
+1652599845 g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\include\fmtest.h
+	<iostream>
+	<cstdint>
+	<sstream>
+	<string>
+	<vector>
+	"bytestream.h"
+	"filesystem.h"
+	"stringext.h"
+
+1652599840 g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\include\fmteff.h
+	<iostream>
+	<cstdint>
+	<sstream>
+	<string>
+	<vector>
+	"bytestream.h"
+	"filesystem.h"
+	"fmtEST.h"
+	"fmtTPL.h"
+
+1653017272 g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\include\fmttpl.h
+	<iostream>
+	<cstdint>
+	<string>
+	<sstream>
+	<vector>
+	<math.h>
+	"appsettings.h"
+	"scriptini.h"
+	"bytestream.h"
+	"stringext.h"
+	"wstringext.h"
+	"filesystem.h"
+	"vectorext.h"
+	"fmtPACK.h"
+
+1652599849 g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\include\fmtita.h
+	<iostream>
+	<cstdint>
+	<string>
+	<vector>
+	"bytestream.h"
+	"fmtATARI.h"
+
+1652599835 g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\include\fmtatari.h
+	<iostream>
+	<cstdint>
+	<string>
+	<vector>
+	"appsettings.h"
+	"scriptini.h"
+	"bytestream.h"
+
+1652599847 g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\include\fmtets.h
+	<iostream>
+	<cstdint>
+	<string>
+	<vector>
+	"bytestream.h"
+	"stringext.h"
+
+1652599837 g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\include\fmtdat.h
+	<iostream>
+	<cstdint>
+	<string>
+	<vector>
+	<algorithm>
+	"bytestream.h"
+	"filesystem.h"
+	"stringext.h"
+
+1652999385 g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\include\fmtudas.h
+	<iostream>
+	<cstdint>
+	<string>
+	<algorithm>
+	"appsettings.h"
+	"scriptini.h"
+	"bytestream.h"
+	"filesystem.h"
+	"fmtDAT.h"
+
+1653190311 source:g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\src\bytestream.cpp
+	<cstring>
+	<windows.h>
+	<math.h>
+	"bytestream.h"
+
+1652063173 source:g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\src\filesystem.cpp
+	"filesystem.h"
+
+1652497748 source:g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\src\fmtatari.cpp
+	"fmtATARI.h"
+
+1650948902 source:g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\src\fmtdat.cpp
+	"fmtDAT.h"
+
+1651924892 source:g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\src\fmtesl.cpp
+	"fmtESL.h"
+
+1652599842 g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\include\fmtesl.h
+	<iostream>
+	<cstdint>
+	<string>
+	<vector>
+	"appsettings.h"
+	"scriptini.h"
+	"bytestream.h"
+
+1652021566 source:g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\src\fmtest.cpp
+	"fmtEST.h"
+
+1651897625 source:g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\src\fmtets.cpp
+	"fmtETS.h"
+
+1651879025 source:g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\src\fmtita.cpp
+	"fmtITA.h"
+
+1652600781 source:g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\src\fmtroom.cpp
+	"fmtROOM.h"
+
+1652600313 g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\include\fmtroom.h
+	<iostream>
+	<cstdint>
+	<string>
+	<vector>
+	"bytestream.h"
+
+1653017979 source:g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\src\fmttpl.cpp
+	"fmtTPL.h"
+
+1652999759 source:g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\src\fmtudas.cpp
+	"fmtUDAS.h"
+
+1647924802 source:g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\src\icon.rc
+
+1652601688 source:g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\src\stringext.cpp
+	"windows.h"
+	"stringext.h"
+
+1652490726 source:g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\src\wstringext.cpp
+	"wstringext.h"
+
+1653150432 g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\include\fmtpack.h
+	<iostream>
+	<cstdint>
+	<string>
+	<sstream>
+	<vector>
+	<algorithm>
+	"appsettings.h"
+	"scriptini.h"
+	"bytestream.h"
+	"stringext.h"
+	"filesystem.h"
+	"fmtPACK_Database.h"
+	"fmtTPL.h"
+
+1652061479 source:g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\src\fmteff.cpp
+	"fmtEFF.h"
+
+1653150509 source:g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\src\fmtpack.cpp
+	"fmtPACK.h"
+
+1652070969 source:g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\src\registry.cpp
+	"registry.h"
+
+1652070739 g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\include\registry.h
+	<iostream>
+	<string>
+	<windows.h>
+	<shlwapi.h>
+	<tchar.h>
+
+1652071291 source:g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\src\wregistry.cpp
+	"wregistry.h"
+
+1652071162 g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\include\wregistry.h
+	<iostream>
+	<string>
+	<windows.h>
+	<shlwapi.h>
+	<tchar.h>
+
+1652601837 source:g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\src\stringenc.cpp
+	"stringenc.h"
+
+1652601758 g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\include\stringenc.h
+	<iostream>
+	<cstdint>
+	<string>
+	<windows.h>
+	"stringext.h"
+
+1653020233 source:g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\src\appsettings.cpp
+	"appsettings.h"
+
+1653019762 g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\include\appsettings.h
+	<iostream>
+	<string>
+	"scriptini.h"
+	"bytestream.h"
+	"wregistry.h"
+	"stringext.h"
+	"wstringext.h"
+	"stringenc.h"
+
+1652599805 g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\include\fmtaev.h
+	<iostream>
+	<cstdint>
+	<string>
+	<sstream>
+	<vector>
+	"appsettings.h"
+	"scriptini.h"
+	"bytestream.h"
+	"stringext.h"
+	"filesystem.h"
+	"fmtATARI.h"
+
+1653146158 g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\include\scriptini.h
+	<iostream>
+	<string>
+	<sstream>
+	<vector>
+	"bytestream.h"
+	"wregistry.h"
+	"stringext.h"
+	"stringenc.h"
+
+1653165082 source:g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\src\scriptini.cpp
+	"scriptini.h"
+
+1652601011 source:g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\src\fmtaev.cpp
+	"fmtAEV.h"
+
+1652927879 source:g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\src\fmtfcv.cpp
+	"fmtFCV.h"
+
+1652835180 g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\include\fmtfcv.h
+	<iostream>
+	<cstdint>
+	<string>
+	<vector>
+	"appsettings.h"
+	"scriptini.h"
+	"bytestream.h"
+	"vectorext.h"
+
+1653016409 g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\include\vectorext.h
+	<algorithm>
+	<vector>
+
+1653166335 source:g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\src\fmtfix.cpp
+	"fmtFIX.h"
+
+1653165665 g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\include\fmtfix.h
+	<iostream>
+	<cstdint>
+	<string>
+	<vector>
+	"appsettings.h"
+	"scriptini.h"
+	"bytestream.h"
+	"filesystem.h"
+
+1652927082 source:g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\src\fmtseq.cpp
+	"fmtSEQ.h"
+
+1652927042 g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\include\fmtseq.h
+	<iostream>
+	<cstdint>
+	<string>
+	<vector>
+	"appsettings.h"
+	"scriptini.h"
+	"bytestream.h"
+	"filesystem.h"
+	"wstringext.h"
+
+1652926760 source:g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\src\fmtsym.cpp
+	"fmtSYM.h"
+
+1652926601 g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\include\fmtsym.h
+	<iostream>
+	<cstdint>
+	<string>
+	<vector>
+	"appsettings.h"
+	"scriptini.h"
+	"bytestream.h"
+	"filesystem.h"
+	"wstringext.h"
+	"vectorext.h"
+
+1653014996 g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\include\fmtfnt.h
+	<iostream>
+	<cstdint>
+	<string>
+	<sstream>
+	<vector>
+	"appsettings.h"
+	"scriptini.h"
+	"bytestream.h"
+	"fmtTPL.h"
+
+1653020206 source:g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\src\fmtfnt.cpp
+	"fmtFNT.h"
+
+1653098688 g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\include\fmtpack_database.h
+	<iostream>
+	<cstdint>
+	<string>
+	<sstream>
+	<vector>
+	"appsettings.h"
+	"scriptini.h"
+	"bytestream.h"
+	"fmtTPL.h"
+
+1653321431 g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\include\version.h
+
+1653364323 g:\steamlibrary\steamapps\common\resident_evil_4_tools\tools\eff tool (2)\include\fmtfbx.h
+	<iostream>
+	<cstdint>
+	<sstream>
+	<string>
+	<vector>
+	"bytestream.h"
+	"stringext.h"
+	"filesystem.h"
+

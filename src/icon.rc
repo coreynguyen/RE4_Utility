@@ -1,0 +1,48 @@
+MAINICON ICON "icon.ico"
+101 ICON DISCARDABLE "icon.ico"
+
+
+1 VERSIONINFO
+FILEVERSION 1, 1, 0, 1000
+PRODUCTVERSION 1, 1, 0, 1000
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x9L
+#else
+ FILEFLAGS 0x8L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904E4"
+        BEGIN
+            VALUE "Comments", "Created By mariokart64n"
+            VALUE "CompanyName", "n/a"
+            VALUE "FileDescription", "Dead Rising 4: BIG Tool"
+            // (Major version).(Minor version).(Revision number).(Build number)
+            VALUE "FileVersion", "1, 1, 0, 1000"
+            VALUE "ProductVersion", "1, 1, 0, 1000"
+            VALUE "InternalName", "BigTool"
+            VALUE "ProductName", "BigTool"
+            VALUE "OriginalFilename", "bigtool.exe"
+            VALUE "LegalCopyright", "None"
+            VALUE "PrivateBuild", "RCVERSION-20030212_100"
+        END
+    END
+
+    BLOCK "VarFileInfo"
+    BEGIN
+        /* The following line should only be modified for localized versions.     */
+        /* It consists of any number of WORD,WORD pairs, with each pair           */
+        /* describing a language,codepage combination supported by the file.      */
+        /*                                                                        */
+        /* For example, a file might have values "0x409,1252" indicating that it  */
+        /* supports English language (0x409) in the Windows ANSI codepage (1252). */
+
+        VALUE "Translation", 0x409, 1252
+
+    END
+END
