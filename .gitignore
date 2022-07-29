@@ -2,4 +2,8 @@ bin/*
 res/*
 bak/*
 obj/*
+lib/*
+forms/*
+doxygen/*
 msvc.lnk
+desktop.ini

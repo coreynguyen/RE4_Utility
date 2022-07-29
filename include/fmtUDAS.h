@@ -22,6 +22,7 @@
 #include <iostream>
 #include <cstdint>		// needed for types such as uint8_t, uint16_t, uint32_t
 #include <string>
+#include <vector>
 #include <algorithm>
 
 #include "appsettings.h"
@@ -32,18 +33,27 @@
 
 
 struct fmtUDAS_Entry {
-	uint32_t type;		// Types: [0: File Package | 1: Sound File? | 2: Compressed? | 3: ? | 4: Embedded DAS]
-	uint32_t size;	// if 0 make end of file
+	int32_t type;		// Types
+	/*
+		0: File Package
+		1: Sound File?
+		2: Compressed?
+		3: ???
+		4: SND (Embedded DAS)
+	*/
+	uint32_t size;	// if 0 the file is null
 	uint32_t unk003;	// always 0?
-	uint32_t addr;
-	uint32_t unk005;	// group index?
-	uint32_t unk006;	// flag?
+	uint32_t addr; 		// ignore address if size is 0
+	uint32_t unk005;	// sub type? type 1 = 6, type 2 = 5
+	int32_t unk006;	// room_id, same as the udas its contained in (if sub type is 0, this is -1)
 	uint32_t unk007;	// parent?
 	uint32_t unk008;	// always 0?
 	bytestream data;
 	fmtUDAS_Entry ();
 	~fmtUDAS_Entry ();
 	void read_udas_entry (bytestream &f);
+	std::string type_to_ext ();
+	void repr ();
 	};
 
 struct fmtUDAS {
@@ -53,12 +63,15 @@ struct fmtUDAS {
 		thats the data files as well as the header section
 	*/
 	uint32_t count;
-	fmtUDAS_Entry* entry;
+	std::vector<fmtUDAS_Entry> asset;
 	uint32_t magic;
 
 	fmtUDAS ();
 	~fmtUDAS ();
-	bool read_udas (std::wstring filename);
+
+	bool validate_udas (bytestream &f);
+	bool read_udas (bytestream &f);
+	bool open_udas (std::wstring filename);
 	void unpack_udas (std::wstring fpathW, std::wstring filenameW);
 	};
 

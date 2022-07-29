@@ -54,9 +54,9 @@ void fmtSEQ_Entry::write_ini (std::wstring outfile, std::string secname) {
 	}
 
 void fmtSEQ_Entry::read_ini (std::string &secname) {
-	time = ini->get_integer(secname, "time");
-	index = ini->get_integer(secname, "index");
-	flag = ini->get_integer(secname, "flag");
+	time = (uint16_t)ini->get_integer(secname, "time");
+	index = (uint8_t)ini->get_integer(secname, "index");
+	flag = (uint8_t)ini->get_integer(secname, "flag");
 	}
 
 fmtSEQ::fmtSEQ () {

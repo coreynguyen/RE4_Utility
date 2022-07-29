@@ -130,7 +130,7 @@ size_t fmtTPL_Image::size () {
 			case 10	: {texel[0] = 4; texel[1] = 4; break;}
 			case 14	: {texel[0] = 8; texel[1] = 8; break;}
 			}
-		return ((ceil(height / texel[0]) * texel[0]) * (ceil(width / texel[1]) * texel[1]) * (bbp[type] / 8.0));
+		return (size_t)((ceil(height / texel[0]) * texel[0]) * (ceil(width / texel[1]) * texel[1]) * (bbp[type] / 8.0));
 		}
 
 	//format "Image Size[%: % x %]: \t%\n" type width height nsize

@@ -2,14 +2,14 @@
 
 
 fmtUDAS_Entry::fmtUDAS_Entry () {
-	type = 0x20BEB6CA;
-	size = 0x20BEB6CA;
-	unk003 = 0x20BEB6CA;
-	addr = 0x20BEB6CA;
-	unk005 = 0x20BEB6CA;
-	unk006 = 0x20BEB6CA;
-	unk007 = 0x20BEB6CA;
-	unk008 = 0x20BEB6CA;
+	type = -1;
+	size = 0;
+	unk003 = 0;
+	addr = 0;
+	unk005 = 0;
+	unk006 = -1;
+	unk007 = 0;
+	unk008 = 0;
 	}
 
 fmtUDAS_Entry::~fmtUDAS_Entry () {
@@ -17,137 +17,134 @@ fmtUDAS_Entry::~fmtUDAS_Entry () {
 	}
 
 void fmtUDAS_Entry::read_udas_entry (bytestream &f) {
-	type = f.readUlong();
-	size = f.readUlong();
-	unk003 = f.readUlong();
-	addr = f.readUlong();
-	unk005 = f.readUlong();
-	unk006 = f.readUlong();
-	unk007 = f.readUlong();
-	unk008 = f.readUlong();
+	size_t pos = f.tell();
+	type = f.readlong();
+
+	if (type != -1) {
+		size = f.readUlong();
+		unk003 = f.readUlong();
+		addr = f.readUlong();
+		unk005 = f.readUlong();
+		unk006 = f.readlong();
+		unk007 = f.readUlong();
+		unk008 = f.readUlong();
+		} else {f.seek(pos + 32);}
+	}
+
+std::string fmtUDAS_Entry::type_to_ext () {
+	std::string fext = ".bin";
+	switch (type) {
+		case 0: {fext = ".dat"; break;}
+		case 1: {fext = ".hed"; break;}
+		case 2: {fext = ".dsp"; break;}
+		case 4: {fext = ".das"; break;}
+		}
+	return fext;
+	}
+
+void fmtUDAS_Entry::repr () {
+	std::cout << type << " \t" << size << " \t" << unk003 << " \t";
+	std::cout << addr << " \t" << unk005 << " \t" << unk006 << " \t";
+	std::cout << unk007 << " \t" << unk008 << std::endl;
 	}
 
 fmtUDAS::fmtUDAS () {
 	count = 0;
-	entry = NULL;
 	}
 
 fmtUDAS::~fmtUDAS () {
-	if (entry != NULL) {delete[] entry;}
 	count = 0;
-	entry = NULL;
+	asset.clear();
 	}
 
-bool fmtUDAS::read_udas (std::wstring filenameW) {
+bool fmtUDAS::validate_udas (bytestream &f) {
+	size_t pos = f.tell();
+	bool isGood = false;
 
+	// Check that the file is not EMPTY
+	if (f.size - pos > 64) {
+
+		unsigned int chk1 = f.readUlong();
+
+		if (chk1 != 0) {
+
+			// Check that magic is the same for the 32 bytes
+			bool chk2 = true;
+			unsigned int chk3 = 0;
+			for (unsigned int i = 0; i < 7; i++) {
+				chk3 = f.readUlong();
+				if (chk1 != chk3) {
+					chk2 = false;
+					break;
+					}
+				}
+
+			if (chk2) {
+
+				// set pass condition to true
+				isGood = true;
+
+				// try to detect endian
+				if (chk1 == 549369546) {
+					f.islilEndian = !f.islilEndian;
+					}
+
+				} else {std::cout << "validation error: \tinvalid 256bit header signature\n";}
+			} else {std::cout << "validation error: \tinvalid file id\n";}
+		} else {std::cout << "validation error: \tfile too small\n";}
+	f.seek(pos);
+	return isGood;
+	}
+
+bool fmtUDAS::read_udas (bytestream &f) {
+
+	size_t pos = f.tell();
+	bool isGood = false;
+	if (validate_udas(f)) {
+
+		f.seek(pos + 32);
+		// Count Number of Entries
+		unsigned int asset_count = 0;
+		signed int check = 0;
+		while (check != -1 && !f.eos()) {
+			check = f.readlong();
+			f.seek(0x1C, seek::cur);
+			if (check != -1) {
+				asset_count++;
+				} else {break;}
+			}
+
+		if (asset_count > 0) {
+			asset = std::vector<fmtUDAS_Entry>(asset_count);
+
+			for (unsigned i = 0; i < asset_count; i++) {
+				f.seek(pos + ((i + 1) * 32));
+				asset[i].read_udas_entry(f);
+				//asset[i].repr();
+				}
+			for (unsigned i = 0; i < asset_count; i++) {
+				if (asset[i].size > 0) {
+
+					asset[i].data.copy(f.stream, asset[i].size, pos + asset[i].addr);
+					}
+				}
+			isGood = true;
+			} else {std::cout << "Error: \tno entries in UDAS\n";}
+		} else {std::cout << "Error:\tInvalid Udas\n";}
+	return isGood;
+	}
+
+bool fmtUDAS::open_udas (std::wstring filenameW) {
+
+	bool isGood = false;
 
 	bytestream f;
 
 	if (f.openFileW(filenameW)) {
-
-		// check that file is larger then minimal size
-		if (f.size < 32) {return false;}
-
-		// start read at beginning of file
-		f.pos = 0;
-
-		// check type
-		magic = f.readlong();
-
-		// reading the magic isn't reliable, try to read the first address
-		f.pos = 44;
-		if (f.readlong() >= 0x00040000) {
-			f.islilEndian = !f.islilEndian;
-			}
-
-		//if (magic != 0xCAB6BE20 && magic != 0x20BEB6CA) {return false;}
-
-		// clear entry buffer
-		count = 0;
-		if (entry != NULL) {delete[] entry;}
-		entry = NULL;
-
-		// go to file table
-		f.pos = 32;
-
-		// count entries
-		uint32_t term = 0x7FFFFFFF;
-		uint32_t type;
-		while (f.pos < f.size ) {
-
-			// read type
-			type = f.readUlong();
-
-			// check if termination is found
-			if (type > term) {
-				break;
-				}
-
-			// skip to next entry
-			f.pos += 28;
-
-			// increment
-			count++;
-			}
-
-		// check if any thing was countered
-		if (count == 0) {return false;}
-
-		// dimension array
-		entry = new fmtUDAS_Entry[count];
-
-		// create size lookup
-		unsigned long* sizes = new unsigned long[count + 1];
-		sizes[count] = f.size;
-
-		// seek to table again
-		f.pos = 32;
-
-		// read entries
-		for (unsigned long i = 0; i < count; i++) {
-
-			// read udas entry
-			entry[i].read_udas_entry(f);
-
-			// log addr
-			sizes[i] = entry[i].addr;
-
-			//if (entry[i].addr > f.size) {
-			//	isLilEndian = false;
-			//	}
-			}
-
-		// halt if endian difference
-		//if (!isLilEndian) {
-		//	delete[] sizes;
-		//	return false;
-		//	}
-
-		// sort sizes
-		std::sort(sizes, sizes + (count + 1));
-
-		// rebuild sizes
-		for (unsigned long i = 0; i < count; i++) {
-			//std::cout << "Size" << i << ":\t" << sizes[i] << std::endl;
-			if (entry[i].size == 0) {
-				for (unsigned long x = count; x --> 0; ) {
-					if (entry[i].addr == sizes[x]) {
-						entry[i].size = sizes[x + 1] - entry[i].addr;
-						}
-					}
-				}
-			}
-		delete[] sizes;
-
-		for (unsigned long i = 0; i < count; i++) {
-			entry[i].data.copy(f.stream, entry[i].size, entry[i].addr);
-			}
-
-
-
+		isGood = read_udas(f);
 		}
 	else {std::cout << "failed to read file\n";}
-	return true;
+	return isGood;
 	}
 
 void fmtUDAS::unpack_udas (std::wstring fpathW, std::wstring filenameW) {
@@ -179,15 +176,15 @@ void fmtUDAS::unpack_udas (std::wstring fpathW, std::wstring filenameW) {
 		// and.. still assembling the filename
 		ss.str(""); ss.clear();
 		ss << std::right << std::setfill('0') << std::setw(digits) << i;
-		//std::cout << entry[i].size << std::endl;
+		//std::cout << asset[i].size << std::endl;
 
 
 		newname = filenameW + L"_" + string_to_wstring(ss.str());
 
-		switch (entry[i].type) {
+		switch (asset[i].type) {
 			case 0: {	// Unpack resource archive
-				entry[i].data.seek(0);
-				if (dat.read(entry[i].data)) {
+				asset[i].data.seek(0);
+				if (dat.read(asset[i].data)) {
 
 					// check count
 					if (dat.count > 0) {

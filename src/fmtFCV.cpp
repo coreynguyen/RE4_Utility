@@ -138,163 +138,163 @@ void fmtFCV_Value::write (bytestream &s, uint16_t &data_type) {
 					break;
 					}
 				case 0x10: {
-					s.writeshort(values[i][0]);
-					s.writeshort(values[i][1]);
-					s.writeshort(values[i][2]);
-					s.writeshort(values[i][3]);
+					s.writeshort((int16_t)values[i][0]);
+					s.writeshort((int16_t)values[i][1]);
+					s.writeshort((int16_t)values[i][2]);
+					s.writeshort((int16_t)values[i][3]);
 					break;
 					}
 				case 0x15: {
 					s.writefloat(values[i][0]);
-					s.writeshort(values[i][1]);
-					s.writeshort(values[i][2]);
+					s.writeshort((int16_t)values[i][1]);
+					s.writeshort((int16_t)values[i][2]);
 					break;
 					}
 				case 0x16: {
 					s.writefloat(values[i][0]);
-					s.writeshort(values[i][1]);
-					s.writeshort(values[i][2]);
+					s.writeshort((int16_t)values[i][1]);
+					s.writeshort((int16_t)values[i][2]);
 					break;
 					}
 				case 0x20: {
-					s.writeshort(values[i][0]);
-					s.writeshort(values[i][1]);
-					s.writeshort(values[i][2]);
+					s.writeshort((int16_t)values[i][0]);
+					s.writeshort((int16_t)values[i][1]);
+					s.writeshort((int16_t)values[i][2]);
 					break;
 					}
 				case 0x25: {
-					s.writeshort(values[i][0]);
-					s.writeshort(values[i][1]);
-					s.writeshort(values[i][2]);
+					s.writeshort((int16_t)values[i][0]);
+					s.writeshort((int16_t)values[i][1]);
+					s.writeshort((int16_t)values[i][2]);
 					break;
 					}
 				case 0x26: {
-					s.writeshort(values[i][0]);
-					s.writeshort(values[i][1]);
-					s.writeshort(values[i][2]);
+					s.writeshort((int16_t)values[i][0]);
+					s.writeshort((int16_t)values[i][1]);
+					s.writeshort((int16_t)values[i][2]);
 					break;
 					}
 				case 0x40: {
-					s.writeshort(values[i][0]);
+					s.writeshort((int16_t)values[i][0]);
 					s.writefloat(values[i][1]);
 					s.writefloat(values[i][2]);
 					break;
 					}
 				case 0x44: {
-					s.writeshort(values[i][0]);
+					s.writeshort((int16_t)values[i][0]);
 					s.writefloat(values[i][1]);
 					s.writefloat(values[i][2]);
 					break;
 					}
 				case 0x45: {
-					s.writeshort(values[i][0]);
+					s.writeshort((int16_t)values[i][0]);
 					s.writefloat(values[i][1]);
 					s.writefloat(values[i][2]);
 					break;
 					}
 				case 0x46: {
-					s.writeshort(values[i][0]);
+					s.writeshort((int16_t)values[i][0]);
 					s.writefloat(values[i][1]);
 					s.writefloat(values[i][2]);
 					break;
 					}
 				case 0x50: {
-					s.writeshort(values[i][0]);
-					s.writeshort(values[i][1]);
-					s.writeshort(values[i][2]);
+					s.writeshort((int16_t)values[i][0]);
+					s.writeshort((int16_t)values[i][1]);
+					s.writeshort((int16_t)values[i][2]);
 					break;
 					}
 				case 0x54: {
-					s.writeshort(values[i][0]);
-					s.writeshort(values[i][1]);
-					s.writeshort(values[i][2]);
+					s.writeshort((int16_t)values[i][0]);
+					s.writeshort((int16_t)values[i][1]);
+					s.writeshort((int16_t)values[i][2]);
 					break;
 					}
 				case 0x55: {
-					s.writeshort(values[i][0]);
-					s.writeshort(values[i][1]);
-					s.writeshort(values[i][2]);
+					s.writeshort((int16_t)values[i][0]);
+					s.writeshort((int16_t)values[i][1]);
+					s.writeshort((int16_t)values[i][2]);
 					break;
 					}
 				case 0x56: {
-					s.writeshort(values[i][0]);
-					s.writeshort(values[i][1]);
-					s.writeshort(values[i][2]);
+					s.writeshort((int16_t)values[i][0]);
+					s.writeshort((int16_t)values[i][1]);
+					s.writeshort((int16_t)values[i][2]);
 					break;
 					}
 				case 0x60: {
-					s.writeshort(values[i][0]);
-					s.writeshort(values[i][1]);
+					s.writeshort((int16_t)values[i][0]);
+					s.writeshort((int16_t)values[i][1]);
 					break;
 					}
 				case 0x64: {
-					s.writeshort(values[i][0]);
-					s.writeshort(values[i][1]);
+					s.writeshort((int16_t)values[i][0]);
+					s.writeshort((int16_t)values[i][1]);
 					break;
 					}
 				case 0x65: {
-					s.writeshort(values[i][0]);
-					s.writeshort(values[i][1]);
+					s.writeshort((int16_t)values[i][0]);
+					s.writeshort((int16_t)values[i][1]);
 					break;
 					}
 				case 0x66: {
-					s.writeshort(values[i][0]);
-					s.writeshort(values[i][1]);
+					s.writeshort((int16_t)values[i][0]);
+					s.writeshort((int16_t)values[i][1]);
 					break;
 					}
 				case 0x80: {
-					s.writebyte(values[i][0]);
+					s.writebyte((int8_t)values[i][0]);
 					s.writefloat(values[i][1]);
-					s.writeshort(values[i][2]);
-					s.writeshort(values[i][3]);
+					s.writeshort((int16_t)values[i][2]);
+					s.writeshort((int16_t)values[i][3]);
 					break;
 					}
 				case 0x90: {
-					s.writebyte(values[i][0]);
-					s.writeshort(values[i][1]);
-					s.writeshort(values[i][2]);
+					s.writebyte((int8_t)values[i][0]);
+					s.writeshort((int16_t)values[i][1]);
+					s.writeshort((int16_t)values[i][2]);
 					break;
 					}
 				case 0x95: {
-					s.writebyte(values[i][0]);
-					s.writeshort(values[i][1]);
-					s.writeshort(values[i][2]);
+					s.writebyte((int8_t)values[i][0]);
+					s.writeshort((int16_t)values[i][1]);
+					s.writeshort((int16_t)values[i][2]);
 					break;
 					}
 				case 0x96: {
-					s.writebyte(values[i][0]);
-					s.writeshort(values[i][1]);
-					s.writeshort(values[i][2]);
+					s.writebyte((int8_t)values[i][0]);
+					s.writeshort((int16_t)values[i][1]);
+					s.writeshort((int16_t)values[i][2]);
 					break;}
 				case 0xA0: {
-					s.writebyte(values[i][0]);
-					s.writebyte(values[i][1]);
-					s.writebyte(values[i][2]);
+					s.writebyte((int8_t)values[i][0]);
+					s.writebyte((int8_t)values[i][1]);
+					s.writebyte((int8_t)values[i][2]);
 					break;
 					}
 				case 0xA4: {
-					s.writebyte(values[i][0]);
-					s.writebyte(values[i][1]);
-					s.writebyte(values[i][2]);
+					s.writebyte((int8_t)values[i][0]);
+					s.writebyte((int8_t)values[i][1]);
+					s.writebyte((int8_t)values[i][2]);
 					break;
 					}
 				case 0xA5: {
-					s.writebyte(values[i][0]);
-					s.writebyte(values[i][1]);
-					s.writebyte(values[i][2]);
+					s.writebyte((int8_t)values[i][0]);
+					s.writebyte((int8_t)values[i][1]);
+					s.writebyte((int8_t)values[i][2]);
 					break;
 					}
 				case 0xA6: {
-					s.writebyte(values[i][0]);
-					s.writebyte(values[i][1]);
-					s.writebyte(values[i][2]);
+					s.writebyte((int8_t)values[i][0]);
+					s.writebyte((int8_t)values[i][1]);
+					s.writebyte((int8_t)values[i][2]);
 					break;
 					}
 				case 0xF0: {
-					s.writebyte(values[i][0]);
-					s.writebyte(values[i][1]);
-					s.writebyte(values[i][2]);
-					s.writebyte(values[i][3]);
+					s.writebyte((int8_t)values[i][0]);
+					s.writebyte((int8_t)values[i][1]);
+					s.writebyte((int8_t)values[i][2]);
+					s.writebyte((int8_t)values[i][3]);
 					break;
 					}
 				default: {

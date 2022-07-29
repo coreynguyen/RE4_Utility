@@ -72,7 +72,7 @@ void scriptini::header (std::string title, std::string section_name, std::string
 		ss = split(notes, "\n");
 
 		unsigned int line_w = 56;
-		float line_count_f;
+		//float line_count_f;
 		unsigned int line_count;
 		std::string tmp_line;
 		std::string tmp_line2;
@@ -84,9 +84,11 @@ void scriptini::header (std::string title, std::string section_name, std::string
 
 
 
-			line_count_f = (float)ss.at(c).length() / (float)line_w;
-			line_count = line_count_f;
-			if ((float)line_count < line_count_f) {
+			//line_count_f = (float)ss.at(c).length() / (float)line_w;
+			line_count = ss.at(c).length() / line_w;
+
+
+			if ((line_count * line_w) < ss.at(c).length()) {
 				line_count += 1;
 				}
 
@@ -448,10 +450,10 @@ signed long long scriptini::get_integer (std::string secname, std::string varnam
 	if (val.length() > 0) {
 		std::stringstream ss;
 		signed long long v = 0;
-		unsigned long long x = 0;
+		unsigned int x = 0;
 		x = val.find("x");
 		if (x != std::string::npos && x > 0) {
-			ss << std::hex << val.substr(x + 1);
+ 			ss << std::hex << val.substr(x + 1);
 			}
 		else {
 			ss << val;

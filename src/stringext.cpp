@@ -313,10 +313,13 @@ std::string ReplaceAll(std::string str, const std::string& from, const std::stri
 std::string get_part_date(const std::string &datepart, time_t now) {
     // Visit http://en.cppreference.com/w/cpp/chrono/c/strftime
     // for more information about date/time format
-    //time_t     now = time(0);
+    
     struct tm  tstruct;
     char       buf[80];
-    tstruct = *localtime(&now);
+	tstruct = *localtime(&now);
+	//time_t     now = time(0); errno_t error = *localtime_s(&tstruct, &now);
+
+
     strftime(buf, sizeof(buf), datepart.c_str(), &tstruct);
     return buf;
 	}

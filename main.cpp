@@ -18,6 +18,8 @@
 #include <vector>
 #include <algorithm>
 
+#include "FL\Fl.H"
+
 #include "appsettings.h"
 #include "scriptini.h"
 #include "bytestream.h"
@@ -33,17 +35,24 @@
 #include "fmtSEQ.h" 	// Sequences
 #include "fmtDAT.h" 	// Data Package
 #include "fmtFIX.h" 	// Chinese Language Fix
-#include "fmtFBX.h" 	// Film Box Scene Save
+//#include "fmtFBX.h" 	// Film Box Scene Save
 #include "fmtFNT.h" 	// Font
 #include "fmtUDAS.h" 	// Data Asset Package
 #include "fmtPACK.h" 	// Texture Package
 #include "fmtAEV.h" 	// Area Events
+#include "fmtSND.h"		// Sound
+#include "fmtXSB.h"
+
 #include "wregistry.h"
 #include "stringenc.h"
+#include "vectorext.h"
 
 #include "resource.h"
 #include "version.h"
 
+
+//#include "FL\Fl.H"
+//#include "win_esl.h"
 
 
 using namespace std;
@@ -555,9 +564,20 @@ void convert_file (std::wstring fileW, std::wstring fpathW = L"") {
 
 			s.close();
 			}
+		else if (fextW == L".snd") {
+			fmtDAT_SND_Package snd;
+			snd.read_dat_snd(f);
+			snd.xml_export(fpathW + fnameW + L"_new.xml");
+
+			//bytestream s;
+			//s.resize(snd.size(), true);
+			//snd.write_dat_snd(s);
+			//s.writeFileW(fileW + L"_new.snd");
+
+			}
 		else if (fextW == L".udas" || fextW == L".das" || fextW == L".drs") {
 			fmtUDAS udas;
-			udas.read_udas(fileW);
+			udas.open_udas(fileW);
 			udas.unpack_udas(fpathW, fnameW);
 			}
 		else if (fextW == L".txt" && ini != NULL) {
@@ -692,11 +712,115 @@ void convert_file (std::wstring fileW, std::wstring fpathW = L"") {
 				}
 
 			}
+		else if (fextW == L".xsb") {
+			fmtXSB xsb;
+			xsb.read_xsb(f);
+			xsb.write_xap(fpathW + fnameW + L".xap");
+			}
+		else if (fextW == L".xml") {
 
+
+
+
+			// Read the xml file into a vector
+			std::vector<char> buffer(f.stream, f.stream + f.size);
+			//std::cout << "size:\t" << theFile.tellg() << std::endl;
+
+			// Store Termination Character
+			buffer.push_back('\0');
+			rapidxml::xml_document<> doc;
+			// Parse the buffer using the xml file parsing library into doc
+			doc.parse < rapidxml::parse_full | rapidxml::parse_no_data_nodes >(&buffer[0]);
+			//doc.parse<0>(&buffer[0]);
+
+			// check root node
+			rapidxml::xml_node<>* rootNode = doc.first_node("snd");
+			if (rootNode != NULL) {
+				fmtDAT_SND_Package snd;
+				snd.xml_import(doc);
+
+
+				bytestream s;
+				s.resize(snd.size());
+				snd.write_dat_snd(s);
+				s.writeFileW(fpathW + L"NEW_SND_FROM_XML.snd");
+
+				}
+
+
+			doc.clear();
+			}
 		f.close();
 		} else {std::cout << "failed to open file\n";}
 	}
 
+void scan_aev (std::wstring filepath) {
+	if (filepath.length() > 1) {
+
+		if (filepath[filepath.length() - 1] != L'\\') {
+			filepath += L"\\";
+			}
+
+		std::vector<std::wstring> files;
+		getFilesW(filepath + L"*.aev", files);
+
+		unsigned int count = files.size();
+
+		if (count == 0) {return;}
+
+		std::vector<uint8_t> collection;
+		signed int index;
+
+		for (unsigned int i = 0; i < count; i++) {
+
+			fmtAEV aev;
+			aev.open_aev(files.at(i));
+
+			if (aev.count == 0) {continue;}
+
+
+			for (unsigned int d = 0; d < aev.count; d++) {
+
+				index = findItem(collection, aev.data.at(i).type);
+				if (index > -1) {
+					append(collection, aev.data.at(i).type);
+					std::wcout << L"Discovered Type [" << aev.data.at(i).type << L"] in file {" << getFilenameFileW(files.at(i)) << std::endl;
+					}
+				}
+			}
+		}
+	}
+
+int test_base64 () {
+	bytestream f;
+//	f.resize(16);
+//	f.stream[0] = 0x53;
+//	f.stream[1] = 0x47;
+//	f.stream[2] = 0x56;
+//	f.stream[3] = 0x73;
+//	f.stream[4] = 0x62;
+//	f.stream[5] = 0x47;
+//	f.stream[6] = 0x38;
+//	f.stream[7] = 0x67;
+//	f.stream[8] = 0x49;
+//	f.stream[9] = 0x43;
+//	f.stream[10] = 0x41;
+//	f.stream[11] = 0x67;
+//	f.stream[12] = 0x49;
+//	f.stream[13] = 0x43;
+//	f.stream[14] = 0x41;
+//	f.stream[15] = 0x3D;
+	//f.openFile("G:\\SteamLibrary\\steamapps\\common\\Resident_Evil_4_Tools\\Bio4(Stripped)\\Data\\Bgm\\hello.txt");
+	std::string test = "SGVsbG8gICAgICA=";
+	f.base64_decode(test);
+	f.seek(0);
+	f.writeFile("G:\\SteamLibrary\\steamapps\\common\\Resident_Evil_4_Tools\\Bio4(Stripped)\\Data\\Bgm\\hello_new.txt");
+
+	f.close();
+
+
+	return 1;
+	}
 
 int main(int argc, char* argv[]) {
 
@@ -708,6 +832,13 @@ int main(int argc, char* argv[]) {
 //	std::cout << app->test << std::endl;
 
 
+
+
+	//Fl_Double_Window* w = win_esl();
+	//w->begin();// Add children to window
+	//w->show(1, argv);
+	//return Fl::run();
+
 	// get args as wchar
 	int argcW; LPWSTR *argvW = CommandLineToArgvW(GetCommandLineW(), &argcW); if (argcW == 0) {return 0;} // Get UNICODE Command line
 
@@ -716,12 +847,17 @@ int main(int argc, char* argv[]) {
 
 		init();
 
-		fmtFBX fbx;
-		bytestream f;
-		f.openFileW(argvW[1]);
-		fbx.read(f);
 
-		return 1;
+
+
+
+
+		//fmtFBX fbx;
+		//bytestream f;
+		//f.openFileW(argvW[1]);
+		//fbx.read(f);
+
+		//return 1;
 
 
 
@@ -777,7 +913,7 @@ int main(int argc, char* argv[]) {
 		//std::cin.get();
 		convert_file(
 			openfilenameW(
-				L"All Supported Files \0*.aev;*.dat;*.eff;*.seq;*.esl;*.est;*.ets;*.ita;*.fcv*.fnt;*.fix;*.pack;*.tpl;*.udas\0\
+				L"All Supported Files \0*.aev;*.dat;*.eff;*.snd;*.seq;*.esl;*.est;*.ets;*.ita;*.fcv*.fnt;*.fix;*.pack;*.tpl;*.udas;*.xsb;*.xml\0\
 				Atari Events (*.aev)\0*.aev\0\
 				Data Package (*.dat)\0*.dat\0\
 				Effects Package (*.eff)\0*.eff\0\
@@ -786,11 +922,14 @@ int main(int argc, char* argv[]) {
 				Frames Curve Values (*.fcv)\0*.fcv\0\
 				Font (*.fnt)\0*.fnt\0\
 				Sequences (*.seq)\0*.seq\0\
+				Sound Data (*.snd)\0*.snd\0\
 				Fix for Chinese (*.fix)\0*.fix\0\
 				Item Location (*.ita)\0*.ita\0\
 				Texture Pack List (*.tpl)\0*.tpl\0\
 				Texture Pack (*.pack)\0*.pack\0\
 				Data Asset (*.udas)\0*.udas\0\
+				Xbox Sound Bank (*.xsb)\0*.xsb\0\
+				Xtensible Markup Language (*.xml)\0*.xml\0\
 				All Files (*.*)\0*.*\0",
 				NULL,
 				OFN_EXPLORER | OFN_FILEMUSTEXIST | OFN_HIDEREADONLY | OFN_ALLOWMULTISELECT

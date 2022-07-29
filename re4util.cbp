@@ -11,7 +11,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters='&quot;G:\SteamLibrary\steamapps\common\Resident_Evil_4_Tools\Tools\EFF Tool (2)\2.FBX&quot;' />
+				<Option parameters='&quot;G:\SteamLibrary\steamapps\common\Resident_Evil_4_Tools\Bio4(Stripped)\Data\Bgm\test\doorse001.xsb&quot;' />
 				<Compiler>
 					<Add option="-g" />
 					<Add directory="include" />
@@ -21,7 +21,7 @@
 				<Option output="bin/Release/re4util" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
-				<Option compiler="gcc" />
+				<Option compiler="gnu_gcc_compiler_mingw-w64" />
 				<Compiler>
 					<Add option="-O3" />
 					<Add directory="include" />
@@ -41,12 +41,27 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 			<Add option="-DUNICODE" />
+			<Add option="-D_CRT_SECURE_NO_WARNINGS" />
 			<Add directory="include" />
+			<Add directory="include/rapidXML" />
 		</Compiler>
 		<Linker>
+			<Add library="zlib" />
+			<Add library="fltk_gl" />
+			<Add library="fltk_forms" />
+			<Add library="fltk_z" />
+			<Add library="fltk_images" />
+			<Add library="fltk_jpeg" />
+			<Add library="fltk_png" />
+			<Add library="fltk" />
 			<Add library="comdlg32" />
 			<Add library="ole32" />
 			<Add library="shlwapi" />
+			<Add library="uuid" />
+			<Add library="comctl32" />
+			<Add library="gdi32" />
+			<Add directory="lib" />
+			<Add directory="lib/FLTK" />
 		</Linker>
 		<Unit filename="CHANGELOG" />
 		<Unit filename="TODO" />
@@ -55,8 +70,13 @@
 		<Unit filename="include/filesystem.h" />
 		<Unit filename="include/fmtAEV.h" />
 		<Unit filename="include/fmtATARI.h" />
+		<Unit filename="include/fmtBLK.h" />
+		<Unit filename="include/fmtBgmTbl.h" />
+		<Unit filename="include/fmtCNS.h" />
 		<Unit filename="include/fmtDAT.h" />
+		<Unit filename="include/fmtDSE.h" />
 		<Unit filename="include/fmtEFF.h" />
+		<Unit filename="include/fmtEMI.h" />
 		<Unit filename="include/fmtESL.h" />
 		<Unit filename="include/fmtEST.h" />
 		<Unit filename="include/fmtETS.h" />
@@ -65,18 +85,28 @@
 		<Unit filename="include/fmtFIX.h" />
 		<Unit filename="include/fmtFNT.h" />
 		<Unit filename="include/fmtITA.h" />
+		<Unit filename="include/fmtLIT.h" />
 		<Unit filename="include/fmtPACK.h" />
 		<Unit filename="include/fmtROOM.h" />
 		<Unit filename="include/fmtSEQ.h" />
+		<Unit filename="include/fmtSND.h" />
 		<Unit filename="include/fmtSYM.h" />
 		<Unit filename="include/fmtTPL.h" />
 		<Unit filename="include/fmtUDAS.h" />
+		<Unit filename="include/fmtUWF.h" />
+		<Unit filename="include/fmtVIB.h" />
+		<Unit filename="include/fmtWAV.h" />
+		<Unit filename="include/fmtXGS.h" />
+		<Unit filename="include/fmtXSB.h" />
+		<Unit filename="include/fmtXWB.h" />
+		<Unit filename="include/rapidXML/rapidxml_ext.h" />
 		<Unit filename="include/registry.h" />
 		<Unit filename="include/resource.h" />
 		<Unit filename="include/scriptini.h" />
 		<Unit filename="include/stringenc.h" />
 		<Unit filename="include/stringext.h" />
 		<Unit filename="include/vectorext.h" />
+		<Unit filename="include/win_esl.h" />
 		<Unit filename="include/wregistry.h" />
 		<Unit filename="include/wstringext.h" />
 		<Unit filename="main.cpp" />
@@ -85,8 +115,13 @@
 		<Unit filename="src/filesystem.cpp" />
 		<Unit filename="src/fmtAEV.cpp" />
 		<Unit filename="src/fmtATARI.cpp" />
+		<Unit filename="src/fmtBLK.cpp" />
+		<Unit filename="src/fmtBgmTbl.cpp" />
+		<Unit filename="src/fmtCNS.cpp" />
 		<Unit filename="src/fmtDAT.cpp" />
+		<Unit filename="src/fmtDSE.cpp" />
 		<Unit filename="src/fmtEFF.cpp" />
+		<Unit filename="src/fmtEMI.cpp" />
 		<Unit filename="src/fmtESL.cpp" />
 		<Unit filename="src/fmtEST.cpp" />
 		<Unit filename="src/fmtETS.cpp" />
@@ -98,12 +133,20 @@
 		<Unit filename="src/fmtFIX.cpp" />
 		<Unit filename="src/fmtFNT.cpp" />
 		<Unit filename="src/fmtITA.cpp" />
+		<Unit filename="src/fmtLIT.cpp" />
 		<Unit filename="src/fmtPACK.cpp" />
 		<Unit filename="src/fmtROOM.cpp" />
 		<Unit filename="src/fmtSEQ.cpp" />
+		<Unit filename="src/fmtSND.cpp" />
 		<Unit filename="src/fmtSYM.cpp" />
 		<Unit filename="src/fmtTPL.cpp" />
 		<Unit filename="src/fmtUDAS.cpp" />
+		<Unit filename="src/fmtUWF.cpp" />
+		<Unit filename="src/fmtVIB.cpp" />
+		<Unit filename="src/fmtWAV.cpp" />
+		<Unit filename="src/fmtXGS.cpp" />
+		<Unit filename="src/fmtXSB.cpp" />
+		<Unit filename="src/fmtXWB.cpp" />
 		<Unit filename="src/icon.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>
@@ -111,6 +154,7 @@
 		<Unit filename="src/scriptini.cpp" />
 		<Unit filename="src/stringenc.cpp" />
 		<Unit filename="src/stringext.cpp" />
+		<Unit filename="src/win_esl.cxx" />
 		<Unit filename="src/wregistry.cpp" />
 		<Unit filename="src/wstringext.cpp" />
 		<Extensions>
@@ -118,6 +162,15 @@
 			<envvars />
 			<debugger />
 			<lib_finder disable_auto="1" />
+			<DoxyBlocks>
+				<comment_style block="0" line="2" />
+				<doxyfile_project />
+				<doxyfile_build />
+				<doxyfile_warnings />
+				<doxyfile_output />
+				<doxyfile_dot />
+				<general />
+			</DoxyBlocks>
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

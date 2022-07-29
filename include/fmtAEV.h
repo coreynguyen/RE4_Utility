@@ -78,7 +78,7 @@ struct fmtAEV_Cut_Scene {	// 0x02 Cut Scene
 		to be filled with garbage
 	*/
 	uint32_t unk823;
-	uint32_t unk824[3];
+	float unk824[3];
 	uint32_t unk825;
 	fmtAEV_Cut_Scene ();
 	void read_type02 (bytestream &f);
@@ -575,6 +575,7 @@ struct fmtAEV {	// 16 + {n * 156} bytes {in re4 2007 the buffer is 160 bytes ins
 	bool validate (bytestream &f, bool &re4_2007, bool verbose = true);
 	void read_aev (bytestream &f);
 	void write_aev (bytestream &s, bool re4_2007 = false);
+	void open_aev (std::wstring file);
 	void save_aev (std::wstring savefile, bool re4_2007 = false);
 	void export_txt (std::wstring outpath, std::wstring prefix = L"aev", std::wstring subfolder = L"area_events");
 	};

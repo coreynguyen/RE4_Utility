@@ -22,8 +22,8 @@ void fmtAEV_Normal::write_ini () {
 	}
 
 void fmtAEV_Normal::read_ini (std::string &secname) {
-	unk820 = ini->get_integer(secname, "unk820");
-	unk821 = ini->get_integer(secname, "unk821");
+	unk820 = (uint32_t)ini->get_integer(secname, "unk820");
+	unk821 = (uint32_t)ini->get_integer(secname, "unk821");
 	}
 
 fmtAEV_Door::fmtAEV_Door () {
@@ -88,7 +88,7 @@ void fmtAEV_Door::write_ini () {
 	ini->integer("next_room_no", next_room_no);
 	ini->integer("next_part_no", next_part_no);
 	ini->vector3("next_pos", next_pos_x, next_pos_y, next_pos_z, false);
-	ini->fraction("next_ang_y", next_ang_y * app->radian_to_degree);
+	ini->fraction("next_ang_y", (float)(next_ang_y * app->radian_to_degree));
 
 	std::string cmt = "";
 	switch (key_id) {
@@ -114,14 +114,14 @@ void fmtAEV_Door::write_ini () {
 void fmtAEV_Door::read_ini (std::string &secname) {
 	ini->get_vector3(secname, "next_pos", next_pos_x, next_pos_y, next_pos_z);
 	next_ang_y = ini->get_fraction(secname, "next_ang_y");
-	next_stage_no = ini->get_integer(secname, "next_stage_no");
-	next_room_no = ini->get_integer(secname, "next_room_no");
-	key_id = ini->get_integer(secname, "key_id");
-	key_flg = ini->get_integer(secname, "key_flg");
-	next_part_no = ini->get_integer(secname, "next_part_no");
-	key_se = ini->get_integer(secname, "key_se");
-	open_se = ini->get_integer(secname, "open_se");
-	fade_eff = ini->get_integer(secname, "fade_eff");
+	next_stage_no = (uint8_t)ini->get_integer(secname, "next_stage_no");
+	next_room_no = (uint8_t)ini->get_integer(secname, "next_room_no");
+	key_id = (uint8_t)ini->get_integer(secname, "key_id");
+	key_flg = (uint8_t)ini->get_integer(secname, "key_flg");
+	next_part_no = (uint8_t)ini->get_integer(secname, "next_part_no");
+	key_se = (uint8_t)ini->get_integer(secname, "key_se");
+	open_se = (uint8_t)ini->get_integer(secname, "open_se");
+	fade_eff = (uint8_t)ini->get_integer(secname, "fade_eff");
 	}
 
 fmtAEV_Cut_Scene::fmtAEV_Cut_Scene () {
@@ -134,9 +134,9 @@ fmtAEV_Cut_Scene::fmtAEV_Cut_Scene () {
 
 void fmtAEV_Cut_Scene::read_type02 (bytestream &f) {
 	unk823 = f.readUlong();
-	unk824[0] = f.readUlong();
-	unk824[1] = f.readUlong();
-	unk824[2] = f.readUlong();
+	unk824[0] = f.readfloat();
+	unk824[1] = f.readfloat();
+	unk824[2] = f.readfloat();
 	unk825 = f.readUlong();
 	}
 
@@ -150,18 +150,18 @@ void fmtAEV_Cut_Scene::write_type02 (bytestream &s) {
 
 void fmtAEV_Cut_Scene::write_ini () {
 	ini->integer("unk823", unk823);
-	ini->integer("unk824_x", unk824[0]);
-	ini->integer("unk824_y", unk824[1]);
-	ini->integer("unk824_z", unk824[2]);
+	ini->fraction("unk824_x", unk824[0]);
+	ini->fraction("unk824_y", unk824[1]);
+	ini->fraction("unk824_z", unk824[2]);
 	ini->integer("unk825", unk825);
 	}
 
 void fmtAEV_Cut_Scene::read_ini (std::string &secname) {
-	unk823 = ini->get_integer(secname, "unk823");
-	unk824[0] = ini->get_integer(secname, "unk824_x");
-	unk824[1] = ini->get_integer(secname, "unk824_y");
-	unk824[2] = ini->get_integer(secname, "unk824_z");
-	unk825 = ini->get_integer(secname, "unk825");
+	unk823 = (uint32_t)ini->get_integer(secname, "unk823");
+	unk824[0] = (float)ini->get_fraction(secname, "unk824_x");
+	unk824[1] = (float)ini->get_fraction(secname, "unk824_y");
+	unk824[2] = (float)ini->get_fraction(secname, "unk824_z");
+	unk825 = (uint32_t)ini->get_integer(secname, "unk825");
 	}
 
 fmtAEV_Flag::fmtAEV_Flag () {
@@ -192,13 +192,18 @@ void fmtAEV_Flag::write_ini () {
 		}
 	ini->integer("flg_id", flg_id, cmt);
 	ini->integer("flg_no", flg_no);
-	ini->boolean("flg_act", flg_act);
+	if (flg_act > 0) {
+		ini->boolean("flg_act", true);
+		}
+	else {
+		ini->boolean("flg_act", false);
+		}
 	}
 
 void fmtAEV_Flag::read_ini (std::string &secname) {
-	flg_id = ini->get_integer(secname, "flg_id");
-	flg_no = ini->get_integer(secname, "flg_no");
-	flg_act = ini->get_boolean(secname, "flg_act");
+	flg_id = (uint8_t)ini->get_integer(secname, "flg_id");
+	flg_no = (uint16_t)ini->get_integer(secname, "flg_no");
+	flg_act = (uint16_t)ini->get_boolean(secname, "flg_act");
 	}
 
 fmtAEV_Message::fmtAEV_Message () {
@@ -245,11 +250,11 @@ void fmtAEV_Message::write_ini () {
 	}
 
 void fmtAEV_Message::read_ini (std::string &secname) {
-	mes_type = ini->get_integer(secname, "mes_type");
-	mes_no = ini->get_integer(secname, "mes_no");
-	cam_no = ini->get_integer(secname, "cam_no");
-	se_type = ini->get_integer(secname, "se_type");
-	se_no = ini->get_integer(secname, "se_no");
+	mes_type = (uint16_t)ini->get_integer(secname, "mes_type");
+	mes_no = (uint16_t)ini->get_integer(secname, "mes_no");
+	cam_no = (uint8_t)ini->get_integer(secname, "cam_no");
+	se_type = (uint8_t)ini->get_integer(secname, "se_type");
+	se_no = (uint16_t)ini->get_integer(secname, "se_no");
 	}
 
 fmtAEV_Jump::fmtAEV_Jump () {
@@ -295,7 +300,7 @@ void fmtAEV_Save::write_ini () {
 	}
 
 void fmtAEV_Save::read_ini (std::string &secname) {
-	term_no = ini->get_integer(secname, "term_no");;
+	term_no = (uint32_t)ini->get_integer(secname, "term_no");;
 	}
 
 fmtAEV_Shadow_Display::fmtAEV_Shadow_Display () {
@@ -318,12 +323,22 @@ void fmtAEV_Shadow_Display::write_type09 (bytestream &s) {
 
 void fmtAEV_Shadow_Display::write_ini () {
 	ini->integer("shd_no", shd_no);
-	ini->boolean("disp_flg", disp_flg);
+	if (disp_flg > 0) {
+		ini->boolean("disp_flg", true);
+		}
+	else {
+		ini->boolean("disp_flg", false);
+		}
 	}
 
 void fmtAEV_Shadow_Display::read_ini (std::string &secname) {
-	shd_no = ini->get_integer(secname, "shd_no");
-	disp_flg = ini->get_boolean(secname, "disp_flg");
+	shd_no = (uint16_t)ini->get_integer(secname, "shd_no");
+	if (ini->get_boolean(secname, "disp_flg")) {
+		disp_flg = 1;
+		}
+	else {
+		disp_flg = 0;
+		}
 	}
 
 fmtAEV_Damage::fmtAEV_Damage () {
@@ -360,17 +375,17 @@ void fmtAEV_Damage::write_ini () {
 	ini->boolean("damage_die_flg", bit::get(damage_flag, 1));
 	if (bit::get(damage_flag, 2)) {
 		ini->boolean("damage_ang_flg", true);
-		ini->fraction("damage_angle", damage_angle * app->radian_to_degree);
+		ini->fraction("damage_angle", (float)(damage_angle * app->radian_to_degree));
 		}
 	}
 
 void fmtAEV_Damage::read_ini (std::string &secname) {
-	damage_timer = ini->get_integer(secname, "damage_timer");
-	damage_type = ini->get_integer(secname, "damage_type");
-	damage_volume = ini->get_integer(secname, "damage_volume");
+	damage_timer = (uint32_t)ini->get_integer(secname, "damage_timer");
+	damage_type = (uint8_t)ini->get_integer(secname, "damage_type");
+	damage_volume = (uint32_t)ini->get_integer(secname, "damage_volume");
 	damage_flag = bit::set(damage_flag, 1, ini->get_boolean(secname, "damage_die_flg"));
 	damage_flag = bit::set(damage_flag, 2, ini->get_boolean(secname, "damage_ang_flg"));
-	damage_angle = ini->get_fraction(secname, "damage_angle") * app->degree_to_radian;
+	damage_angle = (float)(ini->get_fraction(secname, "damage_angle") * app->degree_to_radian);
 	}
 
 fmtAEV_Scenario::fmtAEV_Scenario () {
@@ -440,10 +455,10 @@ void fmtAEV_Scenario::write_ini () {
 	}
 
 void fmtAEV_Scenario::read_ini (std::string &secname) {
-	unk420 = ini->get_integer(secname, "unk420");
-	unk421 = ini->get_integer(secname, "unk421");
-	unk422 = ini->get_integer(secname, "unk422");
-	unsigned int eat_eff_bit = ini->get_integer(secname, "EAT_EFF_BIT");
+	unk420 = (uint32_t)ini->get_integer(secname, "unk420");
+	unk421 = (uint32_t)ini->get_integer(secname, "unk421");
+	unk422 = (uint32_t)ini->get_integer(secname, "unk422");
+	unsigned int eat_eff_bit = (unsigned int)ini->get_integer(secname, "EAT_EFF_BIT");
 	switch (eat_eff_bit) {
 		case 0: {scr_at_flg5 = 0x00000000; break;}
 		case 1: {scr_at_flg5 = 0x00008000; break;}
@@ -518,13 +533,20 @@ void fmtAEV_View_Control::write_type0C (bytestream &s) {
 void fmtAEV_View_Control::write_ini () {
 
 	ini->integer("type", type);
-	ini->boolean("pos_set", pos_on);
+	if (pos_on > 0) {
+		ini->boolean("pos_set", true);
+		}
+	else
+		{
+		ini->boolean("pos_set", false);
+		}
+	
 	if (pos_on > 0) {
 		ini->vector3("position", pos[0], pos[1], pos[2]);
 		}
 	ini->fraction("angle_y", ang_y);
-	ini->fraction("radius", radius * app->radian_to_degree);
-	ini->fraction("out_range", out_range * app->radian_to_degree);
+	ini->fraction("radius", (float)(radius * app->radian_to_degree));
+	ini->fraction("out_range", (float)(out_range * app->radian_to_degree));
 
 	}
 
@@ -535,11 +557,11 @@ void fmtAEV_View_Control::read_ini (std::string &secname) {
 	if (ini->get_boolean(secname, "pos_on")) {
 		pos_on = 1;
 		}
-	type = ini->get_integer(secname, "type");
-	unk887 = ini->get_integer(secname, "unk887");
-	unk888 = ini->get_integer(secname, "unk888");
-	radius = ini->get_fraction(secname, "radius") * app->degree_to_radian;
-	out_range = ini->get_fraction(secname, "out_range") * app->degree_to_radian;
+	type = (uint8_t)ini->get_integer(secname, "type");
+	unk887 = (uint8_t)ini->get_integer(secname, "unk887");
+	unk888 = (uint8_t)ini->get_integer(secname, "unk888");
+	radius = (float)(ini->get_fraction(secname, "radius") * app->degree_to_radian);
+	out_range = (float)(ini->get_fraction(secname, "out_range") * app->degree_to_radian);
 	}
 
 fmtAEV_Field_Info::fmtAEV_Field_Info () {
@@ -559,7 +581,7 @@ void fmtAEV_Field_Info::write_ini () {
 	}
 
 void fmtAEV_Field_Info::read_ini (std::string &secname) {
-	field_id = ini->get_integer(secname, "field_id");
+	field_id = (uint32_t)ini->get_integer(secname, "field_id");
 	}
 
 fmtAEV_Ladder::fmtAEV_Ladder () {
@@ -604,11 +626,17 @@ void fmtAEV_Ladder::write_type10 (bytestream &s, bool re4_2007) {
 	}
 
 void fmtAEV_Ladder::write_ini () {
-	ini->boolean("ladder_pos_on", ladder_pos_on);
+	if (ladder_pos_on > 0) {
+		ini->boolean("ladder_pos_on", true);
+		}
+	else {
+		ini->boolean("ladder_pos_on", false);
+		}
+	
 	if (ladder_pos_on) {
 		ini->vector3("ladder_pos", ladder_pos[0], ladder_pos[1], ladder_pos[2], false);
 		}
-	ini->fraction("ladder_ang", ladder_ang * app->radian_to_degree);
+	ini->fraction("ladder_ang", (float)(ladder_ang * app->radian_to_degree));
 	ini->integer("ladder_height", ladder_height, "Meters");
 	ini->integer("cam_no1", cam_no1);
 	ini->integer("cam_no2", cam_no2);
@@ -618,15 +646,15 @@ void fmtAEV_Ladder::write_ini () {
 void fmtAEV_Ladder::read_ini (std::string &secname) {
 	ini->get_vector3(secname, "ladder_pos", ladder_pos[0], ladder_pos[1], ladder_pos[2]);
 	ladder_ang = ini->get_fraction(secname, "ladder_ang");
-	ladder_height = ini->get_integer(secname, "ladder_height");
-	unk663 = ini->get_integer(secname, "unk663");
+	ladder_height = (uint8_t)ini->get_integer(secname, "ladder_height");
+	unk663 = (uint8_t)ini->get_integer(secname, "unk663");
 	ladder_pos_on = 0;
 	if (ini->get_boolean(secname, "ladder_pos_on")) {
 		ladder_pos_on = 1;
 		}
-	cam_no1 = ini->get_integer(secname, "cam_no1");
-	cam_no2 = ini->get_integer(secname, "cam_no2");
-	cam_no3 = ini->get_integer(secname, "cam_no3");
+	cam_no1 = (uint8_t)ini->get_integer(secname, "cam_no1");
+	cam_no2 = (uint8_t)ini->get_integer(secname, "cam_no2");
+	cam_no3 = (uint8_t)ini->get_integer(secname, "cam_no3");
 	}
 
 fmtAEV_Use::fmtAEV_Use () {
@@ -646,7 +674,7 @@ void fmtAEV_Use::write_ini () {
 	}
 
 void fmtAEV_Use::read_ini (std::string &secname) {
-	use_id = ini->get_integer(secname, "use_id");
+	use_id = (uint32_t)ini->get_integer(secname, "use_id");
 	}
 
 fmtAEV_Hide::fmtAEV_Hide () {
@@ -755,11 +783,23 @@ void fmtAEV_Hide::write_type12 (bytestream &s, bool re4_2007) {
 
 void fmtAEV_Hide::write_ini () {
 	ini->integer("hide_type", hide_type);
-	ini->boolean("hide_pos_on", hide_pos_on);
+	if (hide_pos_on > 0) {
+		ini->boolean("hide_pos_on", true);
+		} 
+	else {
+		ini->boolean("hide_pos_on", false);
+		}
+	
 	if (hide_pos_on > 0) {
 		ini->vector3("hide_pos", hide_pos[0], hide_pos[1], hide_pos[2]);
 		}
-	ini->boolean("hide_area_on", hide_area_on);
+	if (hide_area_on > 0) {
+		ini->boolean("hide_area_on", true);
+		}
+	else {
+		ini->boolean("hide_area_on", false);
+		}
+	
 	if (hide_area_on > 0) {
 		ini->vector2("hide_area_corner0_pos", hide_area[0], hide_area[1], false);
 		ini->vector2("hide_area_corner1_pos", hide_area[2], hide_area[3], false);
@@ -778,15 +818,15 @@ void fmtAEV_Hide::read_ini (std::string &secname) {
 	if (ini->get_boolean(secname, "hide_area_on")) {
 		hide_area_on = 1;
 		}
-	hide_type = ini->get_integer(secname, "hide_type");
-	unk772 = ini->get_integer(secname, "unk772");
+	hide_type = (uint8_t)ini->get_integer(secname, "hide_type");
+	unk772 = (uint8_t)ini->get_integer(secname, "unk772");
 	ini->get_vector2(secname, "hide_area_corner0_pos", hide_area[0], hide_area[1]);
 	ini->get_vector2(secname, "hide_area_corner1_pos", hide_area[2], hide_area[3]);
 	ini->get_vector2(secname, "hide_area_corner2_pos", hide_area[4], hide_area[5]);
 	ini->get_vector2(secname, "hide_area_corner3_pos", hide_area[6], hide_area[7]);
 	ini->get_vector3(secname, "hide_pos", hide_pos[0], hide_pos[1], hide_pos[2]);
-	unk774 = ini->get_integer(secname, "unk774");
-	cam_no = ini->get_integer(secname, "cam_no");
+	unk774 = (uint32_t)ini->get_integer(secname, "unk774");
+	cam_no = (uint32_t)ini->get_integer(secname, "cam_no");
 	}
 
 fmtAEV_Jump_Position::fmtAEV_Jump_Position () {
@@ -812,12 +852,12 @@ void fmtAEV_Jump_Position::write_type13 (bytestream &s) {
 
 void fmtAEV_Jump_Position::write_ini () {
 	ini->vector3("jump_pos", jump_pos[0], jump_pos[1], jump_pos[2], false);
-	ini->fraction("jump_ang", jump_ang * app->radian_to_degree);
+	ini->fraction("jump_ang", (float)(jump_ang * app->radian_to_degree));
 	}
 
 void fmtAEV_Jump_Position::read_ini (std::string &secname) {
 	ini->get_vector3(secname, "jump_pos", jump_pos[0], jump_pos[1], jump_pos[2]);
-	jump_ang = ini->get_fraction(secname, "jump_ang") * app->degree_to_radian;
+	jump_ang = (float)(ini->get_fraction(secname, "jump_ang") * app->degree_to_radian);
 	}
 
 fmtAEV_Grapple::fmtAEV_Grapple () {
@@ -922,7 +962,7 @@ void fmtAEV_Grapple::write_ini () {
 	ini->vector3("hook_pos", ShotPoint[0], ShotPoint[1], ShotPoint[2], false);
 	ini->vector3("jump_pos", DestinationPoint[0], DestinationPoint[1], DestinationPoint[2], false);
 	ini->vector3("cam_pos", CameraParameter[0], CameraParameter[1], CameraParameter[2], false);
-	ini->fraction("cam_ang", CameraAngle * app->radian_to_degree);
+	ini->fraction("cam_ang", (float)(CameraAngle * app->radian_to_degree));
 	}
 
 void fmtAEV_Grapple::read_ini (std::string &secname) {
@@ -1511,26 +1551,26 @@ void fmtAEV_Region::export_region (std::wstring outfile, std::string secname) {
 
 void fmtAEV_Region::import_region (std::string secname) {
 
-	type = ini->get_integer(secname, "type");
-	index = ini->get_integer(secname, "index");
-	hit_type = ini->get_integer(secname, "hit_type");
-	trigger_type = ini->get_integer(secname, "trigger_type");
-	target_type = ini->get_integer(secname, "target_type");
-	unk021 = ini->get_integer(secname, "unk021");
-	priority = ini->get_integer(secname, "priority");
-	unk025b = ini->get_integer(secname, "unk025b");
-	hit_angle = ini->get_integer(secname, "hit_angle") / 2.0f;
-	open_angle = ini->get_integer(secname, "open_angle") / 2.0f;
-	action_type = ini->get_integer(secname, "action_type");
+	type = (uint8_t)ini->get_integer(secname, "type");
+	index = (uint8_t)ini->get_integer(secname, "index");
+	hit_type = (uint8_t)ini->get_integer(secname, "hit_type");
+	trigger_type = (uint8_t)ini->get_integer(secname, "trigger_type");
+	target_type = (uint8_t)ini->get_integer(secname, "target_type");
+	unk021 = (uint8_t)ini->get_integer(secname, "unk021");
+	priority = (uint8_t)ini->get_integer(secname, "priority");
+	unk025b = (uint8_t)ini->get_integer(secname, "unk025b");
+	hit_angle = (int8_t)ini->get_integer(secname, "hit_angle") / 2;
+	open_angle = (uint8_t)ini->get_integer(secname, "open_angle") / 2;
+	action_type = (uint8_t)ini->get_integer(secname, "action_type");
 
-	unk026 = ini->get_integer(secname, "unk026");
-	unk027 = ini->get_integer(secname, "unk027");
-	unk028 = ini->get_integer(secname, "unk028");
-	unk029 = ini->get_integer(secname, "unk029");
-	msg_flag = ini->get_integer(secname, "msg_flag");
-	msg_type = ini->get_integer(secname, "msg_type");
-	unk030 = ini->get_integer(secname, "unk030");
-	unk031 = ini->get_integer(secname, "unk031");
+	unk026 = (uint8_t)ini->get_integer(secname, "unk026");
+	unk027 = (uint32_t)ini->get_integer(secname, "unk027");
+	unk028 = (uint8_t)ini->get_integer(secname, "unk028");
+	unk029 = (uint8_t)ini->get_integer(secname, "unk029");
+	msg_flag = (uint8_t)ini->get_integer(secname, "msg_flag");
+	msg_type = (uint8_t)ini->get_integer(secname, "msg_type");
+	unk030 = (uint32_t)ini->get_integer(secname, "unk030");
+	unk031 = (uint32_t)ini->get_integer(secname, "unk031");
 
 	area.clear();
 	area.type = 1;
@@ -1761,6 +1801,17 @@ void fmtAEV::write_aev (bytestream &s, bool re4_2007) {
 		}
 	unsigned int pad = (32-((s.tell()) % 32)) % 32;
 	for (unsigned int i = 0; i < pad; i++) {s.writebyte(0xCD);} // pad to 32
+	}
+
+void fmtAEV::open_aev (std::wstring file) {
+
+	bytestream f;
+	if (f.openFileW(file)) {
+
+		read_aev(f);
+
+		f.close();
+		} else {std::wcout << L"Failed to open File {" << file << L"}\n";}
 	}
 
 void fmtAEV::save_aev (std::wstring savefile, bool re4_2007) {

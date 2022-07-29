@@ -203,8 +203,8 @@ void fmtITA_Entry::read_entry (bytestream &f, bool re4_2007) {
 	unk026 = f.readUbyte();
 	set_wait_type = f.readUbyte();
 	set_target_no = f.readUbyte();
-	hit_angle = (f.readbyte()) * 2.0f;
-	open_angle = (f.readbyte()) * 2.0f; // 2D?
+	hit_angle = (f.readbyte()) * 2;
+	open_angle = (f.readbyte()) * 2; // 2D?
 	unk031 = f.readUbyte();
 	unk032 = f.readUbyte();
 	unk033 = f.readUbyte();
@@ -276,8 +276,8 @@ void fmtITA_Entry::write_entry (bytestream &s, bool re4_2007) {
 	s.writebyte(unk026);
 	s.writebyte(set_wait_type);
 	s.writebyte(set_target_no);
-	s.writebyte(hit_angle / 2.0);
-	s.writebyte(open_angle / 2.0);
+	s.writebyte(hit_angle / 2);
+	s.writebyte(open_angle / 2);
 	s.writebyte(unk031);
 	s.writebyte(unk032);
 	s.writebyte(unk033);

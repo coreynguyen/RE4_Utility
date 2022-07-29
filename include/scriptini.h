@@ -5,6 +5,7 @@
 #include <string>
 #include <sstream>
 #include <vector>
+
 #include "bytestream.h"
 #include "wregistry.h"
 #include "stringext.h"

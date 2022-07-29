@@ -230,21 +230,21 @@ struct fmtESL_Spawn { // 32 bytes, max 256 items
 		ini->integer("chara", chara, cmt);
 		ini->vector3(
 			"position",
-			(float)position[0] * app->centi_to_milli,
-			(float)position[1] * app->centi_to_milli,
-			(float)position[2] * app->centi_to_milli,
+			(float)(position[0] * app->centi_to_milli),
+			(float)(position[1] * app->centi_to_milli),
+			(float)(position[2] * app->centi_to_milli),
 			false
 			);
 		ini->vector3(
 			"rotation",
-			(float)rotation[0] * app->eslrot_to_degree,
-			(float)rotation[1] * app->eslrot_to_degree,
-			(float)rotation[2] * app->eslrot_to_degree,
+			(float)(rotation[0] * app->eslrot_to_degree),
+			(float)(rotation[1] * app->eslrot_to_degree),
+			(float)(rotation[2] * app->eslrot_to_degree),
 			false
 			);
 		ini->integer("stage_id", (roomID && 0xFF00) >> 8);
 		ini->integer("room_id", roomID && 0x00FF);
-		ini->integer("guard_radius", guard_radius * app->meters_to_milli);
+		ini->integer("guard_radius", (int32_t)(guard_radius * app->meters_to_milli));
 		if (printall) {ini->integer("unk4", unk4);}
 		if (printall) {ini->integer("unk5", unk5);}
 		if (printall) {ini->integer("unk6", unk6);}
@@ -252,30 +252,30 @@ struct fmtESL_Spawn { // 32 bytes, max 256 items
 		}
 	void read_ini (std::string &secname) {
 		be_flag.read_ini(secname);
-		modelID = ini->get_integer(secname, "modelID");
-		type = ini->get_integer(secname, "type");
-		anim_set = ini->get_integer(secname, "anim_set");
+		modelID = (uint8_t)ini->get_integer(secname, "modelID");
+		type = (uint8_t)ini->get_integer(secname, "type");
+		anim_set = (uint8_t)ini->get_integer(secname, "anim_set");
 		em_flag.read_ini(secname);
-		healthPoints = ini->get_integer(secname, "healthPoints");
-		unk1 = ini->get_integer(secname, "unk1");
-		chara = ini->get_integer(secname, "chara");
+		healthPoints = (uint16_t)ini->get_integer(secname, "healthPoints");
+		unk1 = (uint8_t)ini->get_integer(secname, "unk1");
+		chara = (uint8_t)ini->get_integer(secname, "chara");
 		float pos_x, pos_y, pos_z;
 		float rot_x, rot_y, rot_z;
 		ini->get_vector3(secname, "position", pos_x, pos_y, pos_z);
 		ini->get_vector3(secname, "rotation", rot_x, rot_y, rot_z);
-		position[0] = pos_x * app->milli_to_centi;
-		position[1] = pos_y * app->milli_to_centi;
-		position[2] = pos_z * app->milli_to_centi;
-		rotation[0] = rot_x * app->degree_to_eslrot;
-		rotation[1] = rot_y * app->degree_to_eslrot;
-		rotation[2] = rot_z * app->degree_to_eslrot;
-		roomID = ini->get_integer(secname, "stage_id") << 8;
-		roomID += ini->get_integer(secname, "room_id");
-		guard_radius = ini->get_integer(secname, "guard_radius") * app->milli_to_centi;
-		unk4 = ini->get_integer(secname, "unk4");
-		unk5 = ini->get_integer(secname, "unk5");
-		unk6 = ini->get_integer(secname, "unk6");
-		unk7 = ini->get_integer(secname, "unk7");
+		position[0] = (int16_t)(pos_x * app->milli_to_centi);
+		position[1] = (int16_t)(pos_y * app->milli_to_centi);
+		position[2] = (int16_t)(pos_z * app->milli_to_centi);
+		rotation[0] = (int16_t)(rot_x * app->degree_to_eslrot);
+		rotation[1] = (int16_t)(rot_y * app->degree_to_eslrot);
+		rotation[2] = (int16_t)(rot_z * app->degree_to_eslrot);
+		roomID = (uint16_t)ini->get_integer(secname, "stage_id") << 8;
+		roomID += (uint8_t)ini->get_integer(secname, "room_id");
+		guard_radius = (uint16_t)(ini->get_integer(secname, "guard_radius") * app->milli_to_centi);
+		unk4 = (uint8_t)ini->get_integer(secname, "unk4");
+		unk5 = (uint8_t)ini->get_integer(secname, "unk5");
+		unk6 = (uint8_t)ini->get_integer(secname, "unk6");
+		unk7 = (uint8_t)ini->get_integer(secname, "unk7");
 		}
 	};
 

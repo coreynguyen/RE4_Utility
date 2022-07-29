@@ -129,7 +129,7 @@ size_t win::getFileSize (std::string fileName) {
 	LARGE_INTEGER size;
 	size.HighPart = fad.nFileSizeHigh;
 	size.LowPart = fad.nFileSizeLow;
-	return size.QuadPart;
+	return (size_t)size.QuadPart;
 	}
 
 size_t win::getFileSizeW(std::wstring fileName) {
@@ -139,7 +139,7 @@ size_t win::getFileSizeW(std::wstring fileName) {
 	LARGE_INTEGER size;
 	size.HighPart = fad.nFileSizeHigh;
 	size.LowPart = fad.nFileSizeLow;
-	return size.QuadPart;
+	return (size_t)size.QuadPart;
 	}
 
 bool win::doesFileExist (std::string fileName) {
@@ -161,8 +161,11 @@ bool win::doesFileExistW (std::wstring fileName) {
 	DWORD dwAttrib = GetFileAttributesW((wchar_t*)fileName.c_str());
 	return (dwAttrib != INVALID_FILE_ATTRIBUTES && !(dwAttrib & FILE_ATTRIBUTE_DIRECTORY));
 	*/
-	return (PathFileExistsW((wchar_t*)fileName.c_str()));
+	if (PathFileExistsW((wchar_t*)fileName.c_str())) {
+		return true;
+		}
 	// add to link -lshlwapi
+	return false;
 	}
 
 bool win::doesFolderExist (std::string dirName_in) {
@@ -281,18 +284,24 @@ bool win::makeDir(std::string sPath) {
 	}
 
 bool win::copyFile (std::string existing_filename, std::string target_filename) {
-	bool result = CopyFileA (existing_filename.c_str(), target_filename.c_str(), true);
-	return result;
+	if (CopyFileA (existing_filename.c_str(), target_filename.c_str(), true)) {
+		return true;
+		}
+	return false;
 	}
 
 bool win::copyFileW (std::wstring existing_filename, std::wstring target_filename) {
-	bool result = CopyFileW ((wchar_t*)existing_filename.c_str(), (wchar_t*)target_filename.c_str(), true);
-	return result;
+	if (CopyFileW ((wchar_t*)existing_filename.c_str(), (wchar_t*)target_filename.c_str(), true)) {
+		return true;
+		}
+	return false;
 	}
 
 bool win::moveFileW (std::wstring existing_filename, std::wstring target_filename) {
-	bool result = MoveFileW ((wchar_t*)existing_filename.c_str(), (wchar_t*)target_filename.c_str());
-	return result;
+	if (MoveFileW ((wchar_t*)existing_filename.c_str(), (wchar_t*)target_filename.c_str())) {
+		return true;
+		}
+	return false;
 	}
 
 void win::getFilesW (std::wstring* &dirFiles, unsigned long &numFiles, std::wstring pattern) {

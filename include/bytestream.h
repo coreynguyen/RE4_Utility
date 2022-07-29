@@ -13,14 +13,17 @@
 	""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 	Change Log:
-
-	[2019-01-28]
-		wrote it!
+	[2022-07-13]
+		> added fcs16
 
 	[2022-04-02]
 		> kept more information about the filename and path
 		> added read size on open
 		> added CRC32 checksum
+
+	[2019-01-28]
+		wrote it!
+
 
 	======================================================================	*/
 
@@ -34,8 +37,9 @@
 #include <windows.h>
 #include <type_traits>
 
+extern uint16_t fcs16_lut[256];
 
-enum seek {set, cur, end};
+
 
 // For floating point types
 /*
@@ -47,6 +51,8 @@ using TypeToCast = typename std::conditional<std::is_floating_point<T>::value, i
 template<typename T, typename std::enable_if<!std::is_floating_point<T>::value>::type* p = nullptr>
 constexpr T modulo(const T x, const T y) {return (static_cast<TypeToCast<T>>(x) % static_cast<TypeToCast<T>>(y));}
 */
+enum seek {set, cur, end};
+
 
 namespace bit { // bitwise function which mimic the maxscript api
 	//unsigned int and (unsigned int a, unsigned int b);
@@ -65,6 +71,7 @@ namespace bit { // bitwise function which mimic the maxscript api
 
 class bytestream {
   public:
+
 	std::wstring fpathW;
 	std::wstring fnameW;
 	std::wstring fextW;
@@ -78,7 +85,7 @@ class bytestream {
 	char* stream;
 	bool islilEndian;
 	bytestream ();
-	virtual ~bytestream ();
+	~bytestream ();
 	size_t getFileSizeW(std::wstring fileName);
 	bool doesFolderExistW (std::wstring dirName_in);
 	bool doesFileExistW (std::wstring fileName);
@@ -100,8 +107,9 @@ class bytestream {
 	bool writeFile (std::string filename, size_t offset = 0, size_t wsize = 0, char* data = NULL);
 	bool writeFileW (std::wstring filename, size_t offset = 0, size_t wsize = 0, char* data = NULL);
 	bool createFile (unsigned long bufferSize);
+	//size_t size();
 	bool eos (); // end of stream;
-	void resize (size_t newsize);
+	void resize (size_t newsize, bool flush = false);
 	void copy (char* src_buf, size_t src_len, size_t src_pos = 0, size_t tar_dest = 0);
 	size_t tell ();
 	void seek (unsigned long offset = 0, char dir = 0);
@@ -116,15 +124,18 @@ class bytestream {
 	uint32_t djb2_32a (size_t crc_pos = 0, size_t crc_len = 0);
 	uint32_t sdbm_32 (size_t crc_pos = 0, size_t crc_len = 0);
 	uint32_t aod_32 (size_t crc_pos = 0, size_t crc_len = 0);
+	uint32_t fcs16 (size_t crc_pos = 0, size_t crc_len = 0);
 	std::string base64_encode (size_t crc_pos = 0, size_t crc_len = 0);
-	int8_t readbyte ();
-	int16_t readshort ();
-	int32_t readlong ();
-	int64_t readlonglong ();
+	void base64_decode (std::string &input, size_t tar_pos = 0);
+
 	uint8_t readUbyte ();
 	uint16_t readUshort ();
 	uint32_t readUlong ();
 	uint64_t readUlonglong ();
+	int8_t readbyte ();
+	int16_t readshort ();
+	int32_t readlong ();
+	int64_t readlonglong ();
 	std::string readline ();
 	std::wstring readlineW ();
 	std::string readstring (int length = -1, unsigned char term = 0x00);
@@ -134,6 +145,10 @@ class bytestream {
 	void writebyte (unsigned char val);
 	void writeshort (unsigned short val);
 	void writelong (unsigned long val);
+	void writeUbyte (unsigned char val);
+	void writeUshort (unsigned short val);
+	void writeUlong (unsigned long val);
+	void writeUlonglong (unsigned long long val);
 	void writefloat (float val);
 	void writedouble (double val);
 	void writestring (std::string str, signed long length = -1);
