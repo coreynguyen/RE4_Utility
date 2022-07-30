@@ -407,7 +407,7 @@
 	"stringext.h"
 	"filesystem.h"
 
-1659115535 source:c:\users\corey\onedrive\private\github\re4_utility\main.cpp
+1659116881 source:c:\users\corey\onedrive\private\github\re4_utility\main.cpp
 	<iostream>
 	<string>
 	<sstream>
@@ -698,7 +698,7 @@
 
 1647924816 c:\users\corey\onedrive\private\github\re4_utility\include\resource.h
 
-1659115443 c:\users\corey\onedrive\private\github\re4_utility\include\version.h
+1659116726 c:\users\corey\onedrive\private\github\re4_utility\include\version.h
 
 1653020233 source:c:\users\corey\onedrive\private\github\re4_utility\src\appsettings.cpp
 	"appsettings.h"
@@ -850,7 +850,7 @@
 	"filesystem.h"
 	"fmtATARI.h"
 
-1659071895 source:c:\users\corey\onedrive\private\github\re4_utility\src\fmtxsb.cpp
+1659116579 source:c:\users\corey\onedrive\private\github\re4_utility\src\fmtxsb.cpp
 	"fmtXSB.h"
 
 1659067784 c:\users\corey\onedrive\private\github\re4_utility\include\fmtxsb.h
@@ -948,10 +948,10 @@
 	"bytestream.h"
 	"stringext.h"
 
-1659113994 source:c:\users\corey\onedrive\private\github\re4_utility\src\fmtsnd.cpp
+1659201374 source:c:\users\corey\onedrive\private\github\re4_utility\src\fmtsnd.cpp
 	"fmtSND.h"
 
-1659113997 c:\users\corey\onedrive\private\github\re4_utility\include\fmtsnd.h
+1659197316 c:\users\corey\onedrive\private\github\re4_utility\include\fmtsnd.h
 	<iostream>
 	<cstdint>
 	<string>

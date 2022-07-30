@@ -88,43 +88,73 @@ size_t fmtHED_Block5::write_hed_block5 (bytestream &s) {
 	return ptr;
 	}
 
-fmtHED_Block4::fmtHED_Block4 () {
-	unk060 = 0;
-	unk061 = 0;
-	unk062 = 0;
-	unk063 = 0;
-	unk064 = 0;
-	unk065 = 0;
-	unk066 = 0;
-	unk067 = 0;
-	unk068 = 0;
-	unk069 = 0;
+fmtHED_SIT::fmtHED_SIT () {
+	note = 0;
+	lim = 0;
+	id2 = 20;
+	prio = 127;
+	pan = 64;
+	vol = 110;
+	aux_a = -1 ;
+	id1 = 0;
+	vol_flag = -1;
+	pitch_l = 0;
+	pitch_h = 0;
+	enc_vol = 0;
+	grob = 0;
+	srd_type = 1;
+	span = 128;
+	svol = 110;
+	free1 = 0;
+	free2 = 0;
+	free3 = 0;
+	flag = 0x4001;
 	}
 
-void fmtHED_Block4::read_hed_block4 (bytestream &f) {
-	unk060 = f.readUshort();
-	unk061 = f.readUshort();
-	unk062 = f.readUshort();
-	unk063 = f.readUshort();
-	unk064 = f.readUshort();
-	unk065 = f.readUshort();
-	unk066 = f.readUshort();
-	unk067 = f.readUshort();
-	unk068 = f.readUlong();
-	unk069 = f.readUlong();
+void fmtHED_SIT::read_sit (bytestream &f) {
+	note = f.readUshort();
+	lim = f.readbyte();
+	id2 = f.readUbyte();
+	prio = f.readbyte();
+	pan = f.readbyte();
+	vol = f.readbyte();
+	aux_a = f.readbyte();
+	id1 = f.readUbyte();
+	vol_flag = f.readbyte();
+	pitch_l = f.readshort();
+	pitch_h = f.readshort();
+	enc_vol = f.readbyte();
+	grob = f.readbyte();
+	srd_type = f.readUbyte();
+	span = f.readbyte();
+	svol = f.readbyte();
+	free1 = f.readbyte();
+	free2 = f.readbyte();
+	free3 = f.readbyte();
+	flag = f.readUshort();
 	}
 
-void fmtHED_Block4::write_hed_block4 (bytestream &s) {
-	s.writeshort(unk060);
-	s.writeshort(unk061);
-	s.writeshort(unk062);
-	s.writeshort(unk063);
-	s.writeshort(unk064);
-	s.writeshort(unk065);
-	s.writeshort(unk066);
-	s.writeshort(unk067);
-	s.writelong(unk068);
-	s.writelong(unk069);
+void fmtHED_SIT::write_sit (bytestream &s) {
+	s.writeUshort(note);
+	s.writebyte(lim);
+	s.writeUbyte(id2);
+	s.writebyte(prio);
+	s.writebyte(pan);
+	s.writebyte(vol);
+	s.writebyte(aux_a);
+	s.writeUbyte(id1);
+	s.writebyte(vol_flag);
+	s.writeshort(pitch_l);
+	s.writeshort(pitch_h);
+	s.writebyte(enc_vol);
+	s.writebyte(grob);
+	s.writeUbyte(srd_type);
+	s.writebyte(span);
+	s.writebyte(svol);
+	s.writebyte(free1);
+	s.writebyte(free2);
+	s.writebyte(free3);
+	s.writeUshort(flag);
 	}
 
 fmtHED_WTADPCM::fmtHED_WTADPCM () {
@@ -573,6 +603,7 @@ size_t fmtHED_Block2::write_hed_block2 (bytestream &s) {
 		for (unsigned int i = 0; i < 32; i++) {addrs[i] = 0;}
 
 		unsigned int count = entry.size();
+
 		std::vector<bool> writeblocks;
 		if (count > 0) {
 
@@ -582,13 +613,17 @@ size_t fmtHED_Block2::write_hed_block2 (bytestream &s) {
 			writeblocks = std::vector<bool>(count);
 			for (unsigned int i = 0; i < count; i++) {
 				writeblocks[i] = false;
+
 				if (entry[i].index > -1 && entry[i].index < 32) {
 					index = findItem<uint32_t>(used_indices, entry[i].index);
+
 					bsize = entry[i].size();
-					if (index == 0 && bsize > 0) {
+
+					if (index == -1 && bsize > 0) {
 						addrs[entry[i].index] = ptr;
 						ptr += bsize;
 						writeblocks[i] = true;
+						used_indices.push_back(index);
 						}
 					}
 				}
@@ -621,7 +656,7 @@ size_t fmtHED_Block2::write_hed_block2 (bytestream &s) {
 fmtHED_Block1::fmtHED_Block1 () {
 	count = 0;
 	block3_addr = 16;
-	block4_addr = 0;
+	sit_addr = 0;
 	block5_addr = 0;
 	}
 
@@ -630,8 +665,8 @@ size_t fmtHED_Block1::size () {
 	nsize += block3.size();
 	nsize += (16-((block3.size()) % 16)) % 16; // pad
 
-	nsize += block4.size() * 24;
-	nsize += (16-((block4.size() * 24) % 16)) % 16; // pad
+	nsize += sit.size() * 24;
+	nsize += (16-((sit.size() * 24) % 16)) % 16; // pad
 
 	nsize += block5.size();
 	nsize += (16-((block5.size()) % 16)) % 16; // pad
@@ -644,22 +679,22 @@ void fmtHED_Block1::read_hed_block1 (bytestream &f, size_t endpos) {
 
 	count = f.readUlong();
 	block3_addr = f.readUlong();
-	block4_addr = f.readUlong();
+	sit_addr = f.readUlong();
 	block5_addr = f.readUlong();
 
-	block4.clear();
+	sit.clear();
 	if (count > 0) {
 
 		if (block3_addr > 0) {
 			f.seek(pos + block3_addr);
-			block3.read_wt_fileheader(f, pos + block4_addr);
+			block3.read_wt_fileheader(f, pos + sit_addr);
 			}
 
-		if (block4_addr > 0) {
-			f.seek(pos + block4_addr);
-			block4 = std::vector<fmtHED_Block4>(count);
+		if (sit_addr > 0) {
+			f.seek(pos + sit_addr);
+			sit = std::vector<fmtHED_SIT>(count);
 			for (unsigned int i = 0; i < count; i++) {
-				block4[i].read_hed_block4(f);
+				sit[i].read_sit(f);
 				}
 			}
 
@@ -676,7 +711,7 @@ size_t fmtHED_Block1::write_hed_block1 (bytestream &s) {
 	size_t ptr = 16;
 
 	// Sub Header
-	count = block4.size();
+	count = sit.size();
 	s.writelong(count);
 
 	// Block3 Addr
@@ -688,7 +723,7 @@ size_t fmtHED_Block1::write_hed_block1 (bytestream &s) {
 
 	// Block4 Addr
 	bsize = count * 24;
-	if (bsize > 0) {s.writelong(block4_addr = ptr);} else {s.writelong(0);}
+	if (bsize > 0) {s.writelong(sit_addr = ptr);} else {s.writelong(0);}
 	size_t block4_pad = (16-(bsize % 16)) % 16;
 	ptr += bsize + block4_pad;
 
@@ -703,7 +738,7 @@ size_t fmtHED_Block1::write_hed_block1 (bytestream &s) {
 	for (unsigned int i = 0; i < block3_pad; i++) {s.writebyte(0);}
 
 	// Block 4
-	for (unsigned int i = 0; i < count; i++) {block4[i].write_hed_block4(s);}
+	for (unsigned int i = 0; i < count; i++) {sit[i].write_sit(s);}
 	for (unsigned int i = 0; i < block4_pad; i++) {s.writebyte(0);}
 
 	// Block 5
@@ -1160,7 +1195,7 @@ void fmtDAT_SND_Package::xml_export (std::wstring file) {
 			if (table_count > 0) {
 				xml += "            <block1 count=\"" + to_string(table_count) + "\">\n                <!-- 2 Bytes Per-->\n";
 				for (unsigned int d = 0; d < table_count; d++) {
-					xml += "                <unk001>" + to_string(snd[i].playlists[x].hed.block1.block3.table1[d]) + "</unk001>\n";
+					xml += "                <entry>" + to_string(snd[i].playlists[x].hed.block1.block3.table1[d]) + "</entry>\n";
 					}
 				xml += "            </block1>\n";
 				}
@@ -1237,11 +1272,18 @@ void fmtDAT_SND_Package::xml_export (std::wstring file) {
 				for (unsigned int d = 0; d < table_count; d++) {
 					xml += "                <entry index=\"" + to_string(d) + "\">\n";
 					subtable_count = 16;
-					xml += "                    <unk050 count=\"" + to_string(subtable_count) + "\">\n";
+
+
+
+					//xml += "                    <unk050 count=\"" + to_string(subtable_count) + "\">\n";
+					//for (unsigned int j = 0; j < subtable_count; j++) {
+					//	xml += "                        <data>" + to_string(snd[i].playlists[x].hed.block1.block3.adpcm[d].unk050[j]) +"</data>\n";
+					//	}
+					//xml += "                    </unk050>\n";
+
 					for (unsigned int j = 0; j < subtable_count; j++) {
-						xml += "                        <data>" + to_string(snd[i].playlists[x].hed.block1.block3.adpcm[d].unk050[j]) +"</data>\n";
+						xml += "                    <unk0" + to_string(50 + j) + ">" + to_string(snd[i].playlists[x].hed.block1.block3.adpcm[d].unk050[j]) + "</unk0" + to_string(50 + j) + ">\n";
 						}
-					xml += "                    </unk050>\n";
 					xml += "                    <gain>" + to_string(snd[i].playlists[x].hed.block1.block3.adpcm[d].gain) + "</gain>\n";
 					xml += "                    <pred_scale>" + to_string(snd[i].playlists[x].hed.block1.block3.adpcm[d].pred_scale) + "</pred_scale>\n";
 					xml += "                    <yn1>" + to_string(snd[i].playlists[x].hed.block1.block3.adpcm[d].yn1) + "</yn1>\n";
@@ -1255,26 +1297,35 @@ void fmtDAT_SND_Package::xml_export (std::wstring file) {
 				}
 
 
-			table_count = snd[i].playlists[x].hed.block1.block4.size();
+			table_count = snd[i].playlists[x].hed.block1.sit.size();
 			if (table_count > 0) {
-				xml += "            <block6 count=\"" + to_string(table_count) + "\">\n                <!--24 Bytes Per-->\n";
+				xml += "            <sit count=\"" + to_string(table_count) + "\">\n                <!--24 Bytes Per-->\n";
 				for (unsigned int d = 0; d < table_count; d++) {
 					xml += "                <entry index=\"" + to_string(d) + "\">\n";
-					xml += "                    <unk060>" + to_string(snd[i].playlists[x].hed.block1.block4[d].unk060) + "</unk060>\n";
-					xml += "                    <unk061>" + to_string(snd[i].playlists[x].hed.block1.block4[d].unk061) + "</unk061>\n";
-					xml += "                    <unk062>" + to_string(snd[i].playlists[x].hed.block1.block4[d].unk062) + "</unk062>\n";
-					xml += "                    <unk063>" + to_string(snd[i].playlists[x].hed.block1.block4[d].unk063) + "</unk063>\n";
-					xml += "                    <unk064>" + to_string(snd[i].playlists[x].hed.block1.block4[d].unk064) + "</unk064>\n";
-					xml += "                    <unk065>" + to_string(snd[i].playlists[x].hed.block1.block4[d].unk065) + "</unk065>\n";
-					xml += "                    <unk066>" + to_string(snd[i].playlists[x].hed.block1.block4[d].unk066) + "</unk066>\n";
-					xml += "                    <unk067>" + to_string(snd[i].playlists[x].hed.block1.block4[d].unk067) + "</unk067>\n";
-					xml += "                    <unk068>" + to_string(snd[i].playlists[x].hed.block1.block4[d].unk068) + "</unk068>\n";
-					xml += "                    <unk069>" + to_string(snd[i].playlists[x].hed.block1.block4[d].unk069) + "</unk069>\n";
+					xml += "                    <note>" + to_string(snd[i].playlists[x].hed.block1.sit[d].note) + "</note>\n";
+					xml += "                    <lim>" + to_string((int)snd[i].playlists[x].hed.block1.sit[d].lim) + "</lim>\n";
+					xml += "                    <id2>" + to_string((int)snd[i].playlists[x].hed.block1.sit[d].id2) + "</id2>\n";
+					xml += "                    <prio>" + to_string((int)snd[i].playlists[x].hed.block1.sit[d].prio) + "</prio>\n";
+					xml += "                    <pan>" + to_string((int)snd[i].playlists[x].hed.block1.sit[d].pan) + "</pan>\n";
+					xml += "                    <vol>" + to_string((int)snd[i].playlists[x].hed.block1.sit[d].vol) + "</vol>\n";
+					xml += "                    <aux_a>" + to_string((int)snd[i].playlists[x].hed.block1.sit[d].aux_a) + "</aux_a>\n";
+					xml += "                    <id1>" + to_string((int)snd[i].playlists[x].hed.block1.sit[d].id1) + "</id1>\n";
+					xml += "                    <vol_flag>" + to_string((int)snd[i].playlists[x].hed.block1.sit[d].vol_flag) + "</vol_flag>\n";
+					xml += "                    <pitch_l>" + to_string((int)snd[i].playlists[x].hed.block1.sit[d].pitch_l) + "</pitch_l>\n";
+					xml += "                    <pitch_h>" + to_string((int)snd[i].playlists[x].hed.block1.sit[d].pitch_h) + "</pitch_h>\n";
+					xml += "                    <enc_vol>" + to_string((int)snd[i].playlists[x].hed.block1.sit[d].enc_vol) + "</enc_vol>\n";
+					xml += "                    <grob>" + to_string((int)snd[i].playlists[x].hed.block1.sit[d].grob) + "</grob>\n";
+					xml += "                    <srd_type>" + to_string((int)snd[i].playlists[x].hed.block1.sit[d].srd_type) + "</srd_type>\n";
+					xml += "                    <span>" + to_string((int)snd[i].playlists[x].hed.block1.sit[d].span) + "</span>\n";
+					xml += "                    <svol>" + to_string((int)snd[i].playlists[x].hed.block1.sit[d].svol) + "</svol>\n";
+					xml += "                    <free1>" + to_string((int)snd[i].playlists[x].hed.block1.sit[d].free1) + "</free1>\n";
+					xml += "                    <free2>" + to_string((int)snd[i].playlists[x].hed.block1.sit[d].free2) + "</free2>\n";
+					xml += "                    <free3>" + to_string((int)snd[i].playlists[x].hed.block1.sit[d].free3) + "</free3>\n";
+					xml += "                    <flag>" + to_string(snd[i].playlists[x].hed.block1.sit[d].flag) + "</flag>\n";
 					xml += "                </entry>\n";
 					}
-				xml += "            </block6>\n";
+				xml += "            </sit>\n";
 				}
-
 
 			table_count = snd[i].playlists[x].hed.block2.entry.size();
 			if (table_count > 0 || snd[i].playlists[x].hed.block2.forceWrite) {
@@ -1440,7 +1491,7 @@ void fmtDAT_SND_Package::xml_import (rapidxml::xml_document<> &doc) {
 
 				// Count Block1 Elements
 				int UNK001_NUM = 0;
-				for (rapidxml::xml_node<>* NODE_UNK001 = NODE_BLOCK1->first_node("unk001"); NODE_UNK001; NODE_UNK001 = NODE_UNK001->next_sibling()) {
+				for (rapidxml::xml_node<>* NODE_UNK001 = NODE_BLOCK1->first_node("entry"); NODE_UNK001; NODE_UNK001 = NODE_UNK001->next_sibling()) {
 					UNK001_NUM++;
 					}
 
@@ -1451,7 +1502,7 @@ void fmtDAT_SND_Package::xml_import (rapidxml::xml_document<> &doc) {
 
 					// Loop Through Unk001 Entries
 					int UNK001_INDEX = 0;
-					for (rapidxml::xml_node<>* NODE_UNK001 = NODE_BLOCK1->first_node("unk001"); NODE_UNK001; NODE_UNK001 = NODE_UNK001->next_sibling()) {
+					for (rapidxml::xml_node<>* NODE_UNK001 = NODE_BLOCK1->first_node("entry"); NODE_UNK001; NODE_UNK001 = NODE_UNK001->next_sibling()) {
 						// UNK001 NODE, START
 
 						snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.table1[UNK001_INDEX] = convert_to<int16_t>(std::string(NODE_UNK001->value()));
@@ -1483,44 +1534,54 @@ void fmtDAT_SND_Package::xml_import (rapidxml::xml_document<> &doc) {
 						// NODE ENTRY, START
 
 
-						if ((NODE_ITEM = NODE_ASSET->first_node("unityNote")) != NULL) {
+						if ((NODE_ITEM = NODE_ENTRY->first_node("unityNote")) != NULL) {
+							//std::cout << "unityNote: \tStr(" << (int)convert_to<uint8_t>(std::string(NODE_ITEM->value())) << "), \tInt(" << (int)convert_to<uint8_t>(std::string(NODE_ITEM->value())) ")" << std::endl;
 							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.region[ENTRY_INDEX].unityNote = (
-								convert_to<uint8_t>(std::string(NODE_ITEM->value()))
+								(uint8_t)convert_to<int>(std::string(NODE_ITEM->value()))
 								);
 							}
 
-						if ((NODE_ITEM = NODE_ASSET->first_node("keyGroup")) != NULL) {
+						if ((NODE_ITEM = NODE_ENTRY->first_node("keyGroup")) != NULL) {
+							//std::cout << "keyGroup: \t" << (int)convert_to<uint8_t>(std::string(NODE_ITEM->value())) << std::endl;
 							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.region[ENTRY_INDEX].keyGroup = (
-								convert_to<uint8_t>(std::string(NODE_ITEM->value()))
+								(uint8_t)convert_to<int>(std::string(NODE_ITEM->value()))
 								);
 							}
 
-						if ((NODE_ITEM = NODE_ASSET->first_node("fineTune")) != NULL) {
+						if ((NODE_ITEM = NODE_ENTRY->first_node("fineTune")) != NULL) {
+							//std::cout << "fineTune: \tStr(" << std::string(NODE_ITEM->value()) << "), \tInt(" << ()convert_to<int>(std::string(NODE_ITEM->value())) << ")" << std::endl;
 							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.region[ENTRY_INDEX].fineTune = (
+								convert_to<int16_t>(std::string(NODE_ITEM->value()))
+								);
+							}
+
+						if ((NODE_ITEM = NODE_ENTRY->first_node("attn")) != NULL) {
+							//std::cout << "attn: \t" << (int)convert_to<uint8_t>(std::string(NODE_ITEM->value())) << std::endl;
+							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.region[ENTRY_INDEX].attn = (
 								convert_to<int32_t>(std::string(NODE_ITEM->value()))
 								);
 							}
 
-						if ((NODE_ITEM = NODE_ASSET->first_node("loopStart")) != NULL) {
+						if ((NODE_ITEM = NODE_ENTRY->first_node("loopStart")) != NULL) {
 							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.region[ENTRY_INDEX].loopStart = (
 								convert_to<uint32_t>(std::string(NODE_ITEM->value()))
 								);
 							}
 
-						if ((NODE_ITEM = NODE_ASSET->first_node("loopLength")) != NULL) {
+						if ((NODE_ITEM = NODE_ENTRY->first_node("loopLength")) != NULL) {
 							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.region[ENTRY_INDEX].loopLength = (
 								convert_to<uint32_t>(std::string(NODE_ITEM->value()))
 								);
 							}
 
-						if ((NODE_ITEM = NODE_ASSET->first_node("articulationIndex")) != NULL) {
+						if ((NODE_ITEM = NODE_ENTRY->first_node("articulationIndex")) != NULL) {
 							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.region[ENTRY_INDEX].articulationIndex = (
 								convert_to<uint32_t>(std::string(NODE_ITEM->value()))
 								);
 							}
 
-						if ((NODE_ITEM = NODE_ASSET->first_node("sampleIndex")) != NULL) {
-							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.region[ENTRY_INDEX].articulationIndex = (
+						if ((NODE_ITEM = NODE_ENTRY->first_node("sampleIndex")) != NULL) {
+							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.region[ENTRY_INDEX].sampleIndex = (
 								convert_to<uint32_t>(std::string(NODE_ITEM->value()))
 								);
 							}
@@ -1554,121 +1615,121 @@ void fmtDAT_SND_Package::xml_import (rapidxml::xml_document<> &doc) {
 						// NODE ENTRY, START
 
 
-						if ((NODE_ITEM = NODE_ASSET->first_node("lfoFreq")) != NULL) {
+						if ((NODE_ITEM = NODE_ENTRY->first_node("lfoFreq")) != NULL) {
 							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.art[ENTRY_INDEX].lfoFreq = (
 								convert_to<int32_t>(std::string(NODE_ITEM->value()))
 								);
 							}
 
-						if ((NODE_ITEM = NODE_ASSET->first_node("lfoDelay")) != NULL) {
+						if ((NODE_ITEM = NODE_ENTRY->first_node("lfoDelay")) != NULL) {
 							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.art[ENTRY_INDEX].lfoDelay = (
 								convert_to<int32_t>(std::string(NODE_ITEM->value()))
 								);
 							}
 
-						if ((NODE_ITEM = NODE_ASSET->first_node("lfoAtten")) != NULL) {
+						if ((NODE_ITEM = NODE_ENTRY->first_node("lfoAtten")) != NULL) {
 							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.art[ENTRY_INDEX].lfoAtten = (
 								convert_to<int32_t>(std::string(NODE_ITEM->value()))
 								);
 							}
 
-						if ((NODE_ITEM = NODE_ASSET->first_node("lfoPitch")) != NULL) {
+						if ((NODE_ITEM = NODE_ENTRY->first_node("lfoPitch")) != NULL) {
 							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.art[ENTRY_INDEX].lfoPitch = (
 								convert_to<int32_t>(std::string(NODE_ITEM->value()))
 								);
 							}
 
-						if ((NODE_ITEM = NODE_ASSET->first_node("lfoMod2Atten")) != NULL) {
+						if ((NODE_ITEM = NODE_ENTRY->first_node("lfoMod2Atten")) != NULL) {
 							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.art[ENTRY_INDEX].lfoMod2Atten = (
 								convert_to<int32_t>(std::string(NODE_ITEM->value()))
 								);
 							}
 
-						if ((NODE_ITEM = NODE_ASSET->first_node("lfoMod2Pitch")) != NULL) {
+						if ((NODE_ITEM = NODE_ENTRY->first_node("lfoMod2Pitch")) != NULL) {
 							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.art[ENTRY_INDEX].lfoMod2Pitch = (
 								convert_to<int32_t>(std::string(NODE_ITEM->value()))
 								);
 							}
 
-						if ((NODE_ITEM = NODE_ASSET->first_node("eg1Attack")) != NULL) {
+						if ((NODE_ITEM = NODE_ENTRY->first_node("eg1Attack")) != NULL) {
 							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.art[ENTRY_INDEX].eg1Attack = (
 								convert_to<int32_t>(std::string(NODE_ITEM->value()))
 								);
 							}
 
-						if ((NODE_ITEM = NODE_ASSET->first_node("eg1Decay")) != NULL) {
+						if ((NODE_ITEM = NODE_ENTRY->first_node("eg1Decay")) != NULL) {
 							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.art[ENTRY_INDEX].eg1Decay = (
 								convert_to<int32_t>(std::string(NODE_ITEM->value()))
 								);
 							}
 
-						if ((NODE_ITEM = NODE_ASSET->first_node("eg1Sustain")) != NULL) {
+						if ((NODE_ITEM = NODE_ENTRY->first_node("eg1Sustain")) != NULL) {
 							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.art[ENTRY_INDEX].eg1Sustain = (
 								convert_to<int32_t>(std::string(NODE_ITEM->value()))
 								);
 							}
 
-						if ((NODE_ITEM = NODE_ASSET->first_node("eg1Release")) != NULL) {
+						if ((NODE_ITEM = NODE_ENTRY->first_node("eg1Release")) != NULL) {
 							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.art[ENTRY_INDEX].eg1Release = (
 								convert_to<int32_t>(std::string(NODE_ITEM->value()))
 								);
 							}
 
-						if ((NODE_ITEM = NODE_ASSET->first_node("eg1Vel2Attack")) != NULL) {
+						if ((NODE_ITEM = NODE_ENTRY->first_node("eg1Vel2Attack")) != NULL) {
 							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.art[ENTRY_INDEX].eg1Vel2Attack = (
 								convert_to<int32_t>(std::string(NODE_ITEM->value()))
 								);
 							}
 
-						if ((NODE_ITEM = NODE_ASSET->first_node("eg1Key2Decay")) != NULL) {
+						if ((NODE_ITEM = NODE_ENTRY->first_node("eg1Key2Decay")) != NULL) {
 							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.art[ENTRY_INDEX].eg1Key2Decay = (
 								convert_to<int32_t>(std::string(NODE_ITEM->value()))
 								);
 							}
 
-						if ((NODE_ITEM = NODE_ASSET->first_node("eg2Attack")) != NULL) {
+						if ((NODE_ITEM = NODE_ENTRY->first_node("eg2Attack")) != NULL) {
 							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.art[ENTRY_INDEX].eg2Attack = (
 								convert_to<int32_t>(std::string(NODE_ITEM->value()))
 								);
 							}
 
-						if ((NODE_ITEM = NODE_ASSET->first_node("eg2Decay")) != NULL) {
+						if ((NODE_ITEM = NODE_ENTRY->first_node("eg2Decay")) != NULL) {
 							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.art[ENTRY_INDEX].eg2Decay = (
 								convert_to<int32_t>(std::string(NODE_ITEM->value()))
 								);
 							}
 
-						if ((NODE_ITEM = NODE_ASSET->first_node("eg2Sustain")) != NULL) {
+						if ((NODE_ITEM = NODE_ENTRY->first_node("eg2Sustain")) != NULL) {
 							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.art[ENTRY_INDEX].eg2Sustain = (
 								convert_to<int32_t>(std::string(NODE_ITEM->value()))
 								);
 							}
 
-						if ((NODE_ITEM = NODE_ASSET->first_node("eg2Release")) != NULL) {
+						if ((NODE_ITEM = NODE_ENTRY->first_node("eg2Release")) != NULL) {
 							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.art[ENTRY_INDEX].eg2Release = (
 								convert_to<int32_t>(std::string(NODE_ITEM->value()))
 								);
 							}
 
-						if ((NODE_ITEM = NODE_ASSET->first_node("eg2Vel2Attack")) != NULL) {
+						if ((NODE_ITEM = NODE_ENTRY->first_node("eg2Vel2Attack")) != NULL) {
 							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.art[ENTRY_INDEX].eg2Vel2Attack = (
 								convert_to<int32_t>(std::string(NODE_ITEM->value()))
 								);
 							}
 
-						if ((NODE_ITEM = NODE_ASSET->first_node("eg2Key2Decay")) != NULL) {
+						if ((NODE_ITEM = NODE_ENTRY->first_node("eg2Key2Decay")) != NULL) {
 							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.art[ENTRY_INDEX].eg2Key2Decay = (
 								convert_to<int32_t>(std::string(NODE_ITEM->value()))
 								);
 							}
 
-						if ((NODE_ITEM = NODE_ASSET->first_node("eg2Pitch")) != NULL) {
+						if ((NODE_ITEM = NODE_ENTRY->first_node("eg2Pitch")) != NULL) {
 							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.art[ENTRY_INDEX].eg2Pitch = (
 								convert_to<int32_t>(std::string(NODE_ITEM->value()))
 								);
 							}
 
-						if ((NODE_ITEM = NODE_ASSET->first_node("pan")) != NULL) {
+						if ((NODE_ITEM = NODE_ENTRY->first_node("pan")) != NULL) {
 							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.art[ENTRY_INDEX].pan = (
 								convert_to<int32_t>(std::string(NODE_ITEM->value()))
 								);
@@ -1704,37 +1765,37 @@ void fmtDAT_SND_Package::xml_import (rapidxml::xml_document<> &doc) {
 						// NODE ENTRY, START
 
 
-						if ((NODE_ITEM = NODE_ASSET->first_node("format")) != NULL) {
+						if ((NODE_ITEM = NODE_ENTRY->first_node("format")) != NULL) {
 							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.sample[ENTRY_INDEX].format = (
 								convert_to<uint16_t>(std::string(NODE_ITEM->value()))
 								);
 							}
 
-						if ((NODE_ITEM = NODE_ASSET->first_node("sampleRate")) != NULL) {
+						if ((NODE_ITEM = NODE_ENTRY->first_node("sampleRate")) != NULL) {
 							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.sample[ENTRY_INDEX].sampleRate = (
 								convert_to<uint16_t>(std::string(NODE_ITEM->value()))
 								);
 							}
 
-						if ((NODE_ITEM = NODE_ASSET->first_node("offset")) != NULL) {
+						if ((NODE_ITEM = NODE_ENTRY->first_node("offset")) != NULL) {
 							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.sample[ENTRY_INDEX].offset = (
 								convert_to<uint32_t>(std::string(NODE_ITEM->value()))
 								);
 							}
 
-						if ((NODE_ITEM = NODE_ASSET->first_node("length")) != NULL) {
+						if ((NODE_ITEM = NODE_ENTRY->first_node("length")) != NULL) {
 							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.sample[ENTRY_INDEX].length = (
 								convert_to<uint32_t>(std::string(NODE_ITEM->value()))
 								);
 							}
 
-						if ((NODE_ITEM = NODE_ASSET->first_node("adpcmIndex")) != NULL) {
+						if ((NODE_ITEM = NODE_ENTRY->first_node("adpcmIndex")) != NULL) {
 							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.sample[ENTRY_INDEX].adpcmIndex = (
 								convert_to<uint16_t>(std::string(NODE_ITEM->value()))
 								);
 							}
 
-						if ((NODE_ITEM = NODE_ASSET->first_node("unk043")) != NULL) {
+						if ((NODE_ITEM = NODE_ENTRY->first_node("unk043")) != NULL) {
 							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.sample[ENTRY_INDEX].unk043 = (
 								convert_to<uint16_t>(std::string(NODE_ITEM->value()))
 								);
@@ -1769,59 +1830,141 @@ void fmtDAT_SND_Package::xml_import (rapidxml::xml_document<> &doc) {
 						// NODE ENTRY, START
 
 
-						if ((NODE_ITEM = NODE_ASSET->first_node("unk050")) != NULL) {
+						//if ((NODE_ITEM = NODE_ASSET->first_node("unk050")) != NULL) {
+						//
+						//	// Loop Through Elements
+						//	int UNK050_INDEX = 0;
+						//	for (rapidxml::xml_node<>* NODE_UNK050 = NODE_ENTRY->first_node("data"); NODE_UNK050; NODE_UNK050 = NODE_UNK050->next_sibling()) {
 
-							// Loop Through Elements
-							int UNK050_INDEX = 0;
-							for (rapidxml::xml_node<>* NODE_UNK050 = NODE_ENTRY->first_node("data"); NODE_UNK050; NODE_UNK050 = NODE_UNK050->next_sibling()) {
+						//		if (UNK050_INDEX > 15) {continue;}
+						//		snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.adpcm[ENTRY_INDEX].unk050[UNK050_INDEX] = (
+						//			convert_to<uint16_t>(std::string(NODE_UNK050->value()))
+						//			);
 
-								if (UNK050_INDEX > 15) {continue;}
-								snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.adpcm[ENTRY_INDEX].unk050[UNK050_INDEX] = (
-									convert_to<uint16_t>(std::string(NODE_UNK050->value()))
-									);
+						//		UNK050_INDEX++;
+						//		}
+						//	}
 
-								UNK050_INDEX++;
-								}
+						if ((NODE_ITEM = NODE_ENTRY->first_node("unk050")) != NULL) {
+
+							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.adpcm[ENTRY_INDEX].unk050[ 0] = (
+								convert_to<uint16_t>(std::string(NODE_ITEM->value()))
+								);
+							}
+						if ((NODE_ITEM = NODE_ENTRY->first_node("unk051")) != NULL) {
+							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.adpcm[ENTRY_INDEX].unk050[ 1] = (
+								convert_to<uint16_t>(std::string(NODE_ITEM->value()))
+								);
+							}
+						if ((NODE_ITEM = NODE_ENTRY->first_node("unk052")) != NULL) {
+							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.adpcm[ENTRY_INDEX].unk050[ 2] = (
+								convert_to<uint16_t>(std::string(NODE_ITEM->value()))
+								);
+							}
+						if ((NODE_ITEM = NODE_ENTRY->first_node("unk053")) != NULL) {
+							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.adpcm[ENTRY_INDEX].unk050[ 3] = (
+								convert_to<uint16_t>(std::string(NODE_ITEM->value()))
+								);
+							}
+						if ((NODE_ITEM = NODE_ENTRY->first_node("unk054")) != NULL) {
+							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.adpcm[ENTRY_INDEX].unk050[ 4] = (
+								convert_to<uint16_t>(std::string(NODE_ITEM->value()))
+								);
+							}
+						if ((NODE_ITEM = NODE_ENTRY->first_node("unk055")) != NULL) {
+							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.adpcm[ENTRY_INDEX].unk050[ 5] = (
+								convert_to<uint16_t>(std::string(NODE_ITEM->value()))
+								);
+							}
+						if ((NODE_ITEM = NODE_ENTRY->first_node("unk056")) != NULL) {
+							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.adpcm[ENTRY_INDEX].unk050[ 6] = (
+								convert_to<uint16_t>(std::string(NODE_ITEM->value()))
+								);
+							}
+						if ((NODE_ITEM = NODE_ENTRY->first_node("unk057")) != NULL) {
+							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.adpcm[ENTRY_INDEX].unk050[ 7] = (
+								convert_to<uint16_t>(std::string(NODE_ITEM->value()))
+								);
+							}
+						if ((NODE_ITEM = NODE_ENTRY->first_node("unk058")) != NULL) {
+							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.adpcm[ENTRY_INDEX].unk050[ 8] = (
+								convert_to<uint16_t>(std::string(NODE_ITEM->value()))
+								);
+							}
+						if ((NODE_ITEM = NODE_ENTRY->first_node("unk059")) != NULL) {
+							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.adpcm[ENTRY_INDEX].unk050[ 9] = (
+								convert_to<uint16_t>(std::string(NODE_ITEM->value()))
+								);
+							}
+						if ((NODE_ITEM = NODE_ENTRY->first_node("unk060")) != NULL) {
+							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.adpcm[ENTRY_INDEX].unk050[10] = (
+								convert_to<uint16_t>(std::string(NODE_ITEM->value()))
+								);
+							}
+						if ((NODE_ITEM = NODE_ENTRY->first_node("unk061")) != NULL) {
+							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.adpcm[ENTRY_INDEX].unk050[11] = (
+								convert_to<uint16_t>(std::string(NODE_ITEM->value()))
+								);
+							}
+						if ((NODE_ITEM = NODE_ENTRY->first_node("unk062")) != NULL) {
+							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.adpcm[ENTRY_INDEX].unk050[12] = (
+								convert_to<uint16_t>(std::string(NODE_ITEM->value()))
+								);
+							}
+						if ((NODE_ITEM = NODE_ENTRY->first_node("unk063")) != NULL) {
+							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.adpcm[ENTRY_INDEX].unk050[13] = (
+								convert_to<uint16_t>(std::string(NODE_ITEM->value()))
+								);
+							}
+						if ((NODE_ITEM = NODE_ENTRY->first_node("unk064")) != NULL) {
+							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.adpcm[ENTRY_INDEX].unk050[14] = (
+								convert_to<uint16_t>(std::string(NODE_ITEM->value()))
+								);
+							}
+						if ((NODE_ITEM = NODE_ENTRY->first_node("unk065")) != NULL) {
+							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.adpcm[ENTRY_INDEX].unk050[15] = (
+								convert_to<uint16_t>(std::string(NODE_ITEM->value()))
+								);
 							}
 
 
-						if ((NODE_ITEM = NODE_ASSET->first_node("gain")) != NULL) {
+						if ((NODE_ITEM = NODE_ENTRY->first_node("gain")) != NULL) {
 							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.adpcm[ENTRY_INDEX].gain = (
 								convert_to<uint16_t>(std::string(NODE_ITEM->value()))
 								);
 							}
 
-						if ((NODE_ITEM = NODE_ASSET->first_node("pred_scale")) != NULL) {
+						if ((NODE_ITEM = NODE_ENTRY->first_node("pred_scale")) != NULL) {
 							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.adpcm[ENTRY_INDEX].pred_scale = (
 								convert_to<uint16_t>(std::string(NODE_ITEM->value()))
 								);
 							}
 
-						if ((NODE_ITEM = NODE_ASSET->first_node("yn1")) != NULL) {
+						if ((NODE_ITEM = NODE_ENTRY->first_node("yn1")) != NULL) {
 							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.adpcm[ENTRY_INDEX].yn1 = (
 								convert_to<uint16_t>(std::string(NODE_ITEM->value()))
 								);
 							}
 
-						if ((NODE_ITEM = NODE_ASSET->first_node("yn2")) != NULL) {
+						if ((NODE_ITEM = NODE_ENTRY->first_node("yn2")) != NULL) {
 							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.adpcm[ENTRY_INDEX].yn2 = (
 								convert_to<uint16_t>(std::string(NODE_ITEM->value()))
 								);
 							}
 
-						if ((NODE_ITEM = NODE_ASSET->first_node("loop_pred_scale")) != NULL) {
+						if ((NODE_ITEM = NODE_ENTRY->first_node("loop_pred_scale")) != NULL) {
 							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.adpcm[ENTRY_INDEX].loop_pred_scale = (
 								convert_to<uint16_t>(std::string(NODE_ITEM->value()))
 								);
 							}
 
-						if ((NODE_ITEM = NODE_ASSET->first_node("loop_yn1")) != NULL) {
+						if ((NODE_ITEM = NODE_ENTRY->first_node("loop_yn1")) != NULL) {
 							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.adpcm[ENTRY_INDEX].loop_yn1 = (
 								convert_to<uint16_t>(std::string(NODE_ITEM->value()))
 								);
 							}
 
-						if ((NODE_ITEM = NODE_ASSET->first_node("loop_yn2")) != NULL) {
+						if ((NODE_ITEM = NODE_ENTRY->first_node("loop_yn2")) != NULL) {
 							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block3.adpcm[ENTRY_INDEX].loop_yn2 = (
 								convert_to<uint16_t>(std::string(NODE_ITEM->value()))
 								);
@@ -1839,7 +1982,7 @@ void fmtDAT_SND_Package::xml_import (rapidxml::xml_document<> &doc) {
 
 
 			// Check for BLOCK6 NODE
-			rapidxml::xml_node<>* NODE_BLOCK6 = NODE_ASSET->first_node("block6");
+			rapidxml::xml_node<>* NODE_BLOCK6 = NODE_ASSET->first_node("sit");
 			if (NODE_BLOCK6 != NULL) {
 
 
@@ -1849,7 +1992,7 @@ void fmtDAT_SND_Package::xml_import (rapidxml::xml_document<> &doc) {
 				if (ENTRY_NUM > 0) {
 
 					// Dimension Array
-					snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block4 = std::vector<fmtHED_Block4>(ENTRY_NUM);
+					snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.sit = std::vector<fmtHED_SIT>(ENTRY_NUM);
 
 					int ENTRY_INDEX = 0;
 					rapidxml::xml_node<>* NODE_ITEM;
@@ -1857,66 +2000,125 @@ void fmtDAT_SND_Package::xml_import (rapidxml::xml_document<> &doc) {
 						// NODE ENTRY, START
 
 
-						if ((NODE_ITEM = NODE_ASSET->first_node("unk060")) != NULL) {
-							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block4[ENTRY_INDEX].unk060 = (
-								convert_to<uint16_t>(std::string(NODE_ITEM->value()))
-								);
-							}
-						if ((NODE_ITEM = NODE_ASSET->first_node("unk061")) != NULL) {
-							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block4[ENTRY_INDEX].unk061 = (
+						if ((NODE_ITEM = NODE_ENTRY->first_node("note")) != NULL) {
+							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.sit[ENTRY_INDEX].note = (
 								convert_to<uint16_t>(std::string(NODE_ITEM->value()))
 								);
 							}
 
-						if ((NODE_ITEM = NODE_ASSET->first_node("unk062")) != NULL) {
-							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block4[ENTRY_INDEX].unk062 = (
+						if ((NODE_ITEM = NODE_ENTRY->first_node("lim")) != NULL) {
+							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.sit[ENTRY_INDEX].lim = (
+								(int8_t)convert_to<int>(std::string(NODE_ITEM->value()))
+								);
+							}
+
+						if ((NODE_ITEM = NODE_ENTRY->first_node("id2")) != NULL) {
+							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.sit[ENTRY_INDEX].id2 = (
+								(uint8_t)convert_to<int>(std::string(NODE_ITEM->value()))
+								);
+							}
+
+						if ((NODE_ITEM = NODE_ENTRY->first_node("prio")) != NULL) {
+							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.sit[ENTRY_INDEX].prio = (
+								(int8_t)convert_to<int>(std::string(NODE_ITEM->value()))
+								);
+							}
+
+						if ((NODE_ITEM = NODE_ENTRY->first_node("pan")) != NULL) {
+							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.sit[ENTRY_INDEX].pan = (
+								(int8_t)convert_to<int>(std::string(NODE_ITEM->value()))
+								);
+							}
+
+						if ((NODE_ITEM = NODE_ENTRY->first_node("vol")) != NULL) {
+							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.sit[ENTRY_INDEX].vol = (
+								(int8_t)convert_to<int>(std::string(NODE_ITEM->value()))
+								);
+							}
+
+						if ((NODE_ITEM = NODE_ENTRY->first_node("aux_a")) != NULL) {
+							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.sit[ENTRY_INDEX].aux_a = (
+								(int8_t)convert_to<int>(std::string(NODE_ITEM->value()))
+								);
+							}
+
+						if ((NODE_ITEM = NODE_ENTRY->first_node("id1")) != NULL) {
+							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.sit[ENTRY_INDEX].id1 = (
+								(uint8_t)convert_to<int>(std::string(NODE_ITEM->value()))
+								);
+							}
+
+						if ((NODE_ITEM = NODE_ENTRY->first_node("vol_flag")) != NULL) {
+							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.sit[ENTRY_INDEX].vol_flag = (
+								(int8_t)convert_to<int>(std::string(NODE_ITEM->value()))
+								);
+							}
+
+						if ((NODE_ITEM = NODE_ENTRY->first_node("pitch_l")) != NULL) {
+							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.sit[ENTRY_INDEX].pitch_l = (
+								convert_to<int16_t>(std::string(NODE_ITEM->value()))
+								);
+							}
+
+						if ((NODE_ITEM = NODE_ENTRY->first_node("pitch_h")) != NULL) {
+							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.sit[ENTRY_INDEX].pitch_h = (
+								convert_to<int16_t>(std::string(NODE_ITEM->value()))
+								);
+							}
+
+						if ((NODE_ITEM = NODE_ENTRY->first_node("enc_vol")) != NULL) {
+							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.sit[ENTRY_INDEX].enc_vol = (
+								(int8_t)convert_to<int>(std::string(NODE_ITEM->value()))
+								);
+							}
+
+						if ((NODE_ITEM = NODE_ENTRY->first_node("grob")) != NULL) {
+							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.sit[ENTRY_INDEX].grob = (
+								(int8_t)convert_to<int>(std::string(NODE_ITEM->value()))
+								);
+							}
+
+						if ((NODE_ITEM = NODE_ENTRY->first_node("srd_type")) != NULL) {
+							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.sit[ENTRY_INDEX].srd_type = (
+								(uint8_t)convert_to<int>(std::string(NODE_ITEM->value()))
+								);
+							}
+
+						if ((NODE_ITEM = NODE_ENTRY->first_node("span")) != NULL) {
+							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.sit[ENTRY_INDEX].span = (
+								(int8_t)convert_to<int>(std::string(NODE_ITEM->value()))
+								);
+							}
+
+						if ((NODE_ITEM = NODE_ENTRY->first_node("svol")) != NULL) {
+							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.sit[ENTRY_INDEX].svol = (
+								(int8_t)convert_to<int>(std::string(NODE_ITEM->value()))
+								);
+							}
+
+						if ((NODE_ITEM = NODE_ENTRY->first_node("free1")) != NULL) {
+							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.sit[ENTRY_INDEX].free1 = (
+								(int8_t)convert_to<int>(std::string(NODE_ITEM->value()))
+								);
+							}
+
+						if ((NODE_ITEM = NODE_ENTRY->first_node("free2")) != NULL) {
+							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.sit[ENTRY_INDEX].free2 = (
+								(int8_t)convert_to<int>(std::string(NODE_ITEM->value()))
+								);
+							}
+
+						if ((NODE_ITEM = NODE_ENTRY->first_node("free3")) != NULL) {
+							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.sit[ENTRY_INDEX].free3 = (
+								(int8_t)convert_to<int>(std::string(NODE_ITEM->value()))
+								);
+							}
+
+						if ((NODE_ITEM = NODE_ENTRY->first_node("flag")) != NULL) {
+							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.sit[ENTRY_INDEX].flag = (
 								convert_to<uint16_t>(std::string(NODE_ITEM->value()))
 								);
 							}
-
-						if ((NODE_ITEM = NODE_ASSET->first_node("unk063")) != NULL) {
-							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block4[ENTRY_INDEX].unk063 = (
-								convert_to<uint16_t>(std::string(NODE_ITEM->value()))
-								);
-							}
-
-						if ((NODE_ITEM = NODE_ASSET->first_node("unk064")) != NULL) {
-							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block4[ENTRY_INDEX].unk064 = (
-								convert_to<uint16_t>(std::string(NODE_ITEM->value()))
-								);
-							}
-
-						if ((NODE_ITEM = NODE_ASSET->first_node("unk065")) != NULL) {
-							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block4[ENTRY_INDEX].unk065 = (
-								convert_to<uint16_t>(std::string(NODE_ITEM->value()))
-								);
-							}
-
-						if ((NODE_ITEM = NODE_ASSET->first_node("unk066")) != NULL) {
-							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block4[ENTRY_INDEX].unk066 = (
-								convert_to<uint16_t>(std::string(NODE_ITEM->value()))
-								);
-							}
-
-						if ((NODE_ITEM = NODE_ASSET->first_node("unk067")) != NULL) {
-							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block4[ENTRY_INDEX].unk067 = (
-								convert_to<uint16_t>(std::string(NODE_ITEM->value()))
-								);
-							}
-
-						if ((NODE_ITEM = NODE_ASSET->first_node("unk068")) != NULL) {
-							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block4[ENTRY_INDEX].unk068 = (
-								convert_to<uint32_t>(std::string(NODE_ITEM->value()))
-								);
-							}
-
-						if ((NODE_ITEM = NODE_ASSET->first_node("unk069")) != NULL) {
-							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block1.block4[ENTRY_INDEX].unk069 = (
-								convert_to<uint32_t>(std::string(NODE_ITEM->value()))
-								);
-							}
-
-
 
 						ENTRY_INDEX++;
 						} // NODE ENTRY, END
@@ -1942,42 +2144,47 @@ void fmtDAT_SND_Package::xml_import (rapidxml::xml_document<> &doc) {
 					// Dimension Array
 					snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block2.entry = std::vector<fmtHED_Block2_Entry>(ENTRY_NUM);
 
+					std::cout << "COUNT: \t" << snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block2.entry.size() << std::endl;
+
+
 					int ENTRY_INDEX = 0;
 					rapidxml::xml_node<>* NODE_ITEM;
-					rapidxml::xml_node<>* UNK005_ITEM;
 					for (rapidxml::xml_node<>* NODE_ENTRY = NODE_BLOCK7->first_node("entry"); NODE_ENTRY; NODE_ENTRY = NODE_ENTRY->next_sibling()) {
 						// NODE ENTRY, START
 
 
-						if ((NODE_ITEM = NODE_ASSET->first_node("index")) != NULL) {
+						if ((NODE_ITEM = NODE_ENTRY->first_node("index")) != NULL) {
 							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block2.entry[ENTRY_INDEX].index = (
 								convert_to<int16_t>(std::string(NODE_ITEM->value()))
 								);
 							}
 
-						if ((NODE_ITEM = NODE_ASSET->first_node("unk004")) != NULL) {
+						if ((NODE_ITEM = NODE_ENTRY->first_node("unk004")) != NULL) {
 							snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block2.entry[ENTRY_INDEX].unk004 = (
 								convert_to<int16_t>(std::string(NODE_ITEM->value()))
 								);
 							}
 
-						if ((NODE_ITEM = NODE_ASSET->first_node("unk005")) != NULL) {
+						if ((NODE_ITEM = NODE_ENTRY->first_node("unk005")) != NULL) {
 
 							int UNK005_NUM = 0;
-							for (rapidxml::xml_node<>* NODE_UNK005 = NODE_ITEM->first_node("entry"); NODE_UNK005; NODE_UNK005 = NODE_UNK005->next_sibling()) {UNK005_NUM++;}
+							for (rapidxml::xml_node<>* NODE_UNK005 = NODE_ITEM->first_node("data"); NODE_UNK005; NODE_UNK005 = NODE_UNK005->next_sibling()) {UNK005_NUM++;}
 							if (UNK005_NUM > 0) {
 
-								snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block2.entry[ENTRY_INDEX].unk005 = std::vector<uint16_t>(UNK005_NUM, 0);
+								snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block2.entry[ENTRY_INDEX].unk005 = std::vector<uint16_t>(UNK005_NUM);
+								snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block2.entry[ENTRY_INDEX].count = UNK005_NUM;
 
 								int UNK005_INDEX = 0;
-								for (rapidxml::xml_node<>* NODE_UNK005 = NODE_ITEM->first_node("entry"); NODE_UNK005; NODE_UNK005 = NODE_UNK005->next_sibling()) {
+								for (rapidxml::xml_node<>* NODE_UNK005 = NODE_ITEM->first_node("data"); NODE_UNK005; NODE_UNK005 = NODE_UNK005->next_sibling()) {
 
 
-									if ((UNK005_ITEM = NODE_UNK005->first_node("data")) != NULL) {
-										snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block2.entry[ENTRY_INDEX].unk005[UNK005_INDEX] = (
-											convert_to<uint16_t>(std::string(UNK005_ITEM->value()))
-											);
-										}
+
+
+
+
+									snd[FILE_INDEX].playlists[ASSET_INDEX].hed.block2.entry[ENTRY_INDEX].unk005[UNK005_INDEX] = (
+										convert_to<uint16_t>(std::string(NODE_UNK005->value()))
+										);
 
 
 

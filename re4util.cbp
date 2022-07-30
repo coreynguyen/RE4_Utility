@@ -11,7 +11,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters='&quot;G:\SteamLibrary\steamapps\common\Resident_Evil_4_Tools\Bio4(Stripped)\Data\Bgm\test\doorse001.xsb&quot;' />
+				<Option parameters='&quot;G:\SteamLibrary\steamapps\common\Resident_Evil_4_Tools\Bio4(Stripped)\Data\Bgm\pl00_133_new.xml&quot;' />
 				<Compiler>
 					<Add option="-g" />
 					<Add directory="include" />

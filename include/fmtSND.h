@@ -62,20 +62,30 @@ struct fmtHED_Block5 { // n bytes
 	size_t write_hed_block5 (bytestream &s);
 	};
 
-struct fmtHED_Block4 { // 24 Bytes
-	uint16_t unk060;
-	uint16_t unk061;
-	uint16_t unk062;
-	uint16_t unk063;
-	uint16_t unk064;
-	uint16_t unk065;
-	uint16_t unk066;
-	uint16_t unk067;
-	uint32_t unk068;
-	uint32_t unk069;
-	fmtHED_Block4 ();
-	void read_hed_block4 (bytestream &f);
-	void write_hed_block4 (bytestream &s);
+struct fmtHED_SIT { // 24 Bytes, block4
+	uint16_t note;
+	int8_t lim;
+	uint8_t id2;
+	int8_t prio;
+	int8_t pan;
+	int8_t vol;
+	int8_t aux_a;
+	uint8_t id1;
+	int8_t vol_flag;
+	short pitch_l;
+	short pitch_h;
+	int8_t enc_vol;
+	int8_t grob;
+	uint8_t srd_type;
+	int8_t span;
+	int8_t svol;
+	int8_t free1;
+	int8_t free2;
+	int8_t free3;
+	uint16_t flag;
+	fmtHED_SIT ();
+	void read_sit (bytestream &f);
+	void write_sit (bytestream &s);
 	};
 
 struct fmtHED_WTADPCM { // 46 Bytes
@@ -204,13 +214,13 @@ struct fmtHED_Block1 { // RED
 
 	uint32_t count; // this count is only for block4; count for block3 could be derived by reading entries on block4
 	uint32_t block3_addr; // block 3 addr
-	uint32_t block4_addr; // block 4 addr
+	uint32_t sit_addr; // block 4 addr
 	uint32_t block5_addr; // block 5 addr
 
 
 	// all sub-blocks are byte aligned to 32 from start of this block
 	fmtHED_WTFILEHEADER block3;
-	std::vector<fmtHED_Block4> block4;
+	std::vector<fmtHED_SIT> sit;
 	fmtHED_Block5 block5;
 	fmtHED_Block1 ();
 	size_t size ();
