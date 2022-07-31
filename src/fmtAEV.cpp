@@ -1787,12 +1787,14 @@ void fmtAEV::read_aev (bytestream &f) {
 	}
 
 void fmtAEV::write_aev (bytestream &s, bool re4_2007) {
+	count = (uint16_t)data.size();
+
 	s.writebyte(type[0]);
 	s.writebyte(type[1]);
 	s.writebyte(type[2]);
 	s.writebyte(type[3]);
 	s.writeshort(version);
-	s.writeshort(count = data.size());
+	s.writeshort(count);
 	s.writelong(unk003);
 	s.writelong(unk004);
 
@@ -1816,7 +1818,7 @@ void fmtAEV::open_aev (std::wstring file) {
 
 void fmtAEV::save_aev (std::wstring savefile, bool re4_2007) {
 
-	count = data.size();
+	count = (uint16_t)data.size();
 
 	if (count > 0) {
 

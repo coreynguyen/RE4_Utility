@@ -60,12 +60,14 @@ void fmtXWB_Audio::write_as_wav (bytestream &s) {
 	wav.fmt.bits_per_sample = bit_depth;
 	wav.data.copy(data.stream, data.size);
 	if (loop_start > 0 || loop_end > 0) {
+		fmtWAV_Sampler_Loop smpl;
+		smpl.start = loop_start;
+		smpl.end = loop_start + loop_end + 1;
+		wav.smpl.sample_loops.push_back(smpl);
 		wav.smpl.num_sample_loops = 1;
-		wav.smpl.sample_loops.push_back(fmtWAV_Sampler_Loop());
-		wav.smpl.sample_loops.back().start = loop_start;
-		wav.smpl.sample_loops.back().end = loop_start + loop_end + 1;
 		}
 	//wav.wave.duration = data.size() / {wav.wave.bits_per_sample * wav.wave.channels} / wav.wave.bits_per_sample / 1000
+
 	wav.write_riff(s);
 	}
 
@@ -206,7 +208,7 @@ void fmtXWB::read_xwb (bytestream &f) {
 				if (segments[seg].addr > 0) {
 					f.seek((pos + segments[seg].addr));
 					switch (seg) {
-						case 1: {	// Bank Information
+						case 0: {	// Bank Information
 							bank_info.read_bank_flag(f);
 							audio_count = f.readUlong();
 							name_pos = f.tell();
@@ -219,7 +221,7 @@ void fmtXWB::read_xwb (bytestream &f) {
 							build_time = f.readUlonglong();
 							break;
 							}
-						case 2: {	// Audio Bank Table
+						case 1: {	// Audio Bank Table
 							if (audio_count > 0) {
 								bank = std::vector<fmtXWB_Audio>(audio_count);
 								for (unsigned int i = 0; i < audio_count; i++) {
@@ -228,16 +230,15 @@ void fmtXWB::read_xwb (bytestream &f) {
 								}
 							break;
 							}
-						case 3: {	// Audio Bank Address
+						case 2: {	// Audio Bank Address
 							bank_addr = segments[seg].addr;
 							break;
 							}
-						case 4: {break;}	// Empty?
-						case 5: {	// Audio Bank
-							bank_size = segments[seg].size;
+						case 3: {break;}	// Empty?
+						case 4: {	// Audio Bank
+
 							for (unsigned int i = 0; i < audio_count; i++) {
-								f.seek(pos + bank_addr + bank[i].addr);
-								bank[i].data.copy(f.stream, bank_size);
+								bank[i].data.copy(f.stream, bank[i].size, pos + bank_addr + bank[i].addr);
 								}
 							break;
 							}
@@ -265,17 +266,34 @@ void fmtXWB::dump_xwb (std::wstring fpath, std::wstring wav_name) {
 			win::makeDirW(fpath);
 			}
 
-		bytestream s;
-		for (unsigned int i = 0; i < bank.size(); i++) {
-			if (bank[i].data.size > 0) {
-				if (s.openFileW(fpath + wav_name + string_to_wstring(padString(to_string(i), 8, "0", true)) + L".wav")) {
+		unsigned int num_wav = bank.size();
+		std::wstring wavfile;
+		if (num_wav > 0) {
 
+
+
+			std::stringstream ss;
+			for (unsigned int i = 0; i < num_wav; i++) {
+				if (bank[i].data.size > 0) {
+
+					// generate file names
+					ss.str(std::string());
+					ss << std::hex << i;
+
+					wavfile = fpath + wav_name + string_to_wstring(padString(ss.str(), 8, "0", true)) + L".wav";
+
+
+					bytestream s;
 					bank[i].write_as_wav(s);
+					if (!s.writeFileW(wavfile)) {
+						std::wcout << L"Error: Failed to Write Wav File [" << wavfile << L"]\n";
+						}
 					s.close();
+					c += 1;
 					}
-				c += 1;
 				}
-			}
+			} else {std::cout << "Error: XWB Contains No Wav Files\n";}
+
 		if (c == 0) {
 			std::cout << "error: \tnothing to dump\n";
 			}

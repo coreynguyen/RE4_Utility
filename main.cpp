@@ -41,7 +41,8 @@
 #include "fmtPACK.h" 	// Texture Package
 #include "fmtAEV.h" 	// Area Events
 #include "fmtSND.h"		// Sound
-#include "fmtXSB.h"
+#include "fmtXSB.h" 	// Xbox Sound Bank
+#include "fmtXWB.h" 	// Xbox Wave Bank
 
 #include "wregistry.h"
 #include "stringenc.h"
@@ -715,7 +716,18 @@ void convert_file (std::wstring fileW, std::wstring fpathW = L"") {
 		else if (fextW == L".xsb") {
 			fmtXSB xsb;
 			xsb.read_xsb(f);
-			xsb.write_xap(fpathW + fnameW + L".xap");
+			xsb.write_xap(fpathW + fnameW + L".xap", wstring_to_string(fnameW));
+
+
+			}
+		else if (fextW == L".xwb") {
+
+			fmtXWB xwb;
+			xwb.read_xwb(f);
+			xwb.dump_xwb(fpathW + fnameW);
+
+
+
 			}
 		else if (fextW == L".xml") {
 
@@ -929,6 +941,7 @@ int main(int argc, char* argv[]) {
 				Texture Pack (*.pack)\0*.pack\0\
 				Data Asset (*.udas)\0*.udas\0\
 				Xbox Sound Bank (*.xsb)\0*.xsb\0\
+				Xbox Wave Bank (*.xwb)\0*.xwb\0\
 				Xtensible Markup Language (*.xml)\0*.xml\0\
 				All Files (*.*)\0*.*\0",
 				NULL,

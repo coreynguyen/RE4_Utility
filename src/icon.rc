@@ -1,4 +1,14 @@
-MAINICON ICON "icon.ico"
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+
+//#include "resource.h"
+
+IDI_ICON1               ICON "icon.ico"
 101 ICON DISCARDABLE "icon.ico"
 
 

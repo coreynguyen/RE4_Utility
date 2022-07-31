@@ -407,7 +407,7 @@
 	"stringext.h"
 	"filesystem.h"
 
-1659116881 source:c:\users\corey\onedrive\private\github\re4_utility\main.cpp
+1659224647 source:c:\users\corey\onedrive\private\github\re4_utility\main.cpp
 	<iostream>
 	<string>
 	<sstream>
@@ -435,6 +435,7 @@
 	"fmtAEV.h"
 	"fmtSND.h"
 	"fmtXSB.h"
+	"fmtXWB.h"
 	"wregistry.h"
 	"stringenc.h"
 	"vectorext.h"
@@ -698,12 +699,12 @@
 
 1647924816 c:\users\corey\onedrive\private\github\re4_utility\include\resource.h
 
-1659116726 c:\users\corey\onedrive\private\github\re4_utility\include\version.h
+1659209056 c:\users\corey\onedrive\private\github\re4_utility\include\version.h
 
 1653020233 source:c:\users\corey\onedrive\private\github\re4_utility\src\appsettings.cpp
 	"appsettings.h"
 
-1659079101 source:c:\users\corey\onedrive\private\github\re4_utility\src\bytestream.cpp
+1659212545 source:c:\users\corey\onedrive\private\github\re4_utility\src\bytestream.cpp
 	<cstring>
 	<windows.h>
 	<math.h>
@@ -712,7 +713,7 @@
 1659072147 source:c:\users\corey\onedrive\private\github\re4_utility\src\filesystem.cpp
 	"filesystem.h"
 
-1659071895 source:c:\users\corey\onedrive\private\github\re4_utility\src\fmtaev.cpp
+1659212607 source:c:\users\corey\onedrive\private\github\re4_utility\src\fmtaev.cpp
 	"fmtAEV.h"
 
 1652497748 source:c:\users\corey\onedrive\private\github\re4_utility\src\fmtatari.cpp
@@ -791,7 +792,7 @@
 1659079211 source:c:\users\corey\onedrive\private\github\re4_utility\src\fmtudas.cpp
 	"fmtUDAS.h"
 
-1647924802 source:c:\users\corey\onedrive\private\github\re4_utility\src\icon.rc
+1659216266 source:c:\users\corey\onedrive\private\github\re4_utility\src\icon.rc
 
 1652070969 source:c:\users\corey\onedrive\private\github\re4_utility\src\registry.cpp
 	"registry.h"
@@ -834,7 +835,7 @@
 	"stringext.h"
 	"filesystem.h"
 
-1654562231 source:c:\users\corey\onedrive\private\github\re4_utility\src\fmtblk.cpp
+1659212607 source:c:\users\corey\onedrive\private\github\re4_utility\src\fmtblk.cpp
 	"fmtBLK.h"
 
 1654561735 c:\users\corey\onedrive\private\github\re4_utility\include\fmtblk.h
@@ -853,7 +854,7 @@
 1659116579 source:c:\users\corey\onedrive\private\github\re4_utility\src\fmtxsb.cpp
 	"fmtXSB.h"
 
-1659067784 c:\users\corey\onedrive\private\github\re4_utility\include\fmtxsb.h
+1659224648 c:\users\corey\onedrive\private\github\re4_utility\include\fmtxsb.h
 	<iostream>
 	<cstdint>
 	<string>
@@ -893,7 +894,7 @@
 	"bytestream.h"
 	"stringext.h"
 
-1659067784 source:c:\users\corey\onedrive\private\github\re4_utility\src\fmtwav.cpp
+1659224235 source:c:\users\corey\onedrive\private\github\re4_utility\src\fmtwav.cpp
 	"fmtWAV.h"
 
 1658006286 c:\users\corey\onedrive\private\github\re4_utility\include\fmtwav.h
@@ -909,10 +910,10 @@
 	"vectorext.h"
 	"filesystem.h"
 
-1658009087 source:c:\users\corey\onedrive\private\github\re4_utility\src\fmtxwb.cpp
+1659222978 source:c:\users\corey\onedrive\private\github\re4_utility\src\fmtxwb.cpp
 	"fmtXWB.h"
 
-1659067785 c:\users\corey\onedrive\private\github\re4_utility\include\fmtxwb.h
+1659221305 c:\users\corey\onedrive\private\github\re4_utility\include\fmtxwb.h
 	<iostream>
 	<cstdint>
 	<string>
@@ -948,7 +949,7 @@
 	"bytestream.h"
 	"stringext.h"
 
-1659201374 source:c:\users\corey\onedrive\private\github\re4_utility\src\fmtsnd.cpp
+1659209009 source:c:\users\corey\onedrive\private\github\re4_utility\src\fmtsnd.cpp
 	"fmtSND.h"
 
 1659197316 c:\users\corey\onedrive\private\github\re4_utility\include\fmtsnd.h

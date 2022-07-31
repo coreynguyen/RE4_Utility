@@ -89,6 +89,30 @@ size_t fmtHED_Block5::write_hed_block5 (bytestream &s) {
 	}
 
 fmtHED_SIT::fmtHED_SIT () {
+
+	// Blank Entry
+	note = 0;
+	lim = 0;
+	id2 = 0;
+	prio = 0;
+	pan = 0;
+	vol = 0;
+	aux_a = 0;
+	id1 = 0;
+	vol_flag = 0;
+	pitch_l = 0;
+	pitch_h = 0;
+	enc_vol = 0;
+	grob = 0;
+	srd_type = 0;
+	span = 127;
+	svol = -1;
+	free1 = 0;
+	free2 = 0;
+	free3 = 0;
+	flag = 0x8000;
+
+	// Enable XSB Read? According to SSS
 	note = 0;
 	lim = 0;
 	id2 = 20;

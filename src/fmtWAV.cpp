@@ -159,6 +159,8 @@ void fmtWAV::read_riff (bytestream &f) {
 
 void fmtWAV::write_riff (bytestream &s) {
 
+	s.resize(size());
+
 	s.writeUlong(0x46464952); // 'RIFF'
 	s.writeUlong(size() - 8);
 	s.writeUlong(0x45564157); // 'WAVE'
@@ -170,11 +172,11 @@ void fmtWAV::write_riff (bytestream &s) {
 	s.writeUlong(0x61746164); // 'data'
 	s.writeUlong(data.size);
 
-	for (unsigned int i = 0; i < data.size; i++) {
-		s.writeUbyte(data.stream[i]);
-		}
+	size_t pos = s.tell();
+	s.copy(data.stream, data.size, 0, pos);
 
 	if (smpl.sample_loops.size() > 0) {
+		s.seek(pos + data.size);
 		s.writeUlong(0x6C706D73); // 'smpl'
 		s.writeUlong(32 + (smpl.sample_loops.size() * 24));
 		smpl.write_wav_sampler(s);

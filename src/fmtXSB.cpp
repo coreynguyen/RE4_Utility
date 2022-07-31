@@ -1280,7 +1280,7 @@ void fmtXSB::write_xsb (bytestream &s) {
 	s.writeUshort(xsb_hash);
 	}
 
-void fmtXSB::write_xap (std::wstring file) {
+void fmtXSB::write_xap (std::wstring file, std::string audio_folder) {
 	/*
 		simple cues are not seen in re4; therefore
 		I don't even bother dealing with them.
@@ -1423,7 +1423,7 @@ void fmtXSB::write_xap (std::wstring file) {
 		// Wav Files
 		for (unsigned int i = 0; i < sound_count; i++) {
 			xap += "\n    Wave\n    {\n        Name = " + wav_files[i];
-			xap += ";\n        File = Audio\\" + wav_files[i];
+			xap += ";\n        File = " + audio_folder + "\\" + wav_files[i];
 			xap += ".wav;\n        Build Settings Last Modified Low = 0;\n        ";
 			xap += "Build Settings Last Modified High = 0;\n    }\n";
 			}
@@ -1440,9 +1440,9 @@ void fmtXSB::write_xap (std::wstring file) {
 
 		for (unsigned int i = 0; i < sound_count; i++) {
 			xap += "    Sound\n    {\n        Name = " + to_string(snd_order[i]); //? audio index
-			xap += ";\n        Volume = " + to_string((unsigned int)((sound_buffer[i].volume_as_db()) * 100.0f));
+			xap += ";\n        Volume = " + to_string((signed int)((sound_buffer[i].volume_as_db()) * 100.0f));
 			xap += ";\n        Pitch = " + to_string(sound_buffer[i].pitch);
-			xap += ";\n        Priority = " + to_string(sound_buffer[i].priority);
+			xap += ";\n        Priority = " + to_string((int)sound_buffer[i].priority);
 			xap += ";\n\n        Category Entry\n        {\n            Name = Default;\n        }\n\n        ";
 			xap += "RPC Entry\n        {\n            RPC Name = bio4_volume;\n        }\n";
 
@@ -1456,7 +1456,7 @@ void fmtXSB::write_xap (std::wstring file) {
 
 					xap += ";\n            Use Filter = ";
 
-					if (sound_buffer[i].tracks[0].flags.enable_filter) {xap += "1";} else {xap += "2";}
+					if (sound_buffer[i].tracks[0].flags.enable_filter) {xap += "1;";} else {xap += "0;";}
 
 					// Vars
 					if (sound_buffer[i].tracks[0].flags.enable_filter) {
@@ -1594,7 +1594,7 @@ void fmtXSB::write_xap (std::wstring file) {
 			xap += "Fade In = " + to_string(complexCueTable[i].instances.fade_in);
 			xap += ";\n                Fade Out = " + to_string(complexCueTable[i].instances.fade_out);
 			xap += ";\n                Crossfade Type = 0";
-			xap += ";\n            }\n        }\n    }\n\n    ";
+			xap += ";\n            }\n        }\n    }\n\n";
 			}
 		xap += "}\n";
 

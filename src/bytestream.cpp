@@ -178,7 +178,7 @@ bool bytestream::makeDirW(std::wstring wsPath) {
 	}
 std::wstring bytestream::getFilenamePathW (const std::wstring &str) {
 	// getFilenamePath file   -- returns: "g:\subdir1\subdir2\"
-	wchar_t found;
+	size_t found;
 	std::wstring strt;
 	found = str.find_last_of(L"/\\");
 	if (found != std::wstring::npos) {
@@ -191,7 +191,7 @@ std::wstring bytestream::getFilenamePathW (const std::wstring &str) {
 	}
 std::wstring bytestream::getFilenameFileW(const std::wstring &str) {
 	// getFilenameFile file   -- returns: "myImage"
-	wchar_t found;
+	size_t found;
 	std::wstring strt;
 	found = str.find_last_of(L"/\\");
 	if (found < str.size()) {
@@ -206,16 +206,16 @@ std::wstring bytestream::getFilenameFileW(const std::wstring &str) {
 		strt = str;
 		//return str;
 		}
-	wchar_t lastdot = strt.find_last_of(L".");
+	size_t lastdot = strt.find_last_of(L".");
 	if (lastdot == std::string::npos) return strt;
 	return strt.substr(0, lastdot);
 	}
 std::wstring bytestream::getFilenameTypeW (std::wstring const &path ) {
 	// getFilenameType file -- returns: ".jpg"
 	std::wstring ext;
-	wchar_t dotIdx = path.find_last_of( L"." );
+	size_t dotIdx = path.find_last_of( L"." );
 	if ( dotIdx != std::wstring::npos ) {
-		wchar_t dirSepIdx = path.find_last_of( L"/\\" );
+		size_t dirSepIdx = path.find_last_of( L"/\\" );
 		if ( dotIdx > dirSepIdx + 1 ) {
 			ext = path.substr( dotIdx );
 			}

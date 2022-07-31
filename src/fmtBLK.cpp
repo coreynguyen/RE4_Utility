@@ -277,9 +277,12 @@ void fmtBLK::write_blk (bytestream &s) {
 	s.writebyte(0x00);
 	s.writeshort(0x0100);
 
-	s.writeshort(block_count = block.size());
-	s.writeshort(load_count = load.size());
-	s.writeshort(link_count = link.size());
+	block_count = (uint16_t)block.size();
+	load_count = (uint16_t)load.size();
+	link_count = (uint16_t)link.size();
+	s.writeshort(block_count);
+	s.writeshort(load_count);
+	s.writeshort(link_count);
 
 	size_t ptr = 24;
 	s.writelong(block_addr = ptr);

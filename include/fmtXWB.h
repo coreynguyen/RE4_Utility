@@ -4,6 +4,7 @@
 #include <iostream>
 #include <cstdint>		// needed for types such as uint8_t, uint16_t, uint32_t
 #include <string>
+#include <sstream>
 #include <vector>
 
 #include "appsettings.h"

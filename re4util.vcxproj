@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{63188C8E-4B88-455C-9AFD-9D5393E82FA1}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>re4util</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>include;$(IncludePath)</IncludePath>
+    <SourcePath>src;$(SourcePath)</SourcePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(SolutionDir);include;include\rapidXML;C:\Users\Corey\Documents\Visual Studio 2010\Projects\re4eff(2)\re4eff(2);$(IncludePath)</IncludePath>
+    <SourcePath>$(SolutionDir);src;$(SourcePath)</SourcePath>
+    <IntDir>$(SolutionDir)obj\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
+    <LibraryPath>$(SolutionDir)lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <ResourceCompile>
+      <PreprocessorDefinitions>UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\Documents\Visual Studio 2010\Projects\re4eff(2)\re4eff(2)\stdafx.h" />
+    <ClInclude Include="include\appsettings.h" />
+    <ClInclude Include="include\bytestream.h" />
+    <ClInclude Include="include\filesystem.h" />
+    <ClInclude Include="include\fmtAEV.h" />
+    <ClInclude Include="include\fmtATARI.h" />
+    <ClInclude Include="include\fmtBgmTbl.h" />
+    <ClInclude Include="include\fmtBLK.h" />
+    <ClInclude Include="include\fmtCNS.h" />
+    <ClInclude Include="include\fmtDAT.h" />
+    <ClInclude Include="include\fmtDSE.h" />
+    <ClInclude Include="include\fmtEFF.h" />
+    <ClInclude Include="include\fmtEMI.h" />
+    <ClInclude Include="include\fmtESL.h" />
+    <ClInclude Include="include\fmtEST.h" />
+    <ClInclude Include="include\fmtETS.h" />
+    <ClInclude Include="include\fmtFCV.h" />
+    <ClInclude Include="include\fmtFIX.h" />
+    <ClInclude Include="include\fmtFNT.h" />
+    <ClInclude Include="include\fmtITA.h" />
+    <ClInclude Include="include\fmtLIT.h" />
+    <ClInclude Include="include\fmtPACK.h" />
+    <ClInclude Include="include\fmtROOM.h" />
+    <ClInclude Include="include\fmtSEQ.h" />
+    <ClInclude Include="include\fmtSND.h" />
+    <ClInclude Include="include\fmtSYM.h" />
+    <ClInclude Include="include\fmtTPL.h" />
+    <ClInclude Include="include\fmtUDAS.h" />
+    <ClInclude Include="include\fmtUWF.h" />
+    <ClInclude Include="include\fmtVIB.h" />
+    <ClInclude Include="include\fmtWAV.h" />
+    <ClInclude Include="include\fmtXGS.h" />
+    <ClInclude Include="include\fmtXSB.h" />
+    <ClInclude Include="include\fmtXWB.h" />
+    <ClInclude Include="include\rapidXML\rapidxml.hpp" />
+    <ClInclude Include="include\rapidXML\rapidxml_ext.h" />
+    <ClInclude Include="include\rapidXML\rapidxml_iterators.hpp" />
+    <ClInclude Include="include\rapidXML\rapidxml_print.hpp" />
+    <ClInclude Include="include\rapidXML\rapidxml_utils.hpp" />
+    <ClInclude Include="include\registry.h" />
+    <ClInclude Include="include\resource.h" />
+    <ClInclude Include="include\scriptini.h" />
+    <ClInclude Include="include\stringenc.h" />
+    <ClInclude Include="include\stringext.h" />
+    <ClInclude Include="include\vectorext.h" />
+    <ClInclude Include="include\version.h" />
+    <ClInclude Include="include\wregistry.h" />
+    <ClInclude Include="include\wstringext.h" />
+    <ClInclude Include="stdafx.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\Documents\Visual Studio 2010\Projects\re4eff(2)\re4eff(2)\stdafx.cpp" />
+    <ClCompile Include="src\appsettings.cpp" />
+    <ClCompile Include="src\bytestream.cpp" />
+    <ClCompile Include="src\filesystem.cpp" />
+    <ClCompile Include="src\fmtAEV.cpp" />
+    <ClCompile Include="src\fmtATARI.cpp" />
+    <ClCompile Include="src\fmtBgmTbl.cpp" />
+    <ClCompile Include="src\fmtBLK.cpp" />
+    <ClCompile Include="src\fmtCNS.cpp" />
+    <ClCompile Include="src\fmtDAT.cpp" />
+    <ClCompile Include="src\fmtDSE.cpp" />
+    <ClCompile Include="src\fmtEFF.cpp" />
+    <ClCompile Include="src\fmtEMI.cpp" />
+    <ClCompile Include="src\fmtESL.cpp" />
+    <ClCompile Include="src\fmtEST.cpp" />
+    <ClCompile Include="src\fmtETS.cpp" />
+    <ClCompile Include="src\fmtFCV.cpp" />
+    <ClCompile Include="src\fmtFIX.cpp" />
+    <ClCompile Include="src\fmtFNT.cpp" />
+    <ClCompile Include="src\fmtITA.cpp" />
+    <ClCompile Include="src\fmtLIT.cpp" />
+    <ClCompile Include="src\fmtPACK.cpp" />
+    <ClCompile Include="src\fmtROOM.cpp" />
+    <ClCompile Include="src\fmtSEQ.cpp" />
+    <ClCompile Include="src\fmtSND.cpp" />
+    <ClCompile Include="src\fmtSYM.cpp" />
+    <ClCompile Include="src\fmtTPL.cpp" />
+    <ClCompile Include="src\fmtUDAS.cpp" />
+    <ClCompile Include="src\fmtUWF.cpp" />
+    <ClCompile Include="src\fmtVIB.cpp" />
+    <ClCompile Include="src\fmtWAV.cpp" />
+    <ClCompile Include="src\fmtXGS.cpp" />
+    <ClCompile Include="src\fmtXSB.cpp" />
+    <ClCompile Include="src\fmtXWB.cpp" />
+    <ClCompile Include="src\registry.cpp" />
+    <ClCompile Include="src\scriptini.cpp" />
+    <ClCompile Include="src\stringenc.cpp" />
+    <ClCompile Include="src\stringext.cpp" />
+    <ClCompile Include="src\wregistry.cpp" />
+    <ClCompile Include="src\wstringext.cpp" />
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="src\icon.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon.ico" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

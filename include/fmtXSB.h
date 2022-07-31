@@ -359,7 +359,7 @@ struct fmtXSB {	// 138 bytes + n
 	bool read_xsb (bytestream &f);
 	size_t recalc_addresses (std::vector<uint32_t> &sound_buffer_addrs, std::vector<uint32_t> &variation_addrs);
 	void write_xsb (bytestream &s);
-	void write_xap (std::wstring file);
+	void write_xap (std::wstring file, std::string audio_folder = "Audio");
 	};
 
 #endif // FMTXSB_H
