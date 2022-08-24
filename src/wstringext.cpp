@@ -75,7 +75,7 @@ std::wstring getFilenameFileW(const std::wstring &str) {
 		strt = str;
 		//return str;
 		}
-	wchar_t lastdot = strt.find_last_of(L".");
+	size_t lastdot = strt.find_last_of(L".");
 	if (lastdot == std::string::npos) return strt;
 	return strt.substr(0, lastdot);
 	}

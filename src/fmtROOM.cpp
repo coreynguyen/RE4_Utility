@@ -83,7 +83,7 @@ size_t fmtROOMINFO_Room::size () {
 fmtROOMINFO::fmtROOMINFO () {
 	count = 0;
 	addrs.clear();
-	room = std::vector<fmtROOMINFO_Room>(7);
+	room = std::vector<fmtROOMINFO_Room>(8);
 
 	room.at(0).waypoint = std::vector<fmtROOMINFO_Waypoint> (11); // Stage 0
 	room.at(0).waypoint.at( 0) = fmtROOMINFO_Waypoint(0x0002, 0.0000000f, 0.0000000f, 0.0000000f, 0.000000f, "ATARI TEST ROOM",               "NOBODY",    "NISHIMURA"); // v49
@@ -438,38 +438,44 @@ fmtROOMINFO::fmtROOMINFO () {
 	room.at(7).waypoint.at( 5) = fmtROOMINFO_Waypoint(0x0706, 102790.00f, -4700.000f, 57160.000f, -1.44000f, "",                              "",          "");
 	}
 
-void fmtROOMINFO::read (std::wstring fileW) {
+
+void fmtROOMINFO::read (bytestream &f) {
+	size_t pos = f.tell();
+
+	count = f.readUlong();
+
+
+	if (count > 0x01000000 || count < 0) {
+		f.islilEndian = !f.islilEndian;
+		f.seek(pos);
+		count = f.readUlong();
+		}
+
+
+	if (count > 0) {
+
+		addrs.clear();
+		addrs = std::vector<uint32_t>(count);
+		for (unsigned int i = 0; i < count; i++) {
+			addrs[i] = f.readUlong();
+			}
+		room.clear();
+		room = std::vector<fmtROOMINFO_Room>(count);
+		for (unsigned int i = 0; i < count; i++) {
+			f.seek(pos + addrs[i]);
+			room[i].read(f);
+			}
+		}
+
+	f.close();
+	}
+
+
+void fmtROOMINFO::open (std::wstring fileW) {
 
 	bytestream f;
 	if (f.openFileW(fileW)) {
-		size_t pos = f.tell();
-
-		count = f.readUlong();
-
-
-		if (count > 0x01000000 || count < 0) {
-			f.islilEndian = !f.islilEndian;
-			f.seek(pos);
-			count = f.readUlong();
-			}
-
-
-		if (count > 0) {
-
-			addrs.clear();
-			addrs = std::vector<uint32_t>(count);
-			for (unsigned int i = 0; i < count; i++) {
-				addrs[i] = f.readUlong();
-				}
-			room.clear();
-			room = std::vector<fmtROOMINFO_Room>(count);
-			for (unsigned int i = 0; i < count; i++) {
-				f.seek(pos + addrs[i]);
-				room[i].read(f);
-				}
-			}
-
-		f.close();
+		read(f);
 		} else {std::cout << "failed to read file\n";}
 	}
 
@@ -488,17 +494,18 @@ size_t fmtROOMINFO::recalc_addrs () {
 			addrs[i] = ptr;
 			ptr += room[i].size();
 			}
+		for (unsigned int i = 0; i < count; i++) {
+			room[i].waypoint_count = room[i].waypoint.size();
+			for (unsigned int ii = 0; ii < room[i].waypoint_count; ii++) {
+				room[i].waypoint[ii].name_addr = ptr;
+				room[i].waypoint[ii].artist_addr = (ptr += room[i].waypoint[ii].name.length() + 1);
+				room[i].waypoint[ii].coder_addr = (ptr += room[i].waypoint[ii].artist.length() + 1);
+				ptr += room[i].waypoint[ii].coder.length() + 1;
+				}
+			}
+
 		}
 
-	for (unsigned int i = 0; i < count; i++) {
-		room[i].waypoint_count = room[i].waypoint.size();
-		for (unsigned int ii = 0; ii < room[i].waypoint_count; ii++) {
-			room[i].waypoint[ii].name_addr = ptr;
-			room[i].waypoint[ii].artist_addr = (ptr += room[i].waypoint[ii].name.length() + 1);
-			room[i].waypoint[ii].coder_addr = (ptr += room[i].waypoint[ii].artist.length() + 1);
-			ptr += room[i].waypoint[ii].coder.length() + 1;
-			}
-		}
 	return ptr;
 	}
 
@@ -527,7 +534,6 @@ void fmtROOMINFO::write (std::wstring fileW) {
 		bytestream s;
 		s.resize(nsize);
 
-
 		s.writelong(count);
 
 		for (unsigned int i = 0; i < count; i++) {
@@ -550,4 +556,165 @@ void fmtROOMINFO::write (std::wstring fileW) {
 		s.close();
 
 		}
+	}
+
+void fmtROOMINFO::xml_export (std::wstring file) {
+	/* copies the variables into an XML text */
+
+	std::string xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+
+	unsigned int stage_count = room.size();
+	if (stage_count == 0) {return;}
+
+	// XML header
+
+
+	// XML Root Node
+	xml += "<roominfo name=\"" + wstring_to_string(getFilenameFileW(file)) + "\" count=\"" + to_string(stage_count) + "\">\n";
+	xml += "    <!-- position units are millimeters, angles are radians -->\n";
+	// Define SND, as there may be multiple embedded ones
+	unsigned int room_count;
+	std::stringstream ss;
+	std::string rm;
+	std::string st;
+	for (unsigned int i = 0; i < stage_count; i++) {
+		room_count = room[i].waypoint.size();
+		st = to_string(i);
+		xml += "    <stage id=\"" + to_string(i) + "\" count=\"" + to_string(room_count) + "\">\n";
+		xml += "        <!-- ./bio4/st" + st + "/ -->\n";
+
+		for (unsigned int x = 0; x < room_count; x++) {
+			ss.str(std::string());
+			ss << std::uppercase << TO_HEX(room[i].waypoint[x].room & 0xFF, false, 2);
+			rm = padString(ss.str(), 2, "0");
+			xml += "        <entry index=\"" + to_string(x) + "\">\n";
+			xml += "            <!-- ./bio4/st" + st + "/r" + st + rm + ".udas -->\n";
+			xml += "            <room>0x" + rm + "</room>\n";
+			xml += "            <origin>" + to_string(room[i].waypoint[x].flag) + "</origin>\n";
+			xml += "            <pos_x>" + to_string(room[i].waypoint[x].pos[0]) + "</pos_x>\n";
+			xml += "            <pos_y>" + to_string(room[i].waypoint[x].pos[1]) + "</pos_y>\n";
+			xml += "            <pos_z>" + to_string(room[i].waypoint[x].pos[2]) + "</pos_z>\n";
+			xml += "            <angle>" + to_string(room[i].waypoint[x].angle) + "</angle>\n";
+			xml += "            <name>" + to_string(room[i].waypoint[x].name) + "</name>\n";
+			xml += "            <artist>" + to_string(room[i].waypoint[x].artist) + "</artist>\n";
+			xml += "            <coder>" + to_string(room[i].waypoint[x].coder) + "</coder>\n";
+			xml += "        </entry>\n";
+			}
+		xml += "    </stage>\n";
+		}
+
+
+	// Close XML Root Node
+	xml += "</roominfo>\n";
+
+	// Save File
+	bytestream s;
+	s.writeFileW(file, 0, xml.size(), (char*)xml.c_str());
+
+	}
+
+void fmtROOMINFO::xml_import (rapidxml::xml_document<> &doc) {
+
+	room.clear();
+
+	// Check Root Node
+	rapidxml::xml_node<>* NODE_RNFO = doc.first_node("roominfo");
+	if (NODE_RNFO == NULL) {return;}
+
+	// Count Number Stages
+	int STAGE_NUM = 0;
+	for (rapidxml::xml_node<>* NODE_STAGE = NODE_RNFO->first_node("stage"); NODE_STAGE; NODE_STAGE = NODE_STAGE->next_sibling()) {STAGE_NUM++;}
+	if (STAGE_NUM == 0) {return;}
+
+	// Dimension File Array
+	room = std::vector<fmtROOMINFO_Room>(STAGE_NUM);
+
+	// Loop Through Each File
+	int ROOM_NUM = 0;
+	int ROOM_INDEX = 0;
+	int STAGE_INDEX = 0;
+	int stage_id = 0;
+
+	rapidxml::xml_node<>* NODE_ITEM;
+	for (rapidxml::xml_node<>* NODE_STAGE = NODE_RNFO->first_node("stage"); NODE_STAGE; NODE_STAGE = NODE_STAGE->next_sibling()) {
+
+		stage_id = STAGE_INDEX << 8;
+
+
+		// Count Number of Rooms
+		ROOM_NUM = 0;
+		for (rapidxml::xml_node<>* NODE_ROOM = NODE_STAGE->first_node("entry"); NODE_ROOM; NODE_ROOM = NODE_ROOM->next_sibling()) {ROOM_NUM++;}
+		if (ROOM_NUM == 0) {return;}
+
+		room[STAGE_INDEX].waypoint = std::vector<fmtROOMINFO_Waypoint>(ROOM_NUM);
+		ROOM_INDEX = 0;
+		for (rapidxml::xml_node<>* NODE_ROOM = NODE_STAGE->first_node("entry"); NODE_ROOM; NODE_ROOM = NODE_ROOM->next_sibling()) {
+
+
+			if ((NODE_ITEM = NODE_ROOM->first_node("room")) != NULL) {
+				room[STAGE_INDEX].waypoint[ROOM_INDEX].room = (
+					stage_id + convert_to<int16_t>(std::string(NODE_ITEM->value()))
+					);
+				}
+
+			if ((NODE_ITEM = NODE_ROOM->first_node("origin")) != NULL) {
+				room[STAGE_INDEX].waypoint[ROOM_INDEX].flag = (
+					convert_to<int16_t>(std::string(NODE_ITEM->value()))
+					);
+				}
+
+
+			if ((NODE_ITEM = NODE_ROOM->first_node("pos_x")) != NULL) {
+				room[STAGE_INDEX].waypoint[ROOM_INDEX].pos[0] = (
+					convert_to<float>(std::string(NODE_ITEM->value()))
+					);
+				}
+
+			if ((NODE_ITEM = NODE_ROOM->first_node("pos_y")) != NULL) {
+				room[STAGE_INDEX].waypoint[ROOM_INDEX].pos[1] = (
+					convert_to<float>(std::string(NODE_ITEM->value()))
+					);
+				}
+
+			if ((NODE_ITEM = NODE_ROOM->first_node("pos_z")) != NULL) {
+				room[STAGE_INDEX].waypoint[ROOM_INDEX].pos[2] = (
+					convert_to<float>(std::string(NODE_ITEM->value()))
+					);
+				}
+
+			if ((NODE_ITEM = NODE_ROOM->first_node("angle")) != NULL) {
+				room[STAGE_INDEX].waypoint[ROOM_INDEX].angle = (
+					convert_to<float>(std::string(NODE_ITEM->value()))
+					);
+				}
+
+			if ((NODE_ITEM = NODE_ROOM->first_node("name")) != NULL) {
+				room[STAGE_INDEX].waypoint[ROOM_INDEX].name = (
+					std::string(NODE_ITEM->value())
+					);
+				}
+
+			if ((NODE_ITEM = NODE_ROOM->first_node("artist")) != NULL) {
+				room[STAGE_INDEX].waypoint[ROOM_INDEX].artist = (
+					std::string(NODE_ITEM->value())
+					);
+				}
+
+			if ((NODE_ITEM = NODE_ROOM->first_node("coder")) != NULL) {
+				room[STAGE_INDEX].waypoint[ROOM_INDEX].coder = (
+					std::string(NODE_ITEM->value())
+					);
+				}
+
+
+
+			ROOM_INDEX++;
+			}
+
+
+		STAGE_INDEX++;
+		} // FILE NODE, END
+
+
+
 	}

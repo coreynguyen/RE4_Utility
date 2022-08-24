@@ -1,3 +1,36 @@
+/*	======================================================================
+
+	Maxscript:    [PC] Resident Evil 4
+	Author:        mariokart64n
+	Date:           September 30 2020
+
+	""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+	Description:
+		Editing of the XSB files (Xbox Sound Bank)
+
+	Change Log:
+		2022-08-12
+			fixed XAP export to also include the simple cues, bug reported
+			by Mr Curious
+
+		2022-07-05
+			- Added function to create XAP from XSB
+
+		2022-01-17
+			- Discovered that the xsb writter was imcomplete
+			- Corrected a mistake using a wrong count to calculate new adddresses
+
+		2022-01-14
+			- Removed Some Structs and moved them to external files
+			- Renamed all the structs
+			- Replaced ByteHandler class with bytestream class for reading /writting files
+
+		2020-09-22
+			- Wrote IT!
+
+	======================================================================	*/
+
 #ifndef FMTXSB_H
 #define FMTXSB_H
 

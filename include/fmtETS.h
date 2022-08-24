@@ -26,10 +26,14 @@
 #include <iostream>
 #include <cstdint>		// needed for types such as uint8_t, uint16_t, uint32_t
 #include <string>
+#include <sstream>
 #include <vector>
+
+#include "rapidxml_ext.h"
 
 #include "bytestream.h"
 #include "stringext.h"
+#include "filesystem.h"
 
 struct fmtETS_Entry {
 	uint16_t model_id;// types? Range [0 to 105]
@@ -55,6 +59,8 @@ struct fmtETS {
 	void read_ets (bytestream &f);
 	void write_ets (bytestream &s, bool re4_2007 = false);
 	size_t size (bool re4_2007 = false);
+	void xml_export (std::wstring file);
+	void xml_import (rapidxml::xml_document<> &doc);
 	};
 
 

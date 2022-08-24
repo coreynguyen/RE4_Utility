@@ -1,3 +1,23 @@
+/*	======================================================================
+
+	Maxscript:    [PC] Resident Evil 4
+	Author:        mariokart64n
+	Date:           September 29 2020
+
+	""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+	Description:
+		Editing of the WAV files (Wave Audio File)
+
+	Change Log:
+		2022-08-02
+		 - fixed the size function, it was calculating the wrong WAV size
+
+		2020-09-29
+		 - Wrote IT!
+
+	======================================================================	*/
+
 #ifndef FMTWAV_H
 #define FMTWAV_H
 

@@ -4,14 +4,14 @@
 	<Project>
 		<Option title="re4util" />
 		<Option pch_mode="2" />
-		<Option compiler="gcc" />
+		<Option compiler="gnu_gcc_compiler_mingw-w64" />
 		<Build>
 			<Target title="Debug">
 				<Option output="bin/Debug/re4util" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
-				<Option compiler="gcc" />
-				<Option parameters='&quot;G:\SteamLibrary\steamapps\common\Resident_Evil_4_Tools\Bio4(Stripped)\Data\snd\bio4midi.xwb&quot;' />
+				<Option compiler="gnu_gcc_compiler_mingw-w64" />
+				<Option parameters='&quot;C:\Users\Corey\Videos\Captures\Dolphin Emulator\r100_24_blk.xml&quot;' />
 				<Compiler>
 					<Add option="-g" />
 					<Add directory="include" />
@@ -22,6 +22,7 @@
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gnu_gcc_compiler_mingw-w64" />
+				<Option parameters='&quot;G:\SteamLibrary\steamapps\common\Resident_Evil_4_Tools\Tools\xactxtract\r307\r307.xwb&quot;' />
 				<Compiler>
 					<Add option="-O3" />
 					<Add directory="include" />

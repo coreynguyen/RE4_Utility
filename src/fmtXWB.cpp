@@ -1,17 +1,17 @@
 #include "fmtXWB.h"
 
 
-fmtXWB_Segment::fmtXWB_Segment () {
+fmtXWB_Segment::fmtXWB_Segment() {
 	addr = 0;
 	size = 0;
 	}
 
-void fmtXWB_Segment::read_fmtXWB_Segment (bytestream &f) {
+void fmtXWB_Segment::read_fmtXWB_Segment(bytestream &f) {
 	addr = f.readUlong();
 	size = f.readUlong();
 	}
 
-fmtXWB_Audio::fmtXWB_Audio () {
+fmtXWB_Audio::fmtXWB_Audio() {
 	addr = 0;
 	size = 0;
 	has_readahead = false;
@@ -29,7 +29,7 @@ fmtXWB_Audio::fmtXWB_Audio () {
 	data.close();
 	}
 
-void fmtXWB_Audio::read_fmtXWB_Audio (bytestream &f) {
+void fmtXWB_Audio::read_fmtXWB_Audio(bytestream &f) {
 	uint32_t val = 0;
 	val = f.readUlong();
 	has_readahead = bit::get(val, 1);
@@ -49,7 +49,7 @@ void fmtXWB_Audio::read_fmtXWB_Audio (bytestream &f) {
 	loop_end = f.readUlong();
 	}
 
-void fmtXWB_Audio::write_as_wav (bytestream &s) {
+void fmtXWB_Audio::write_as_wav(bytestream &s) {
 
 	fmtWAV wav;
 	wav.fmt.type = 1;	// 1 for PCM
@@ -71,7 +71,7 @@ void fmtXWB_Audio::write_as_wav (bytestream &s) {
 	wav.write_riff(s);
 	}
 
-fmtXWB_Bank::fmtXWB_Bank () {
+fmtXWB_Bank::fmtXWB_Bank() {
 	has_streaming = false;
 	flag02 = false;
 	flag03 = false;
@@ -106,7 +106,7 @@ fmtXWB_Bank::fmtXWB_Bank () {
 	flag32 = false;
 	}
 
-void fmtXWB_Bank::read_bank_flag (bytestream &f) {
+void fmtXWB_Bank::read_bank_flag(bytestream &f) {
 	uint32_t val = f.readUlong();
 	has_streaming = bit::get(val, 1);
 	flag02 = bit::get(val, 2);
@@ -142,7 +142,7 @@ void fmtXWB_Bank::read_bank_flag (bytestream &f) {
 	flag32 = bit::get(val, 32);
 	}
 
-void fmtXWB_Bank::write_bank_flag (bytestream &s) {
+void fmtXWB_Bank::write_bank_flag(bytestream &s) {
 	uint32_t val = 0;
 	val = bit::set(val, 1, has_streaming);
 	val = bit::set(val, 2, flag02);
@@ -179,7 +179,7 @@ void fmtXWB_Bank::write_bank_flag (bytestream &s) {
 	s.writeUlong(val);
 	}
 
-fmtXWB::fmtXWB () {
+fmtXWB::fmtXWB() {
 	fileid = 0x444E4257;
 	tool_version = 46;
 	file_version = 44;
@@ -195,7 +195,7 @@ fmtXWB::fmtXWB () {
 	bank.clear();
 	}
 
-void fmtXWB::read_xwb (bytestream &f) {
+void fmtXWB::read_xwb(bytestream &f) {
 	size_t pos = f.tell();
 	size_t name_pos = 0;
 	if ((fileid = f.readUlong()) == 0x444E4257) {
@@ -234,7 +234,7 @@ void fmtXWB::read_xwb (bytestream &f) {
 							bank_addr = segments[seg].addr;
 							break;
 							}
-						case 3: {break;}	// Empty?
+						case 3: {break; }	// Empty?
 						case 4: {	// Audio Bank
 
 							for (unsigned int i = 0; i < audio_count; i++) {
@@ -245,11 +245,11 @@ void fmtXWB::read_xwb (bytestream &f) {
 						}
 					}
 				}
-			} else {std::cout << "Unsupported Version" << std::endl;}
-		} else {std::cout << "Unsupported File" << std::endl;}
+			} else { std::cout << "Unsupported Version" << std::endl; }
+		} else { std::cout << "Unsupported File" << std::endl; }
 	}
 
-void fmtXWB::dump_xwb (std::wstring fpath, std::wstring wav_name) {
+void fmtXWB::dump_xwb(std::wstring fpath, std::wstring wav_name) {
 
 	unsigned int c = 0;
 
@@ -292,11 +292,10 @@ void fmtXWB::dump_xwb (std::wstring fpath, std::wstring wav_name) {
 					c += 1;
 					}
 				}
-			} else {std::cout << "Error: XWB Contains No Wav Files\n";}
+			} else { std::cout << "Error: XWB Contains No Wav Files\n"; }
 
 		if (c == 0) {
 			std::cout << "error: \tnothing to dump\n";
 			}
 		}
 	}
-

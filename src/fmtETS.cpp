@@ -215,3 +215,83 @@ size_t fmtETS::size (bool re4_2007) {
 	return (nsize + (32-(nsize % 32)) % 32);
 	}
 
+void fmtETS::xml_export (std::wstring file) {
+	/* copies the variables into an XML text */
+
+	std::string xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+
+	unsigned int ets_count = data.size();
+	if (ets_count == 0) {return;}
+	std::stringstream ss;
+
+	// XML Root Node
+	xml += "<ets name=\"" + wstring_to_string(getFilenameFileW(file)) + ".ets\" count=\"" + to_string(ets_count) + "\">\n";
+	xml += "    <!--40 Bytes Per-->\n"; // comment
+	for (unsigned int i = 0; i < ets_count; i++) {
+
+		xml += "    <entry index=\"" + to_string(i) + "\">\n";
+
+
+		//xml += "        <meshid>" + to_string(data[i].model_id) + "</meshid>\n";
+
+		ss.str(std::string());
+		ss << std::uppercase << TO_HEX(data[i].model_id, false, 4); // 0x0001
+		xml += "        <meshid>0x" + padString(ss.str(), 4, "0") + "</meshid>\n";
+
+
+		xml += "        <id>" + to_string(data[i].index) + "</id>\n";
+		xml += "        <pos_x>" + to_string(data[i].position[0]) + "</pos_x>\n";
+		xml += "        <pos_y>" + to_string(data[i].position[1]) + "</pos_y>\n";
+		xml += "        <pos_z>" + to_string(data[i].position[2]) + "</pos_z>\n";
+		xml += "        <rot_x>" + to_string(data[i].rotation[0]) + "</rot_x>\n";
+		xml += "        <rot_y>" + to_string(data[i].rotation[1]) + "</rot_y>\n";
+		xml += "        <rot_z>" + to_string(data[i].rotation[2]) + "</rot_z>\n";
+		xml += "        <scl_x>" + to_string(data[i].scale[0]) + "</scl_x>\n";
+		xml += "        <scl_y>" + to_string(data[i].scale[1]) + "</scl_y>\n";
+		xml += "        <scl_z>" + to_string(data[i].scale[2]) + "</scl_z>\n";
+		xml += "    </entry>\n";
+		}
+
+	// Close XML Root Node
+	xml += "</ets>\n";
+
+	// Save File
+	bytestream s;
+	s.writeFileW(file, 0, xml.size(), (char*)xml.c_str());
+
+	}
+
+void fmtETS::xml_import (rapidxml::xml_document<> &doc) {
+
+	// Check Root Node
+	rapidxml::xml_node<>* NODE_ETS = doc.first_node("ets");
+	if (NODE_ETS == NULL) {return;}
+
+	// Count File Nodes
+	int ETS_NUM = 0;
+	for (rapidxml::xml_node<>* NODE_ENTRY = NODE_ETS->first_node("entry"); NODE_ENTRY; NODE_ENTRY = NODE_ENTRY->next_sibling()) {ETS_NUM++;}
+	if (ETS_NUM == 0) {return;}
+
+	// Dimension File Array
+	count = ETS_NUM;
+	data = std::vector<fmtETS_Entry>(ETS_NUM);
+
+	// Loop Through Each File
+	int ETS_INDEX = 0;
+	rapidxml::xml_node<>* NODE_ITEM;
+	for (rapidxml::xml_node<>* NODE_ENTRY = NODE_ETS->first_node("entry"); NODE_ENTRY; NODE_ENTRY = NODE_ENTRY->next_sibling()) {
+		if ((NODE_ITEM = NODE_ENTRY->first_node("meshid")) != NULL) {data[ETS_INDEX].model_id = (convert_to<int16_t>(std::string(NODE_ITEM->value())));}
+		if ((NODE_ITEM = NODE_ENTRY->first_node("id")) != NULL) {data[ETS_INDEX].index = (convert_to<int16_t>(std::string(NODE_ITEM->value())));}
+		if ((NODE_ITEM = NODE_ENTRY->first_node("pos_x")) != NULL) {data[ETS_INDEX].position[0] = (convert_to<float>(std::string(NODE_ITEM->value())));}
+		if ((NODE_ITEM = NODE_ENTRY->first_node("pos_y")) != NULL) {data[ETS_INDEX].position[1] = (convert_to<float>(std::string(NODE_ITEM->value())));}
+		if ((NODE_ITEM = NODE_ENTRY->first_node("pos_z")) != NULL) {data[ETS_INDEX].position[2] = (convert_to<float>(std::string(NODE_ITEM->value())));}
+		if ((NODE_ITEM = NODE_ENTRY->first_node("rot_x")) != NULL) {data[ETS_INDEX].rotation[0] = (convert_to<float>(std::string(NODE_ITEM->value())));}
+		if ((NODE_ITEM = NODE_ENTRY->first_node("rot_y")) != NULL) {data[ETS_INDEX].rotation[1] = (convert_to<float>(std::string(NODE_ITEM->value())));}
+		if ((NODE_ITEM = NODE_ENTRY->first_node("rot_z")) != NULL) {data[ETS_INDEX].rotation[2] = (convert_to<float>(std::string(NODE_ITEM->value())));}
+		if ((NODE_ITEM = NODE_ENTRY->first_node("scl_x")) != NULL) {data[ETS_INDEX].scale[0] = (convert_to<float>(std::string(NODE_ITEM->value())));}
+		if ((NODE_ITEM = NODE_ENTRY->first_node("scl_y")) != NULL) {data[ETS_INDEX].scale[1] = (convert_to<float>(std::string(NODE_ITEM->value())));}
+		if ((NODE_ITEM = NODE_ENTRY->first_node("scl_z")) != NULL) {data[ETS_INDEX].scale[2] = (convert_to<float>(std::string(NODE_ITEM->value())));}
+		ETS_INDEX++;
+		} // FILE NODE, END
+
+	}

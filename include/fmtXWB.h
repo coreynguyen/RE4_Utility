@@ -1,3 +1,29 @@
+/*	======================================================================
+
+	Maxscript:    [PC] Resident Evil 4
+	Author:        mariokart64n
+	Date:           September 30 2020
+
+	""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+	Description:
+		Editing of the XWB files (Xbox Wave Bank)
+
+
+	Change Log:
+		2022-08-12
+			Mr Curious reported unpack failure on bio4bgm.xwb, but I wasn't
+			able to reproduce the issue. Its likely since the file is 1 GB
+			that my code is so inefficient that it crashes or is very slow?
+
+		2022-08-01
+		 - Corrected WAV
+
+		2020-09-30
+			Wrote IT!
+
+	======================================================================	*/
+
 #ifndef FMTXWB_H
 #define FMTXWB_H
 
@@ -18,9 +44,9 @@
 struct fmtXWB_Segment {
 	uint32_t addr;
 	uint32_t size;
-	fmtXWB_Segment ();
-	void read_fmtXWB_Segment (bytestream &f);
-	};
+	fmtXWB_Segment();
+	void read_fmtXWB_Segment(bytestream &f);
+};
 
 struct fmtXWB_Audio {
 	uint32_t addr;	// relative to starting address of segment 3
@@ -38,10 +64,10 @@ struct fmtXWB_Audio {
 	unsigned int alignment; // rest of bit ranges change if (type is XMA
 	unsigned int bit_depth; // either 8bit or 16bit
 	bytestream data;
-	fmtXWB_Audio ();
-	void read_fmtXWB_Audio (bytestream &f);
-	void write_as_wav (bytestream &s);
-	};
+	fmtXWB_Audio();
+	void read_fmtXWB_Audio(bytestream &f);
+	void write_as_wav(bytestream &s);
+};
 
 struct fmtXWB_Bank {
 	bool has_streaming;
@@ -76,10 +102,10 @@ struct fmtXWB_Bank {
 	bool flag30;
 	bool flag31;
 	bool flag32;
-	fmtXWB_Bank ();
-	void read_bank_flag (bytestream &f);
-	void write_bank_flag (bytestream &s);
-	};
+	fmtXWB_Bank();
+	void read_bank_flag(bytestream &f);
+	void write_bank_flag(bytestream &s);
+};
 
 struct fmtXWB {
 	uint32_t fileid;	// 0x444E4257 'XBND'
@@ -97,10 +123,10 @@ struct fmtXWB {
 	uint32_t bank_addr;
 	uint32_t bank_size;
 	std::vector<fmtXWB_Audio> bank;
-	fmtXWB ();
-	void read_xwb (bytestream &f);
-	void dump_xwb (std::wstring fpath, std::wstring wav_name = L"");
-	};
+	fmtXWB();
+	void read_xwb(bytestream &f);
+	void dump_xwb(std::wstring fpath, std::wstring wav_name = L"");
+};
 
 
 #endif // FMTXWB_H

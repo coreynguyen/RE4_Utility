@@ -12,6 +12,9 @@
 
 	Change Log:
 
+	[2022-08-12]
+		added ESL <> XML support
+
 	[2022-02-26]
 		replaced read / write functions to use bytestream class
 		i regret converting over the read function, because there is now
@@ -28,11 +31,16 @@
 #include <iostream>
 #include <cstdint>		// needed for types such as uint8_t, uint16_t, uint32_t
 #include <string>
+#include <sstream>
 #include <vector>
 
 #include "appsettings.h"
 #include "scriptini.h"
+
 #include "bytestream.h"
+#include "filesystem.h"
+#include "stringext.h"
+#include "rapidxml_ext.h"
 
 
 struct fmtESL_BE { // Behavior Flag
@@ -284,6 +292,8 @@ struct fmtESL { // Enemy Spawn List
 	bool validate (bytestream &f);
 	bool read_esl (bytestream &f);
 	void write_esl (bytestream &s);
+	void xml_export (std::wstring file);
+	void xml_import (rapidxml::xml_document<> &doc);
 	};
 
 #endif // FMTESL_H

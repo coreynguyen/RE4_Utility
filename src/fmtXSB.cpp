@@ -1292,7 +1292,6 @@ void fmtXSB::write_xap (std::wstring file, std::string audio_folder) {
 	if ((numSimpleCues + numComplexCues) > 0) {
 
 
-
 		std::vector<std::string> wav_files;
 		std::stringstream ss;
 		// Generate Wav filenames {serialized from 0 on wards... 0; 1; 2 etc}
@@ -1478,6 +1477,9 @@ void fmtXSB::write_xap (std::wstring file, std::string audio_folder) {
 
 					if (t == 0) {
 						xap += "\n\n            Play Wave Event\n            {\n                ";
+						if (sound_buffer[i].tracks[t].event.playwave.loop_count > 0) {
+							xap += "Loop Count = " + to_string((unsigned int)sound_buffer[i].tracks[t].event.playwave.loop_count) + ";\n                ";
+							}
 						xap += "Break Loop = 0;\n                Use Speaker Position = ";
 						if (bit::get(sound_buffer[i].tracks[t].event.events.gen_flag, 2)) {xap += "1";} else {xap += "0";}
 						xap += ";\n                Use Center Speaker = ";
@@ -1575,8 +1577,19 @@ void fmtXSB::write_xap (std::wstring file, std::string audio_folder) {
 			}
 
 		// Cues
+		unsigned int sindex = 0;
+		for (unsigned int i = 0; i < simpleCueTable.size(); i++) {
+			xap += "    Cue\n    {\n        Name = " + cue_name_buffer[sindex];
+			xap += ";\n\n        Variation\n        {\n            Variation Type = 0;\n            Variation Table Type = 1;\n            ";
+			xap += "New Variation on Loop = 0;\n        }\n\n        Sound Entry\n        {\n            ";
+			xap += "Name = " + to_string(snd_order[simpleCueTable[i].sound_offset]);
+			xap += ";\n            Index = " + to_string(simpleCueTable[i].sound_offset);
+			xap += ";\n            Weight Min = 0;\n            Weight Max = 255;\n        }\n";
+			xap += "\n    }\n\n";
+			sindex++;
+			}
 		for (unsigned int i = 0; i < complexCueTable.size(); i++) {
-			xap += "    Cue\n    {\n        Name = " + cue_name_buffer[i];
+			xap += "    Cue\n    {\n        Name = " + cue_name_buffer[sindex];
 			xap += ";\n\n        Variation\n        {\n            Variation Type = 0;\n            Variation Table Type = 1;\n            ";
 			xap += "New Variation on Loop = 0;\n        }\n\n        Sound Entry\n        {\n            ";
 			xap += "Name = " + to_string(snd_order[complexCueTable[i].sound_offset]);
@@ -1595,6 +1608,7 @@ void fmtXSB::write_xap (std::wstring file, std::string audio_folder) {
 			xap += ";\n                Fade Out = " + to_string(complexCueTable[i].instances.fade_out);
 			xap += ";\n                Crossfade Type = 0";
 			xap += ";\n            }\n        }\n    }\n\n";
+			sindex++;
 			}
 		xap += "}\n";
 

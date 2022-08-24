@@ -30,6 +30,8 @@
 #include "filesystem.h"
 #include "fmtATARI.h"
 
+#include "rapidxml_ext.h"
+
 
 struct fmtBLK_Connect {	// 12 bytes
 	/*
@@ -84,8 +86,8 @@ struct fmtBLK_Link {	// 20 Bytes
 	uint8_t unk54;	// always 0?
 
 	// load and unload block lists are not observed to be used in the game
-	uint8_t load_blocks[8];
-	uint8_t unload_blocks[8];
+	int8_t load_blocks[8];
+	int8_t unload_blocks[8];
 	fmtBLK_Link ();
 	void read_area_link (bytestream &f);
 	void write_area_link (bytestream &s);
@@ -127,6 +129,8 @@ struct fmtBLK { // 24 Bytes + Tables[n]
 	void write_blk (bytestream &s);
 	void open (std::wstring file);
 	void save (std::wstring file);
+	void xml_export (std::wstring file, std::wstring internalname = L"");
+	void xml_import (rapidxml::xml_document<> &doc);
 	};
 
 

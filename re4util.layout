@@ -1,27 +1,440 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
-	<ActiveTarget name="Release" />
-	<File name="include\fmtESL.h" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
+	<ActiveTarget name="Debug" />
+	<File name="include\fmtCNS.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="7202" topLine="144" />
+			<Cursor1 position="230" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include\wregistry.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="209" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include\rapidXML\rapidxml_ext.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="198" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include\fmtFNT.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="294" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\fmtAEV.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="39068" topLine="1293" />
+		</Cursor>
+	</File>
+	<File name="include\scriptini.h" open="0" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1112" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include\fmtBLK.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2535" topLine="54" />
 		</Cursor>
 		<Folding>
-			<Collapse line="73" />
+			<Collapse line="36" />
 		</Folding>
 	</File>
-	<File name="src\bytestream.cpp" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\fmtEFF.cpp" open="0" top="0" tabpos="14" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="16828" topLine="511" />
+			<Cursor1 position="1304" topLine="19" />
 		</Cursor>
 		<Folding>
-			<Collapse line="34" />
-			<Collapse line="68" />
+			<Collapse line="2" />
+			<Collapse line="6" />
+			<Collapse line="13" />
+			<Collapse line="20" />
 		</Folding>
 	</File>
 	<File name="TODO" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="44" topLine="161" />
+		</Cursor>
+	</File>
+	<File name="src\fmtFCV.cpp" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="-2" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="18107" topLine="545" />
+		</Cursor>
+		<Folding>
+			<Collapse line="7" />
+		</Folding>
+	</File>
+	<File name="include\registry.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="42" topLine="0" />
+		</Cursor>
+		<Folding>
+			<Collapse line="16" />
+		</Folding>
+	</File>
+	<File name="include\filesystem.h" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="579" topLine="43" />
+		</Cursor>
+	</File>
+	<File name="src\fmtFNT.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1142" topLine="45" />
+		</Cursor>
+	</File>
+	<File name="include\fmtAEV.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="17480" topLine="549" />
+		</Cursor>
+		<Folding>
+			<Collapse line="39" />
+		</Folding>
+	</File>
+	<File name="src\fmtSEQ.cpp" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="4338" topLine="145" />
+		</Cursor>
+		<Folding>
+			<Collapse line="3" />
+			<Collapse line="9" />
+			<Collapse line="13" />
+			<Collapse line="26" />
+			<Collapse line="39" />
+			<Collapse line="43" />
+		</Folding>
+	</File>
+	<File name="include\fmtETS.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1714" topLine="43" />
+		</Cursor>
+	</File>
+	<File name="src\fmtSYM.cpp" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1333" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include\fmtITA.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="5458" topLine="148" />
+		</Cursor>
+	</File>
+	<File name="src\appsettings.cpp" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="55" topLine="42" />
+		</Cursor>
+		<Folding>
+			<Collapse line="34" />
+			<Collapse line="48" />
+		</Folding>
+	</File>
+	<File name="include\fmtFCV.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2549" topLine="51" />
+		</Cursor>
+	</File>
+	<File name="src\fmtATARI.cpp" open="0" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2260" topLine="85" />
+		</Cursor>
+	</File>
+	<File name="include\fmtROOM.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="431" topLine="33" />
+		</Cursor>
+	</File>
+	<File name="src\fmtBgmTbl.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3081" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include\fmtSND.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="8292" topLine="269" />
+		</Cursor>
+		<Folding>
+			<Collapse line="0" />
+		</Folding>
+	</File>
+	<File name="src\fmtCNS.cpp" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="512" topLine="15" />
+		</Cursor>
+	</File>
+	<File name="src\fmtESL.cpp" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="10780" topLine="305" />
+		</Cursor>
+		<Folding>
+			<Collapse line="3" />
+			<Collapse line="14" />
+			<Collapse line="25" />
+			<Collapse line="38" />
+			<Collapse line="42" />
+		</Folding>
+	</File>
+	<File name="include\fmtUDAS.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1071" topLine="33" />
+		</Cursor>
+	</File>
+	<File name="src\fmtBLK.cpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="-2" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="26484" topLine="442" />
+		</Cursor>
+		<Folding>
+			<Collapse line="325" />
+		</Folding>
+	</File>
+	<File name="src\fmtEMI.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="860" topLine="25" />
+		</Cursor>
+	</File>
+	<File name="include\stringext.h" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1523" topLine="54" />
+		</Cursor>
+	</File>
+	<File name="include\fmtUWF.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="875" topLine="21" />
+		</Cursor>
+	</File>
+	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="467" topLine="6" />
+		</Cursor>
+		<Folding>
+			<Collapse line="61" />
+			<Collapse line="844" />
+		</Folding>
+	</File>
+	<File name="src\registry.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="4697" topLine="6" />
+		</Cursor>
+		<Folding>
+			<Collapse line="2" />
+			<Collapse line="26" />
+			<Collapse line="70" />
+			<Collapse line="106" />
+			<Collapse line="130" />
+			<Collapse line="161" />
+			<Collapse line="193" />
+			<Collapse line="226" />
+			<Collapse line="336" />
+			<Collapse line="361" />
+			<Collapse line="370" />
+		</Folding>
+	</File>
+	<File name="src\fmtFIX.cpp" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3027" topLine="0" />
+		</Cursor>
+		<Folding>
+			<Collapse line="27" />
+			<Collapse line="64" />
+			<Collapse line="81" />
+		</Folding>
+	</File>
+	<File name="include\fmtEMI.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1271" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\bytestream.cpp" open="1" top="1" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="25508" topLine="189" />
+		</Cursor>
+		<Folding>
+			<Collapse line="34" />
+			<Collapse line="68" />
+			<Collapse line="77" />
+			<Collapse line="81" />
+			<Collapse line="85" />
+			<Collapse line="90" />
+			<Collapse line="99" />
+			<Collapse line="104" />
+			<Collapse line="111" />
+			<Collapse line="117" />
+			<Collapse line="120" />
+			<Collapse line="129" />
+			<Collapse line="133" />
+			<Collapse line="137" />
+			<Collapse line="148" />
+			<Collapse line="178" />
+			<Collapse line="191" />
+			<Collapse line="212" />
+			<Collapse line="224" />
+			<Collapse line="237" />
+			<Collapse line="258" />
+			<Collapse line="272" />
+			<Collapse line="279" />
+			<Collapse line="290" />
+			<Collapse line="345" />
+			<Collapse line="385" />
+			<Collapse line="425" />
+			<Collapse line="467" />
+			<Collapse line="513" />
+			<Collapse line="521" />
+			<Collapse line="530" />
+			<Collapse line="554" />
+			<Collapse line="561" />
+			<Collapse line="591" />
+			<Collapse line="599" />
+			<Collapse line="607" />
+			<Collapse line="624" />
+			<Collapse line="640" />
+			<Collapse line="656" />
+			<Collapse line="672" />
+			<Collapse line="689" />
+			<Collapse line="701" />
+			<Collapse line="714" />
+			<Collapse line="729" />
+			<Collapse line="851" />
+			<Collapse line="900" />
+			<Collapse line="929" />
+			<Collapse line="937" />
+			<Collapse line="949" />
+			<Collapse line="978" />
+			<Collapse line="1002" />
+			<Collapse line="1032" />
+			<Collapse line="1067" />
+			<Collapse line="1081" />
+			<Collapse line="1093" />
+			<Collapse line="1099" />
+			<Collapse line="1105" />
+			<Collapse line="1109" />
+			<Collapse line="1135" />
+			<Collapse line="1139" />
+			<Collapse line="1150" />
+			<Collapse line="1165" />
+			<Collapse line="1204" />
+			<Collapse line="1225" />
+			<Collapse line="1237" />
+		</Folding>
+	</File>
+	<File name="src\stringenc.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="7620" topLine="149" />
+		</Cursor>
+		<Folding>
+			<Collapse line="3" />
+		</Folding>
+	</File>
+	<File name="src\filesystem.cpp" open="0" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="785" topLine="24" />
+		</Cursor>
+	</File>
+	<File name="include\fmtVIB.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="230" topLine="19" />
+		</Cursor>
+	</File>
+	<File name="src\fmtXWB.cpp" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="596" topLine="9" />
+		</Cursor>
+		<Folding>
+			<Collapse line="13" />
+			<Collapse line="31" />
+		</Folding>
+	</File>
+	<File name="src\stringext.cpp" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="8445" topLine="278" />
+		</Cursor>
+	</File>
+	<File name="include\wstringext.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="810" topLine="29" />
+		</Cursor>
+	</File>
+	<File name="include\fmtSYM.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="248" topLine="21" />
+		</Cursor>
+	</File>
+	<File name="src\fmtUDAS.cpp" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="-3" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2858" topLine="104" />
+		</Cursor>
+	</File>
+	<File name="src\fmtEST.cpp" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="82492" topLine="1973" />
+		</Cursor>
+		<Folding>
+			<Collapse line="2" />
+			<Collapse line="560" />
+			<Collapse line="2470" />
+		</Folding>
+	</File>
+	<File name="include\bytestream.h" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="402" topLine="98" />
+		</Cursor>
+		<Folding>
+			<Collapse line="59" />
+		</Folding>
+	</File>
+	<File name="src\fmtUWF.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="5166" topLine="241" />
+		</Cursor>
+	</File>
+	<File name="src\wstringext.cpp" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2768" topLine="58" />
+		</Cursor>
+		<Folding>
+			<Collapse line="37" />
+		</Folding>
+	</File>
+	<File name="include\appsettings.h" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="700" topLine="30" />
+		</Cursor>
+	</File>
+	<File name="src\fmtVIB.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="41" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\icon.rc" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="96" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\fmtITA.cpp" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="-3" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="23253" topLine="377" />
+		</Cursor>
+		<Folding>
+			<Collapse line="2" />
+			<Collapse line="13" />
+			<Collapse line="24" />
+			<Collapse line="37" />
+			<Collapse line="41" />
+			<Collapse line="45" />
+			<Collapse line="56" />
+			<Collapse line="67" />
+			<Collapse line="80" />
+			<Collapse line="84" />
+		</Folding>
+	</File>
+	<File name="include\fmtESL.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1077" topLine="0" />
+		</Cursor>
+		<Folding>
+			<Collapse line="0" />
+		</Folding>
+	</File>
+	<File name="src\fmtWAV.cpp" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="4341" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="src\scriptini.cpp" open="0" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -52,273 +465,9 @@
 			<Collapse line="506" />
 		</Folding>
 	</File>
-	<File name="src\fmtATARI.cpp" open="0" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2260" topLine="85" />
-		</Cursor>
-	</File>
-	<File name="include\fmtCNS.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="230" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="src\fmtFIX.cpp" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="3027" topLine="0" />
-		</Cursor>
-		<Folding>
-			<Collapse line="27" />
-			<Collapse line="64" />
-			<Collapse line="81" />
-		</Folding>
-	</File>
-	<File name="include\fmtSEQ.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="38" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="src\fmtFCV.cpp" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="-2" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="18107" topLine="545" />
-		</Cursor>
-		<Folding>
-			<Collapse line="7" />
-		</Folding>
-	</File>
-	<File name="include\fmtUWF.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="875" topLine="21" />
-		</Cursor>
-	</File>
-	<File name="src\fmtFNT.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1142" topLine="45" />
-		</Cursor>
-	</File>
-	<File name="include\fmtWAV.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1723" topLine="57" />
-		</Cursor>
-	</File>
-	<File name="src\fmtEST.cpp" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="82492" topLine="1973" />
-		</Cursor>
-		<Folding>
-			<Collapse line="2" />
-			<Collapse line="560" />
-			<Collapse line="2470" />
-		</Folding>
-	</File>
-	<File name="include\fmtEST.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="6941" topLine="145" />
-		</Cursor>
-		<Folding>
-			<Collapse line="30" />
-		</Folding>
-	</File>
-	<File name="src\fmtROOM.cpp" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="-3" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2190" topLine="9" />
-		</Cursor>
-	</File>
-	<File name="include\fmtBLK.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="518" topLine="27" />
-		</Cursor>
-		<Folding>
-			<Collapse line="33" />
-		</Folding>
-	</File>
-	<File name="src\fmtSEQ.cpp" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="4338" topLine="145" />
-		</Cursor>
-		<Folding>
-			<Collapse line="3" />
-			<Collapse line="9" />
-			<Collapse line="13" />
-			<Collapse line="26" />
-			<Collapse line="39" />
-			<Collapse line="43" />
-		</Folding>
-	</File>
-	<File name="include\fmtVIB.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="230" topLine="19" />
-		</Cursor>
-	</File>
-	<File name="src\fmtITA.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="9924" topLine="198" />
-		</Cursor>
-		<Folding>
-			<Collapse line="2" />
-			<Collapse line="13" />
-			<Collapse line="24" />
-			<Collapse line="37" />
-			<Collapse line="41" />
-			<Collapse line="45" />
-			<Collapse line="56" />
-			<Collapse line="67" />
-			<Collapse line="80" />
-			<Collapse line="84" />
-			<Collapse line="89" />
-			<Collapse line="262" />
-		</Folding>
-	</File>
-	<File name="src\fmtSND.cpp" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="-4" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="25801" topLine="1056" />
-		</Cursor>
-		<Folding>
-			<Collapse line="3" />
-			<Collapse line="7" />
-			<Collapse line="308" />
-		</Folding>
-	</File>
-	<File name="include\fmtFNT.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="294" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="src\fmtDAT.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="6897" topLine="290" />
-		</Cursor>
-	</File>
-	<File name="src\fmtBgmTbl.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="3081" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="include\fmtEFF.h" open="0" top="0" tabpos="15" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="691" topLine="9" />
-		</Cursor>
-	</File>
 	<File name="src\fmtLIT.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="16789" topLine="660" />
-		</Cursor>
-	</File>
-	<File name="src\fmtEFF.cpp" open="0" top="0" tabpos="14" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1304" topLine="19" />
-		</Cursor>
-		<Folding>
-			<Collapse line="2" />
-			<Collapse line="6" />
-			<Collapse line="13" />
-			<Collapse line="20" />
-		</Folding>
-	</File>
-	<File name="include\appsettings.h" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="700" topLine="30" />
-		</Cursor>
-	</File>
-	<File name="src\fmtAEV.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="8424" topLine="312" />
-		</Cursor>
-	</File>
-	<File name="src\fmtETS.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1167" topLine="195" />
-		</Cursor>
-	</File>
-	<File name="include\filesystem.h" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="579" topLine="43" />
-		</Cursor>
-	</File>
-	<File name="src\fmtBLK.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1387" topLine="9" />
-		</Cursor>
-	</File>
-	<File name="src\fmtUDAS.cpp" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="-3" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2858" topLine="104" />
-		</Cursor>
-	</File>
-	<File name="include\fmtDAT.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="685" topLine="24" />
-		</Cursor>
-	</File>
-	<File name="src\fmtEMI.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="860" topLine="25" />
-		</Cursor>
-	</File>
-	<File name="src\fmtUWF.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="5166" topLine="241" />
-		</Cursor>
-	</File>
-	<File name="include\fmtETS.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="481" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="src\fmtPACK.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="6282" topLine="243" />
-		</Cursor>
-		<Folding>
-			<Collapse line="2" />
-			<Collapse line="20" />
-		</Folding>
-	</File>
-	<File name="include\fmtSYM.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="248" topLine="21" />
-		</Cursor>
-	</File>
-	<File name="src\fmtXWB.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="7170" topLine="248" />
-		</Cursor>
-	</File>
-	<File name="include\fmtTPL.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="580" topLine="15" />
-		</Cursor>
-	</File>
-	<File name="src\wstringext.cpp" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2768" topLine="58" />
-		</Cursor>
-		<Folding>
-			<Collapse line="37" />
-		</Folding>
-	</File>
-	<File name="src\fmtSYM.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1333" topLine="51" />
-		</Cursor>
-	</File>
-	<File name="include\fmtITA.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1442" topLine="12" />
-		</Cursor>
-	</File>
-	<File name="src\fmtXSB.cpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="-3" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="54199" topLine="1585" />
-		</Cursor>
-	</File>
-	<File name="include\fmtATARI.h" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1923" topLine="9" />
-		</Cursor>
-	</File>
-	<File name="include\stringext.h" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="3861" topLine="71" />
 		</Cursor>
 	</File>
 	<File name="include\fmtLIT.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -326,33 +475,33 @@
 			<Cursor1 position="3142" topLine="110" />
 		</Cursor>
 	</File>
-	<File name="src\fmtWAV.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\fmtXGS.cpp" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="4052" topLine="159" />
-		</Cursor>
-	</File>
-	<File name="include\wstringext.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="810" topLine="29" />
-		</Cursor>
-	</File>
-	<File name="src\registry.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="4697" topLine="6" />
+			<Cursor1 position="3255" topLine="127" />
 		</Cursor>
 		<Folding>
-			<Collapse line="2" />
-			<Collapse line="26" />
-			<Collapse line="70" />
-			<Collapse line="106" />
-			<Collapse line="130" />
-			<Collapse line="161" />
-			<Collapse line="193" />
-			<Collapse line="226" />
-			<Collapse line="336" />
-			<Collapse line="361" />
-			<Collapse line="370" />
+			<Collapse line="273" />
 		</Folding>
+	</File>
+	<File name="include\fmtATARI.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1279" topLine="28" />
+		</Cursor>
+	</File>
+	<File name="src\win_esl.cxx" open="0" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="4879" topLine="114" />
+		</Cursor>
+	</File>
+	<File name="src\fmtETS.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="-2" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="9249" topLine="262" />
+		</Cursor>
+	</File>
+	<File name="include\fmtTPL.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="580" topLine="15" />
+		</Cursor>
 	</File>
 	<File name="src\fmtTPL.cpp" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
 		<Cursor>
@@ -363,100 +512,48 @@
 			<Collapse line="584" />
 		</Folding>
 	</File>
-	<File name="include\fmtFCV.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="include\fmtDAT.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2549" topLine="51" />
+			<Cursor1 position="685" topLine="11" />
 		</Cursor>
 	</File>
-	<File name="src\fmtCNS.cpp" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\fmtPACK.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="512" topLine="15" />
-		</Cursor>
-	</File>
-	<File name="include\fmtAEV.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="939" topLine="16" />
+			<Cursor1 position="1763" topLine="42" />
 		</Cursor>
 		<Folding>
+			<Collapse line="2" />
+			<Collapse line="20" />
 			<Collapse line="39" />
+			<Collapse line="69" />
+			<Collapse line="81" />
+			<Collapse line="92" />
+			<Collapse line="109" />
+			<Collapse line="129" />
+			<Collapse line="154" />
+			<Collapse line="179" />
+			<Collapse line="193" />
+			<Collapse line="201" />
+			<Collapse line="211" />
+			<Collapse line="243" />
 		</Folding>
 	</File>
-	<File name="src\stringext.cpp" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="include\fmtEFF.h" open="0" top="0" tabpos="15" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="8445" topLine="278" />
+			<Cursor1 position="691" topLine="243" />
 		</Cursor>
 	</File>
-	<File name="src\fmtVIB.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\fmtXSB.cpp" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="-4" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="41" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="include\fmtXWB.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2712" topLine="83" />
-		</Cursor>
-	</File>
-	<File name="src\win_esl.cxx" open="0" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="4879" topLine="114" />
-		</Cursor>
-	</File>
-	<File name="src\fmtXGS.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="9927" topLine="338" />
-		</Cursor>
-	</File>
-	<File name="include\registry.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="42" topLine="0" />
+			<Cursor1 position="36682" topLine="1120" />
 		</Cursor>
 		<Folding>
-			<Collapse line="16" />
-		</Folding>
-	</File>
-	<File name="src\filesystem.cpp" open="0" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="785" topLine="24" />
-		</Cursor>
-	</File>
-	<File name="include\fmtFBX.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="10366" topLine="405" />
-		</Cursor>
-	</File>
-	<File name="include\rapidXML\rapidxml_ext.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="198" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="src\fmtESL.cpp" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2765" topLine="46" />
-		</Cursor>
-		<Folding>
-			<Collapse line="3" />
-			<Collapse line="14" />
-			<Collapse line="25" />
-			<Collapse line="38" />
-			<Collapse line="42" />
+			<Collapse line="1109" />
 		</Folding>
 	</File>
 	<File name="include\fmtFIX.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="824" topLine="11" />
-		</Cursor>
-	</File>
-	<File name="include\fmtPACK.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1489" topLine="41" />
-		</Cursor>
-		<Folding>
-			<Collapse line="39" />
-		</Folding>
-	</File>
-	<File name="include\scriptini.h" open="0" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1112" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="include\vectorext.h" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -467,9 +564,22 @@
 			<Collapse line="10" />
 		</Folding>
 	</File>
-	<File name="include\fmtROOM.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="include\fmtWAV.h" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="634" topLine="12" />
+			<Cursor1 position="2434" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include\fmtPACK.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1489" topLine="41" />
+		</Cursor>
+		<Folding>
+			<Collapse line="39" />
+		</Folding>
+	</File>
+	<File name="src\fmtDAT.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="6897" topLine="290" />
 		</Cursor>
 	</File>
 	<File name="include\stringenc.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -477,85 +587,59 @@
 			<Cursor1 position="514" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="include\wregistry.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="include\fmtSEQ.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="209" topLine="0" />
+			<Cursor1 position="38" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="include\fmtSND.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="-4" zoom_2="0">
+	<File name="src\fmtROOM.cpp" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="-3" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="8171" topLine="253" />
+			<Cursor1 position="59761" topLine="542" />
 		</Cursor>
 		<Folding>
-			<Collapse line="0" />
+			<Collapse line="3" />
+			<Collapse line="18" />
+			<Collapse line="49" />
 		</Folding>
 	</File>
-	<File name="main.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
+	<File name="include\fmtXWB.h" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="21054" topLine="377" />
+			<Cursor1 position="482" topLine="6" />
+		</Cursor>
+	</File>
+	<File name="include\fmtFBX.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="10366" topLine="405" />
+		</Cursor>
+	</File>
+	<File name="src\fmtSND.cpp" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="42703" topLine="1904" />
 		</Cursor>
 		<Folding>
-			<Collapse line="58" />
-			<Collapse line="452" />
-			<Collapse line="483" />
-			<Collapse line="490" />
-			<Collapse line="506" />
-			<Collapse line="534" />
-			<Collapse line="566" />
-			<Collapse line="619" />
+			<Collapse line="3" />
+			<Collapse line="7" />
+			<Collapse line="297" />
+			<Collapse line="1185" />
+			<Collapse line="1209" />
 		</Folding>
 	</File>
-	<File name="include\fmtUDAS.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
+	<File name="include\fmtXSB.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1071" topLine="33" />
+			<Cursor1 position="431" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="include\fmtXSB.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="include\fmtEST.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="4922" topLine="40" />
+			<Cursor1 position="6941" topLine="145" />
 		</Cursor>
 		<Folding>
-			<Collapse line="17" />
-			<Collapse line="24" />
-			<Collapse line="46" />
-			<Collapse line="56" />
-			<Collapse line="67" />
-			<Collapse line="125" />
-			<Collapse line="143" />
-			<Collapse line="191" />
-			<Collapse line="206" />
-			<Collapse line="214" />
-			<Collapse line="269" />
-			<Collapse line="277" />
-			<Collapse line="286" />
-			<Collapse line="310" />
+			<Collapse line="30" />
 		</Folding>
 	</File>
 	<File name="include\win_esl.h" open="0" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="446" topLine="0" />
 		</Cursor>
-	</File>
-	<File name="include\bytestream.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2660" topLine="80" />
-		</Cursor>
-	</File>
-	<File name="src\stringenc.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="7620" topLine="149" />
-		</Cursor>
-		<Folding>
-			<Collapse line="3" />
-		</Folding>
-	</File>
-	<File name="src\appsettings.cpp" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="55" topLine="42" />
-		</Cursor>
-		<Folding>
-			<Collapse line="34" />
-			<Collapse line="48" />
-		</Folding>
 	</File>
 </CodeBlocks_layout_file>

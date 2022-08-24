@@ -13,6 +13,9 @@
 	""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 	Change Log:
+	[2022-08-21]
+		> added md5
+
 	[2022-07-13]
 		> added fcs16
 
@@ -125,6 +128,8 @@ class bytestream {
 	uint32_t sdbm_32 (size_t crc_pos = 0, size_t crc_len = 0);
 	uint32_t aod_32 (size_t crc_pos = 0, size_t crc_len = 0);
 	uint32_t fcs16 (size_t crc_pos = 0, size_t crc_len = 0);
+	void md5 (uint32_t &a, uint32_t &b, uint32_t &c, uint32_t &d, size_t crc_pos = 0, size_t crc_len = 0, bool verbose = false);
+
 	std::string base64_encode (size_t crc_pos = 0, size_t crc_len = 0);
 	void base64_decode (std::string &input, size_t tar_pos = 0);
 

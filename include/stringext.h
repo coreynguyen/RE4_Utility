@@ -45,7 +45,8 @@ template <typename T> std::string floatToString ( T Number ) {std::ostringstream
 template <typename T> T convert_to (const std::string str) {	// double D = convert_to <double>("13.37");
     std::istringstream ss(str);
     T num;
-    ss >> num;
+	ss >> std::setbase(0) >> num; // ? Will automatically determine base between dec and hex
+    //ss >> num;
     return num;
 	}
 template <typename I> std::string n2hexstr(I w, size_t hex_len = sizeof(I)<<1) {

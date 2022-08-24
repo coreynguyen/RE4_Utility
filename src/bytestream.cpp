@@ -529,17 +529,21 @@ bool bytestream::createFile (unsigned long bufferSize) {
 	return false;
 	}
 void bytestream::resize (size_t newsize, bool flush) {
+	if (newsize <= 0) {return;}
 	if (newsize > size && stream != NULL) {
 		delete[] stream;
-		pos = 0;
+		if (pos > newsize) {pos = 0;}
 		size = newsize;
 		stream = new char[size];
 		}
-	else if (stream != NULL) {
+	else if (stream != NULL && newsize < size) {
 		size = newsize;
+		if (pos > newsize) {pos = 0;}
 		}
 	else {
+		if (stream != NULL) {delete[] stream;}
 		size = newsize;
+		if (pos > newsize) {pos = 0;}
 		stream = new char[size];
 		}
 	if (flush) {
@@ -558,6 +562,7 @@ void bytestream::resize (size_t newsize, bool flush) {
 void bytestream::copy (char* src_buf, size_t src_len, size_t src_pos, size_t tar_dest) {
 
 
+
 	// Check Array is Not Empty
 	if (src_buf == NULL) {
 		std::cout << "Input Buffer is invalid\n";
@@ -570,9 +575,16 @@ void bytestream::copy (char* src_buf, size_t src_len, size_t src_pos, size_t tar
 		}
 
 	// Copy Char Arrays
-	std::copy(&src_buf[src_pos], &src_buf[src_pos + src_len], &stream[tar_dest]);
-	//for (unsigned int i = 0; i < src_len; i++) {stream[tar_dest + i] = src_buf[src_pos + i];}
+	bool useStdCopy = true;
+	if (useStdCopy) {
+		std::copy(&src_buf[src_pos], &src_buf[src_pos + src_len], &stream[tar_dest]);
+		}
+	else {
+		for (unsigned int i = 0; i < src_len; i++) {
 
+			stream[tar_dest + i] = src_buf[src_pos + i];
+			}
+		}
 
 
 	}
@@ -739,6 +751,103 @@ uint32_t bytestream::fcs16 (size_t crc_pos, size_t crc_len) { //   Frame Check S
 	hash ^= 0xFFFF;
 	return hash;
 	}
+
+void bytestream::md5 (uint32_t &a, uint32_t &b, uint32_t &c, uint32_t &d, size_t crc_pos, size_t crc_len, bool verbose) {
+
+	if (crc_len == 0) {crc_len = size - crc_pos;}
+
+	uint8_t SHIFT_AMTS[16] = {7, 12, 17, 22, 5, 9, 14, 20, 4, 11, 16, 23, 6, 10, 15, 21};
+	uint32_t TABLE_T[64];
+	for (uint32_t i = 0; i < 64; i++) {TABLE_T[i] = 0x100000000 * abs(sin(i + 1));}
+	uint32_t numBlocks = ((crc_len + 8) >> 6) + 1;
+	uint32_t totalLen = numBlocks << 6;
+	uint32_t messageLenBits = crc_len << 3;
+
+	uint32_t paddingLen = totalLen - crc_len;
+	uint8_t* paddingBytes = NULL;
+	if (paddingLen > 0) {paddingBytes = new uint8_t[paddingLen];}
+	paddingBytes[0] = 0x80;
+	for (uint32_t i = 1; i < paddingLen; i++) {paddingBytes[i] = 0;}
+	for (uint32_t i = 0; i < 8; i++) {
+		paddingBytes[paddingLen - 8 + i] = (uint8_t)messageLenBits;
+		messageLenBits = messageLenBits >> 8;
+		}
+
+
+	uint32_t INIT_A = 0x67452301;
+	uint32_t INIT_B = 0xEFCDAB89;
+	uint32_t INIT_C = 0x98BADCFE;
+	uint32_t INIT_D = 0x10325476;
+
+	a = INIT_A;
+	b = INIT_B;
+	c = INIT_C;
+	d = INIT_D;
+
+	uint32_t buffer[16];
+	uint32_t index = 0;
+	uint32_t originalA = INIT_A;
+	uint32_t originalB = INIT_B;
+	uint32_t originalC = INIT_C;
+	uint32_t originalD = INIT_D;
+	uint32_t div16 = 0;
+	uint32_t f = 0;
+	uint32_t bufferIndex = 0;
+	uint32_t temp = 0;
+	uint32_t temp2 = 0;
+	for (uint32_t i = 0; i < numBlocks; i++) {
+		index = i << 6;
+		for (uint32_t j = 0; j < 64; j++) {
+
+			if (index < crc_len) {temp = (uint32_t)stream[index + crc_pos];}
+			else {temp = (uint32_t)paddingBytes[index - crc_len];}
+			buffer[j >> 2] = (temp << 24) | (buffer[j >> 2] >> 8);
+			index++;
+			}
+		originalA = a;
+		originalB = b;
+		originalC = c;
+		originalD = d;
+		for (uint32_t j = 0; j < 64; j++) {
+			div16 = j >> 4;
+
+			f = 0;
+			bufferIndex = j;
+			switch (div16) {
+				case 0: {f = (b & c) | ((~b) & d); break;}
+				case 1: {f = (b & d) | (c & ~d); bufferIndex = (bufferIndex * 5 + 1) & 0x0F; break;}
+				case 2: {f = (b ^ c) ^ d; bufferIndex = (bufferIndex * 3 + 5) & 0x0F; break;}
+				case 3: {f = c ^ (b | ~d); bufferIndex = (bufferIndex * 7) & 0x0F; break;}
+				}
+
+			temp2 = SHIFT_AMTS[(div16 << 2) | (j & 3)];
+			temp = a + f + buffer[bufferIndex] + TABLE_T[j];
+			temp = b + ((temp << temp2) | ((temp >> (32 - temp2)) & ((1 << temp2) - 1)));
+
+			a = d;
+			d = c;
+			c = b;
+			b = temp;
+			}
+		a += originalA;
+		b += originalB;
+		c += originalC;
+		d += originalD;
+		}
+	if (paddingBytes != NULL) {delete[] paddingBytes;}
+	if (verbose) {
+		// requires #include  <iomanip>
+		//uint32_t n;
+		//n = a;
+		//std::cout << "0x";
+		//for (uint32_t j = 0; j < 4; j++) {std::cout << std::setfill('0') << std::setw(2) << std::uppercase << std::hex << (n & 0xFF); n = n >> 8;}
+		//n = b; for (uint32_t j = 0; j < 4; j++) {std::cout << std::setfill('0') << std::setw(2) << std::uppercase << std::hex << (n & 0xFF); n = n >> 8;}
+		//n = c; for (uint32_t j = 0; j < 4; j++) {std::cout << std::setfill('0') << std::setw(2) << std::uppercase << std::hex << (n & 0xFF); n = n >> 8;}
+		//n = d; for (uint32_t j = 0; j < 4; j++) {std::cout << std::setfill('0') << std::setw(2) << std::uppercase << std::hex << (n & 0xFF); n = n >> 8;}
+		//std::cout << std::endl;
+		}
+	}
+
 
 std::string bytestream::base64_encode (size_t crc_pos, size_t crc_len) {
 

@@ -17,7 +17,6 @@
 #include <sstream>
 #include <vector>
 #include <algorithm>
-
 #include "FL\Fl.H"
 
 #include "appsettings.h"
@@ -28,6 +27,7 @@
 #include "filesystem.h"
 #include "fmtATARI.h"	// Atari (aka Area)
 #include "fmtEST.h" 	// Effects Sprite
+#include "fmtESL.h" 	// Enemy Spawn List
 #include "fmtEFF.h" 	// Effects Animation
 #include "fmtITA.h" 	// Item Area
 #include "fmtFCV.h" 	// Frame Curve Values?
@@ -42,7 +42,9 @@
 #include "fmtAEV.h" 	// Area Events
 #include "fmtSND.h"		// Sound
 #include "fmtXSB.h" 	// Xbox Sound Bank
-#include "fmtXWB.h" 	// Xbox Wave Bank
+#include "fmtROOM.h"	// Xbox Wave Bank
+#include "fmtXWB.h"
+#include "fmtBLK.h"
 
 #include "wregistry.h"
 #include "stringenc.h"
@@ -354,7 +356,7 @@ void convert_file (std::wstring fileW, std::wstring fpathW = L"") {
 
 
 		// get parts of the file path
-		std::wstring fnameW = getFilenameFileW(fileW);
+		std::wstring fnameW = toLowerW(getFilenameFileW(fileW));
 		std::wstring fextW = toLowerW(getFilenameTypeW(fileW));
 		if (fpathW == L"") {
 			fpathW = getFilenamePathW(fileW);
@@ -363,52 +365,156 @@ void convert_file (std::wstring fileW, std::wstring fpathW = L"") {
 		//std::wcout << L"fpathW: \t" << fpathW << std::endl;
 		//std::wcout << L"fextW: \t" << fextW << std::endl;
 		//std::wcout << L"Input: \t" << fileW << std::endl;
+		if (fextW == L".xml") {
 
-		if (fextW == L".ita") {
+
+
+
+			// Read the xml file into a vector
+			std::vector<char> buffer(f.stream, f.stream + f.size);
+			//std::cout << "size:\t" << theFile.tellg() << std::endl;
+
+			// Store Termination Character
+			buffer.push_back('\0');
+			rapidxml::xml_document<> doc;
+			// Parse the buffer using the xml file parsing library into doc
+			doc.parse < rapidxml::parse_full | rapidxml::parse_no_data_nodes >(&buffer[0]);
+			//doc.parse<0>(&buffer[0]);
+
+			// check root node
+			rapidxml::xml_node<>* rootNode;
+			if ((rootNode = doc.first_node("snd")) != NULL) {
+				fmtDAT_SND_Package snd;
+				snd.xml_import(doc);
+
+
+				bytestream s;
+				s.resize(snd.size());
+				snd.write_dat_snd(s);
+				s.writeFileW(fpathW + L"NEW_SND_FROM_XML.snd");
+
+				}
+			if ((rootNode = doc.first_node("esl")) != NULL) {
+				fmtESL esl;
+				esl.xml_import(doc);
+
+
+				bytestream s;
+				s.resize(8160); // 32 bytes X 255 entries
+
+				s.seek(0);
+				esl.write_esl(s);
+				s.writeFileW(fpathW + fnameW + L"_new.esl");
+				}
+			if ((rootNode = doc.first_node("ets")) != NULL) {
+				fmtETS ets;
+				ets.xml_import(doc);
+
+
+				bytestream s;
+				s.resize(ets.size());
+
+				s.seek(0);
+				ets.write_ets(s);
+				s.setLittleEndian();
+				s.writeFileW(fpathW + fnameW + L"_uhd.ets");
+
+				s.setBigEndian();
+				s.seek(0);
+				ets.write_ets(s);
+				s.writeFileW(fpathW + fnameW + L"_ngc.ets");
+
+				s.close();
+				s.resize(ets.size(true));
+				s.seek(0);
+				ets.write_ets(s, true);
+				s.setLittleEndian();
+				s.writeFileW(fpathW + fnameW + L"_2k7.ets");
+				}
+			if ((rootNode = doc.first_node("ita")) != NULL) {
+				fmtITA ita;
+				ita.xml_import(doc);
+
+
+				bytestream s;
+				s.resize(ita.size());
+				s.seek(0);
+				ita.write_ita(s);
+				s.setLittleEndian();
+				s.writeFileW(fpathW + fnameW + L"_uhd.ita");
+
+				s.setBigEndian();
+				s.seek(0);
+				ita.write_ita(s);
+				s.writeFileW(fpathW + fnameW + L"_ngc.ita");
+
+				s.close();
+				s.resize(ita.size(true));
+				s.seek(0);
+				ita.write_ita(s, true);
+				s.setLittleEndian();
+				s.writeFileW(fpathW + fnameW + L"_2k7.ita");
+				}
+			if ((rootNode = doc.first_node("roominfo")) != NULL) {
+				fmtROOMINFO rnfo;
+				rnfo.xml_import(doc);
+				rnfo.write(fpathW + fnameW + L"_new.dat");
+
+				}
+			if ((rootNode = doc.first_node("blk")) != NULL) {
+				fmtBLK blk;
+				blk.xml_import(doc);
+				bytestream s;
+				s.resize(blk.size());
+				s.seek(0);
+				blk.write_blk(s);
+				s.writeFileW(fpathW + fnameW + L"_new.blk");
+				}
+
+			doc.clear();
+			}
+		else if (fnameW == L"roominfo") {
+			fmtROOMINFO rinfo;
+			rinfo.read(f);
+			rinfo.xml_export(fpathW + fnameW + L".xml");
+			}
+		else if (fextW == L".blk") {
+			fmtBLK blk;
+			blk.read_blk(f);
+			blk.xml_export(fpathW + fnameW + L"_blk.xml", fnameW);
+			}
+		else if (fextW == L".ita") {
 			fmtITA ita;
 			ita.read_ita(f);
-
-			bytestream s;
-			s.resize(ita.size());
-			s.seek(0);
-			ita.write_ita(s);
-			s.setLittleEndian();
-			s.writeFileW(fpathW + fnameW + L"_uhd.ita");
-
-			s.setBigEndian();
-			s.seek(0);
-			ita.write_ita(s);
-			s.writeFileW(fpathW + fnameW + L"_ngc.ita");
-
-			s.close();
-			s.resize(ita.size(true));
-			s.seek(0);
-			ita.write_ita(s, true);
-			s.setLittleEndian();
-			s.writeFileW(fpathW + fnameW + L"_2k7.ita");
+			ita.xml_export(fpathW + fnameW + L"_ita.xml");
 			}
 		else if (fextW == L".ets") {
 			fmtETS ets;
 			ets.read_ets(f);
-
-			bytestream s;
-			s.resize(ets.size());
-			s.seek(0);
-			ets.write_ets(s);
-			s.setLittleEndian();
-			s.writeFileW(fpathW + fnameW + L"_uhd.ets");
-
-			s.setBigEndian();
-			s.seek(0);
-			ets.write_ets(s);
-			s.writeFileW(fpathW + fnameW + L"_ngc.ets");
-
-			s.close();
-			s.resize(ets.size(true));
-			s.seek(0);
-			ets.write_ets(s, true);
-			s.setLittleEndian();
-			s.writeFileW(fpathW + fnameW + L"_2k7.ets");
+			ets.xml_export(fpathW + fnameW + L"_ets.xml");
+//			bytestream s;
+//			s.resize(ets.size());
+//			s.seek(0);
+//			ets.write_ets(s);
+//			s.setLittleEndian();
+//			s.writeFileW(fpathW + fnameW + L"_uhd.ets");
+//
+//			s.setBigEndian();
+//			s.seek(0);
+//			ets.write_ets(s);
+//			s.writeFileW(fpathW + fnameW + L"_ngc.ets");
+//
+//			s.close();
+//			s.resize(ets.size(true));
+//			s.seek(0);
+//			ets.write_ets(s, true);
+//			s.setLittleEndian();
+//			s.writeFileW(fpathW + fnameW + L"_2k7.ets");
+			}
+		else if (fextW == L".esl") {
+			fmtESL esl;
+			esl.read_esl(f);
+			esl.xml_export(fpathW + fnameW + L"_esl.xml");
 			}
 		else if (fextW == L".eff") {
 			fmtEFF eff;
@@ -680,7 +786,7 @@ void convert_file (std::wstring fileW, std::wstring fpathW = L"") {
 
 							}
 
-						aev.count = aev.data.size();
+						aev.count = (uint16_t)aev.data.size();
 						if (aev.count > 0) {
 
 							// Save Binary
@@ -724,44 +830,14 @@ void convert_file (std::wstring fileW, std::wstring fpathW = L"") {
 
 			fmtXWB xwb;
 			xwb.read_xwb(f);
+
+
 			xwb.dump_xwb(fpathW + fnameW);
 
 
 
 			}
-		else if (fextW == L".xml") {
 
-
-
-
-			// Read the xml file into a vector
-			std::vector<char> buffer(f.stream, f.stream + f.size);
-			//std::cout << "size:\t" << theFile.tellg() << std::endl;
-
-			// Store Termination Character
-			buffer.push_back('\0');
-			rapidxml::xml_document<> doc;
-			// Parse the buffer using the xml file parsing library into doc
-			doc.parse < rapidxml::parse_full | rapidxml::parse_no_data_nodes >(&buffer[0]);
-			//doc.parse<0>(&buffer[0]);
-
-			// check root node
-			rapidxml::xml_node<>* rootNode = doc.first_node("snd");
-			if (rootNode != NULL) {
-				fmtDAT_SND_Package snd;
-				snd.xml_import(doc);
-
-
-				bytestream s;
-				s.resize(snd.size());
-				snd.write_dat_snd(s);
-				s.writeFileW(fpathW + L"NEW_SND_FROM_XML.snd");
-
-				}
-
-
-			doc.clear();
-			}
 		f.close();
 		} else {std::cout << "failed to open file\n";}
 	}
@@ -833,6 +909,7 @@ int test_base64 () {
 
 	return 1;
 	}
+
 
 int main(int argc, char* argv[]) {
 
@@ -914,10 +991,9 @@ int main(int argc, char* argv[]) {
 	else {
 		// No Inputs, Print Message
 		std::cout << "=====================================================================\n";
-		std::cout << "Resident Evil 4 EFF Tool\n\n";
+		std::cout << "Resident Evil 4: " + std::string(appver) + "\n\n";
 		std::cout << "Written By:\tmariokart64n\n";
-		std::cout << "Released:\tApril 19 2022\n\n";
-		std::cout << "Usage:\n\tre4eff.exe <file>\n\n";
+		std::cout << "Usage:\n\tre4util.exe <file>\n\n";
 		std::cout << "=====================================================================\n";
 		std::cout << "Press ENTER to continue...\n";
 		//std::cin.clear();
@@ -925,8 +1001,9 @@ int main(int argc, char* argv[]) {
 		//std::cin.get();
 		convert_file(
 			openfilenameW(
-				L"All Supported Files \0*.aev;*.dat;*.eff;*.snd;*.seq;*.esl;*.est;*.ets;*.ita;*.fcv*.fnt;*.fix;*.pack;*.tpl;*.udas;*.xsb;*.xml\0\
+				L"All Supported Files \0*.aev;*.blk;*.dat;*.eff;*.snd;*.seq;*.esl;*.est;*.ets;*.ita;*.fcv*.fnt;*.fix;*.pack;*.tpl;*.udas;*.xsb;*.xml\0\
 				Atari Events (*.aev)\0*.aev\0\
+				Blocked SMD (*.blk)\0*.blk\0\
 				Data Package (*.dat)\0*.dat\0\
 				Effects Package (*.eff)\0*.eff\0\
 				Enemy Spawn List (*.esl)\0*.esl\0\

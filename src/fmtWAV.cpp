@@ -119,7 +119,7 @@ void fmtWAV_Format::write_wav_fmt (bytestream &s) {
 size_t fmtWAV::size () {
 	size_t nsize = 44 + data.size;
 	if (smpl.sample_loops.size() > 0) {
-		nsize += 40 + (smpl.sample_loops.size() * 24);
+		nsize += 44 + (smpl.sample_loops.size() * 24);
 		}
 	return nsize;
 	}

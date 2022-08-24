@@ -14,6 +14,9 @@
 			- Leon's Spawn Position
 
 	Change Log:
+		2022-08-12
+			added RoomInfo.dat <> XML support
+
 		2022-01-29
 			- Write IT!
 			- data from the roominfo has be embedded into the structs,
@@ -26,9 +29,13 @@
 #include <iostream>
 #include <cstdint>		// needed for types such as uint8_t, uint16_t, uint32_t
 #include <string>
+#include <sstream>
 #include <vector>
 
 #include "bytestream.h"
+#include "filesystem.h"
+#include "stringext.h"
+#include "rapidxml_ext.h"
 
 struct fmtROOMINFO_Waypoint { // 32 bytes
 	uint16_t flag; // flag?
@@ -60,10 +67,13 @@ struct fmtROOMINFO { // roominfo.gc
 	std::vector<uint32_t> addrs;
 	std::vector<fmtROOMINFO_Room> room;
 	fmtROOMINFO ();
-	void read (std::wstring fileW);
+	void read (bytestream &f);
+	void open (std::wstring fileW);
 	size_t recalc_addrs ();
 	size_t size ();
 	void write (std::wstring fileW);
+	void xml_export (std::wstring file);
+	void xml_import (rapidxml::xml_document<> &doc);
 	};
 
 #endif // FMTROOM_H

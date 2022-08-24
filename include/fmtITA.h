@@ -25,9 +25,13 @@
 #include <iostream>
 #include <cstdint>		// needed for types such as uint8_t, uint16_t, uint32_t
 #include <string>
+#include <sstream>
 #include <vector>
 
+#include "rapidxml_ext.h"
+
 #include "bytestream.h"
+#include "stringext.h"
 #include "fmtATARI.h"
 
 struct fmtITA_Entry_Flags {	// always 3
@@ -173,6 +177,8 @@ struct fmtITA { // 16 + n Bytes
 	void read_ita (bytestream &f);
 	void write_ita (bytestream &s, bool re4_2007 = false);
 	size_t size (bool re4_2007 = false);
+	void xml_export (std::wstring file, bool hideNulls = true);
+	void xml_import (rapidxml::xml_document<> &doc);
 	};
 
 
