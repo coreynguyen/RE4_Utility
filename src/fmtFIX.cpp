@@ -110,6 +110,77 @@ void fmtFIX::export_txt (std::wstring outpath, std::wstring prefix, std::wstring
 
 	}
 
+void fmtFIX::import_txt (std::wstring &fnameW, std::wstring &fpathW, std::wstring &fextW) {
+
+    // Get image path from ini
+    std::wstring fix_path = ini->get_wstring("FIX", "fix_path");
+    if (fix_path.length() > 0) {
+
+        // test if the path is relative
+        if (!win::is_absolute_pathW(fix_path)) {
+
+            // append path
+            fix_path = win::fixTrailingSlashW(win::amendRelativePathW(fix_path, fpathW));
+            }
+
+        // Check that path Exists
+        if (!win::doesFolderExistW(fix_path)) {
+
+            // Failed to Locate Folder
+            std::cout << "Failed To Locate Image Path for FIX" << std::endl;
+            fix_path = L"";
+
+            }
+        }
+
+    // Check if files are explicitly defined
+    bool use_order = ini->get_boolean("FIX", "use_order");
+    if (ini->get_string("FIX", "use_order") != "" && use_order) {
+
+        // Read Each File Entry
+        std::vector<ini_list> files = ini->get_list("FIX", "file");
+
+        // check that list is not empty
+        unsigned int list_count = files.size();
+        if (list_count > 0) {
+
+            // update count if there is an index larger then count
+            if (files.back().index > 0 && (unsigned)(files.back().index + 1) > list_count) {
+                list_count = files.back().index + 1;
+                }
+
+            fmtFIX fix;
+            dds_info = std::vector<fmtFIX_Entry>(list_count);
+            unsigned int j;
+            for (unsigned int i = 0; i < files.size(); i++) {
+                j = files.at(i).index;
+                if (files.at(i).index > -1 && j < list_count) {
+
+                    dds_info.at(j).index = i;
+
+                    if (win::is_absolute_path(files.at(i).item)) {
+
+                        dds_info[j].data.openFile(files.at(i).item);
+                        }
+                    else {
+                        dds_info[j].data.openFileW(fix_path + string_to_wstring(files.at(i).item));
+                        std::wcout << fix_path + string_to_wstring(files.at(i).item) << std::endl;
+                        }
+                    }
+                }
+            write(fpathW + fnameW + L"_new.fix");
+            }
+        }
+    else if (fix_path != L"") {
+
+        // Read All Files From Path
+
+
+
+
+        }
+    }
+
 void fmtFIX::write (std::wstring outfile) {
 
 	// check count

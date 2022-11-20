@@ -10,6 +10,15 @@
 	Description:
 		re4 file utility
 
+	TODO:
+		fix bug reported by zaraita
+			If you try to use the command line with a relative path it
+			tries to put the output in a folder with the same name as the
+			original file.
+
+			If you're using c++ 17 you could use the
+			std::filesystem::absolute(path).string() function to easily patch c:
+
 	======================================================================	*/
 
 #include <iostream>
@@ -17,7 +26,9 @@
 #include <sstream>
 #include <vector>
 #include <algorithm>
-#include "FL\Fl.H"
+
+#include "resource.h"
+#include "version.h"
 
 #include "appsettings.h"
 #include "scriptini.h"
@@ -25,16 +36,23 @@
 #include "stringext.h"
 #include "wstringext.h"
 #include "filesystem.h"
+#include "wregistry.h"
+#include "stringenc.h"
+#include "vectorext.h"
+#include <pthread.h>
+
 #include "fmtATARI.h"	// Atari (aka Area)
 #include "fmtEST.h" 	// Effects Sprite
 #include "fmtESL.h" 	// Enemy Spawn List
 #include "fmtEFF.h" 	// Effects Animation
 #include "fmtITA.h" 	// Item Area
+#include "fmtLFS.h" 	// LMZA File Storage
 #include "fmtFCV.h" 	// Frame Curve Values?
 #include "fmtETS.h"
 #include "fmtSEQ.h" 	// Sequences
 #include "fmtDAT.h" 	// Data Package
 #include "fmtFIX.h" 	// Chinese Language Fix
+
 //#include "fmtFBX.h" 	// Film Box Scene Save
 #include "fmtFNT.h" 	// Font
 #include "fmtUDAS.h" 	// Data Asset Package
@@ -46,16 +64,8 @@
 #include "fmtXWB.h"
 #include "fmtBLK.h"
 
-#include "wregistry.h"
-#include "stringenc.h"
-#include "vectorext.h"
-
-#include "resource.h"
-#include "version.h"
-
-
-//#include "FL\Fl.H"
-//#include "win_esl.h"
+#include "FL/Fl.H"
+#include "interface.h"
 
 
 using namespace std;
@@ -344,13 +354,9 @@ void unpack_eff (std::wstring filenameW) {
 
 */
 
-void init () {
-	if (!ini) {ini = new scriptini();}
-	if (!app) {app = new appsettings();}
-	}
 
 void convert_file (std::wstring fileW, std::wstring fpathW = L"") {
-	init ();
+
 	bytestream f;
 	if (fileW != L"" && f.openFileW(fileW)) {
 
@@ -553,8 +559,8 @@ void convert_file (std::wstring fileW, std::wstring fpathW = L"") {
 
 			fix.read(f, f.size);
 
-			fix.write(fpathW + fnameW + L"_new.fix");
-			//fix.export_txt(fpathW + fnameW + L"\\", fnameW);
+			//fix.write(fpathW + fnameW + L"_new.fix");
+			fix.export_txt(fpathW + fnameW + L"\\", fnameW);
 
 			}
 		else if (fextW == L".fcv") {
@@ -587,6 +593,13 @@ void convert_file (std::wstring fileW, std::wstring fpathW = L"") {
 			s.writeFileW(fpathW + fnameW + subfolder + L"_2k7.fcv");
 
 			s.close();
+			}
+		else if (fextW == L".lfs") {
+			LFSDecompressFile(
+                "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Resident Evil 4\\BIO4\\option\\chs_adjust.fix.lfs",
+                "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Resident Evil 4\\BIO4\\option\\chs_adjust.fix"
+                );
+
 			}
 		else if (fextW == L".pack") {
 			fmtPACK pak;
@@ -817,7 +830,10 @@ void convert_file (std::wstring fileW, std::wstring fpathW = L"") {
 
 					}
 				}
-
+            else if (ini->find_section("FIX")) {
+                fmtFIX fix;
+                fix.import_txt (fnameW, fpathW, fextW);
+                }
 			}
 		else if (fextW == L".xsb") {
 			fmtXSB xsb;
@@ -913,122 +929,101 @@ int test_base64 () {
 
 int main(int argc, char* argv[]) {
 
-	SetConsoleTitleA(appver);
-//
-//	std::wcout << "BIO4: \t" << app->getBio4InstallPathW() << std::endl;
-//	std::cout << app->test << std::endl;
-//	app->test = "Bye";
-//	std::cout << app->test << std::endl;
+    // Create Objects for INI reader and app settings
+	if (ini == nullptr) {ini = new scriptini();}
+	if (app == nullptr) {app = new appsettings();}
+
+    // Check if arguments were supplied
+    if (argc > 1) { // Check for commands
+
+        // Include Build Date in the Application Title
+        SetConsoleTitleA(appver);
+
+        // Get Commands in Wide Characters
+        int argcW; LPWSTR *argvW = CommandLineToArgvW(GetCommandLineW(), &argcW); if (argcW == 0) {return 0;}
+
+        std::string cmd = argv[1];
+
+
+		// Check for question mark
+		if (cmd == "?") {
+
+            // No Inputs, Print Message
+            std::cout << "=====================================================================\n";
+            std::cout << "Resident Evil 4: " + std::string(appver) + "\n\n";
+            std::cout << "Written By:\tmariokart64n\n";
+            std::cout << "Usage:\n\tre4util.exe <file>\n\n";
+            std::cout << "=====================================================================\n";
+            std::cout << "Press ENTER to continue...\n";
+            std::cin.clear();
+            std::cin.sync();
+            std::cin.get();
+            }
+        else {
+            // Parse for commands
+
+
+            for (int i = 1; i < argc; i++) {
+
+                // convert text to lower case
+                cmd = tolower(argv[i]);
+
+                if (cmd == "-ow") { // Open Windows Dialog
+                    convert_file(
+                        openfilenameW(
+                            L"All Supported Files \0*.aev;*.blk;*.dat;*.eff;*.snd;*.seq;*.esl;*.est;*.ets;*.ita;*.fcv*.fnt;*.fix;*.pack;*.tpl;*.udas;*.xsb;*.xml\0\
+                            Atari Events (*.aev)\0*.aev\0\
+                            Blocked SMD (*.blk)\0*.blk\0\
+                            Data Package (*.dat)\0*.dat\0\
+                            Effects Package (*.eff)\0*.eff\0\
+                            Enemy Spawn List (*.esl)\0*.esl\0\
+                            Effect Sprite (*.est)\0*.est\0\
+                            Frames Curve Values (*.fcv)\0*.fcv\0\
+                            Font (*.fnt)\0*.fnt\0\
+                            Sequences (*.seq)\0*.seq\0\
+                            Sound Data (*.snd)\0*.snd\0\
+                            Fix for Chinese (*.fix)\0*.fix\0\
+                            Item Location (*.ita)\0*.ita\0\
+                            Texture Pack List (*.tpl)\0*.tpl\0\
+                            Texture Pack (*.pack)\0*.pack\0\
+                            Data Asset (*.udas)\0*.udas\0\
+                            Xbox Sound Bank (*.xsb)\0*.xsb\0\
+                            Xbox Wave Bank (*.xwb)\0*.xwb\0\
+                            Xtensible Markup Language (*.xml)\0*.xml\0\
+                            All Files (*.*)\0*.*\0",
+                            NULL,
+                            OFN_EXPLORER | OFN_FILEMUSTEXIST | OFN_HIDEREADONLY | OFN_ALLOWMULTISELECT
+                            )
+                        );
+                    } else if (win::doesFileExistW(argvW[i])) {convert_file(argvW[i]);} // try to process file
+                }
 
 
 
 
-	//Fl_Double_Window* w = win_esl();
-	//w->begin();// Add children to window
-	//w->show(1, argv);
-	//return Fl::run();
-
-	// get args as wchar
-	int argcW; LPWSTR *argvW = CommandLineToArgvW(GetCommandLineW(), &argcW); if (argcW == 0) {return 0;} // Get UNICODE Command line
-
-	// Check Inputs
-	if (argcW > 1) {
-
-		init();
+            }
 
 
 
+        LocalFree(argvW); // Free memory allocated for CommandLineToArgvW arguments.
+        }
+    else { // Start Interface
+        Fl_Double_Window* w = re4_util_ui();
 
 
+        //w->begin();// Add children to window
+        //w->show();
+        //w->show(1, argv);
+           //toggle_theme(fl_xid(w)); // fl_xid() is used to fetch the windows hwnd id so that I can change the colour of the title bar
 
-		//fmtFBX fbx;
-		//bytestream f;
-		//f.openFileW(argvW[1]);
-		//fbx.read(f);
+        return Fl::run();
+        }
 
-		//return 1;
-
-
-
-		// loop through given files
-		std::wstring fileW;
-		std::wstring fpathW;
-		//std::vector<std::wstring> files;
-		for (int i = 1; i < argcW; i++) {
-			fileW = std::wstring(argvW[i]);
-			if (fileW == L"") {continue;}
-			fpathW = getFilenamePathW(fileW);
-
-			if (fpathW.find(L":") == std::wstring::npos && fpathW.find(L"\\\\") == std::wstring::npos) {
-				fpathW = getFilenamePathW(getexepathW());
-				fileW = fpathW + fileW;
-				}
-			/*
-			if (win::doesFolderExistW(fileW)) {
-
-				if (fileW.substr(fileW.length() - 1, 1) != L"\\") {
-					fileW += L"\\";
-
-					}
-
-
-				files.clear();
-				getFilesW(fileW + L"*.*", files);
-
-				for (unsigned ii = 0; ii < files.size(); ii++) {
-					convert_file(files[ii], fpathW);
-					}
-
-				}
-			else {
-				convert_file(argvW[i], fpathW);
-				}
-			*/
-			convert_file(argvW[i]);
-
-			}
-		}
-	else {
-		// No Inputs, Print Message
-		std::cout << "=====================================================================\n";
-		std::cout << "Resident Evil 4: " + std::string(appver) + "\n\n";
-		std::cout << "Written By:\tmariokart64n\n";
-		std::cout << "Usage:\n\tre4util.exe <file>\n\n";
-		std::cout << "=====================================================================\n";
-		std::cout << "Press ENTER to continue...\n";
-		//std::cin.clear();
-		//std::cin.sync();
-		//std::cin.get();
-		convert_file(
-			openfilenameW(
-				L"All Supported Files \0*.aev;*.blk;*.dat;*.eff;*.snd;*.seq;*.esl;*.est;*.ets;*.ita;*.fcv*.fnt;*.fix;*.pack;*.tpl;*.udas;*.xsb;*.xml\0\
-				Atari Events (*.aev)\0*.aev\0\
-				Blocked SMD (*.blk)\0*.blk\0\
-				Data Package (*.dat)\0*.dat\0\
-				Effects Package (*.eff)\0*.eff\0\
-				Enemy Spawn List (*.esl)\0*.esl\0\
-				Effect Sprite (*.est)\0*.est\0\
-				Frames Curve Values (*.fcv)\0*.fcv\0\
-				Font (*.fnt)\0*.fnt\0\
-				Sequences (*.seq)\0*.seq\0\
-				Sound Data (*.snd)\0*.snd\0\
-				Fix for Chinese (*.fix)\0*.fix\0\
-				Item Location (*.ita)\0*.ita\0\
-				Texture Pack List (*.tpl)\0*.tpl\0\
-				Texture Pack (*.pack)\0*.pack\0\
-				Data Asset (*.udas)\0*.udas\0\
-				Xbox Sound Bank (*.xsb)\0*.xsb\0\
-				Xbox Wave Bank (*.xwb)\0*.xwb\0\
-				Xtensible Markup Language (*.xml)\0*.xml\0\
-				All Files (*.*)\0*.*\0",
-				NULL,
-				OFN_EXPLORER | OFN_FILEMUSTEXIST | OFN_HIDEREADONLY | OFN_ALLOWMULTISELECT
-				)
-			);
-		}
 
 	// CleanUp
-	LocalFree(argvW); // Free memory allocated for CommandLineToArgvW arguments.
-	//system("pause");
+	if (app != nullptr) {delete app;}
+	if (ini != nullptr) {delete ini;}
+
+
     return 0;
 	}

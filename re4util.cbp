@@ -4,14 +4,13 @@
 	<Project>
 		<Option title="re4util" />
 		<Option pch_mode="2" />
-		<Option compiler="gnu_gcc_compiler_mingw-w64" />
+		<Option compiler="mingw_w64_x32" />
 		<Build>
 			<Target title="Debug">
 				<Option output="bin/Debug/re4util" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
-				<Option compiler="gnu_gcc_compiler_mingw-w64" />
-				<Option parameters='&quot;C:\Users\Corey\Videos\Captures\Dolphin Emulator\r100_24_blk.xml&quot;' />
+				<Option compiler="mingw_w64_x32" />
 				<Compiler>
 					<Add option="-g" />
 					<Add directory="include" />
@@ -21,7 +20,7 @@
 				<Option output="bin/Release/re4util" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
-				<Option compiler="gnu_gcc_compiler_mingw-w64" />
+				<Option compiler="mingw_w64_x32" />
 				<Option parameters='&quot;G:\SteamLibrary\steamapps\common\Resident_Evil_4_Tools\Tools\xactxtract\r307\r307.xwb&quot;' />
 				<Compiler>
 					<Add option="-O3" />
@@ -31,6 +30,7 @@
 					<Add option="-s" />
 					<Add option="-static-libstdc++" />
 					<Add option="-static-libgcc" />
+					<Add option="-static-libgcc -static-libstdc++ -Wl,-Bstatic -lstdc++ -lpthread -Wl,-Bdynamic" />
 				</Linker>
 				<ExtraCommands>
 					<Add after="version.bat" />
@@ -41,12 +41,20 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
+			<Add option="-DWINDOWS" />
+			<Add option="-DWIN32" />
+			<Add option="-D_WIN32" />
 			<Add option="-DUNICODE" />
 			<Add option="-D_CRT_SECURE_NO_WARNINGS" />
+			<Add option="-DDPTW32_BUILD_INLINED" />
+			<Add option="-DDPTW32_STATIC_LIB" />
 			<Add directory="include" />
 			<Add directory="include/rapidXML" />
+			<Add directory="include/fancycode/MemoryModule" />
+			<Add directory="include/strivexjun/MemoryModulePP" />
 		</Compiler>
 		<Linker>
+			<Add option="-std=c++14" />
 			<Add library="zlib" />
 			<Add library="fltk_gl" />
 			<Add library="fltk_forms" />
@@ -55,18 +63,24 @@
 			<Add library="fltk_jpeg" />
 			<Add library="fltk_png" />
 			<Add library="fltk" />
+			<Add library="MemoryModulePP" />
+			<Add library="dwmapi" />
+			<Add library="shlwapi" />
 			<Add library="comdlg32" />
 			<Add library="ole32" />
-			<Add library="shlwapi" />
 			<Add library="uuid" />
 			<Add library="comctl32" />
 			<Add library="gdi32" />
+			<Add library="pthread" />
+			<Add library="ws2_32" />
 			<Add directory="lib" />
 			<Add directory="lib/FLTK" />
 			<Add directory="include" />
 		</Linker>
 		<Unit filename="CHANGELOG" />
 		<Unit filename="TODO" />
+		<Unit filename="forms/interface.fl" />
+		<Unit filename="include/Microsoft/xcompress.h" />
 		<Unit filename="include/appsettings.h" />
 		<Unit filename="include/bytestream.h" />
 		<Unit filename="include/filesystem.h" />
@@ -87,6 +101,7 @@
 		<Unit filename="include/fmtFIX.h" />
 		<Unit filename="include/fmtFNT.h" />
 		<Unit filename="include/fmtITA.h" />
+		<Unit filename="include/fmtLFS.h" />
 		<Unit filename="include/fmtLIT.h" />
 		<Unit filename="include/fmtPACK.h" />
 		<Unit filename="include/fmtROOM.h" />
@@ -101,6 +116,7 @@
 		<Unit filename="include/fmtXGS.h" />
 		<Unit filename="include/fmtXSB.h" />
 		<Unit filename="include/fmtXWB.h" />
+		<Unit filename="include/interface.h" />
 		<Unit filename="include/rapidXML/rapidxml_ext.h" />
 		<Unit filename="include/registry.h" />
 		<Unit filename="include/resource.h" />
@@ -135,6 +151,7 @@
 		<Unit filename="src/fmtFIX.cpp" />
 		<Unit filename="src/fmtFNT.cpp" />
 		<Unit filename="src/fmtITA.cpp" />
+		<Unit filename="src/fmtLFS.cpp" />
 		<Unit filename="src/fmtLIT.cpp" />
 		<Unit filename="src/fmtPACK.cpp" />
 		<Unit filename="src/fmtROOM.cpp" />
@@ -152,6 +169,7 @@
 		<Unit filename="src/icon.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>
+		<Unit filename="src/interface.cxx" />
 		<Unit filename="src/registry.cpp" />
 		<Unit filename="src/scriptini.cpp" />
 		<Unit filename="src/stringenc.cpp" />
@@ -160,10 +178,6 @@
 		<Unit filename="src/wregistry.cpp" />
 		<Unit filename="src/wstringext.cpp" />
 		<Extensions>
-			<code_completion />
-			<envvars />
-			<debugger />
-			<lib_finder disable_auto="1" />
 			<DoxyBlocks>
 				<comment_style block="0" line="2" />
 				<doxyfile_project />
@@ -173,6 +187,7 @@
 				<doxyfile_dot />
 				<general />
 			</DoxyBlocks>
+			<lib_finder disable_auto="1" />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

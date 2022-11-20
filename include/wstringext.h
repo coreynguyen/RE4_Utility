@@ -57,8 +57,7 @@ std::wstring getFilenameFileW(const std::wstring &str);
  * @return (Extension) returns: ".jpg"
  */
 std::wstring getFilenameTypeW (std::wstring const &path);
-
-
+std::string ReplaceAllW(std::string str, const std::string& from, const std::string& to);
 std::wstring string_to_wstring (std::string s);
 std::wstring getSavePathW(std::wstring defaultPath = L"", const wchar_t* szCaption = L"Browse for folder...", unsigned int flags = BIF_USENEWUI, HWND hOwner = NULL);
 void getFilesW (std::wstring pattern, std::vector<std::wstring> &v);

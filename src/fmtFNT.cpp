@@ -51,7 +51,7 @@ void fmtFNT::open (std::wstring file) {
 	}
 
 void fmtFNT::export_txt (std::wstring outpath) {
-		std::wstring bio4 = app->bio_path;
+		std::wstring bio4 = app->getBio4Path();
 
 
 		if (bio4.length() > 0) {

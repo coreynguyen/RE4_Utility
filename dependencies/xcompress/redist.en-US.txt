@@ -1,0 +1,60 @@
+The following is a list of files available for redistribution under the terms of the 
+Microsoft XNA Game Studio 4.0 license agreement.
+    
+Microsoft XNA Framework Redistributable 4.0
+
+    \v4.0\Redist\XNA FX Redist\xnafx40_redist.msi
+
+Microsoft DirectX 9.0c runtime files for use with Microsoft XNA Framework Redistributable 4.0
+
+    \v4.0\Redist\DX Redist\APR2007_d3dx9_33_x86.cab
+    \v4.0\Redist\DX Redist\APR2007_xinput_x86.cab
+    \v4.0\Redist\DX Redist\DSETUP.dll
+    \v4.0\Redist\DX Redist\dsetup32.dll
+    \v4.0\Redist\DX Redist\DXSETUP.exe
+    \v4.0\Redist\DX Redist\dxupdate.cab
+    \v4.0\Redist\DX Redist\Mar2009_d3dx9_41_x86.cab
+    \v4.0\Redist\DX Redist\Feb2010_xact_x86.cab
+    \v4.0\Redist\DX Redist\Feb2010_XAudio_x86.cab
+    \v4.0\Redist\DX Redist\Feb2010_X3DAudio_x86.cab
+
+Fonts
+
+The following sample OpenType fonts are supplied under license from Ascender Corporation 
+for use "as is." These fonts implement only a subset of the total features defined by the 
+OpenType font format. They contain the ANSI character set along with OpenType typographic 
+features.
+
+To license versions of the OpenType fonts with extended character sets (that is, Latin 1 
+code page 1252), or to evaluate a wide range of fonts for game developers, contact
+Ascender Corporation at http://www.ascendercorp.com/xna.html.
+
+    Andyb.ttf
+    JingJing.ttf
+    Kooten.ttf
+    Linds.ttf
+    Miramo.ttf
+    Miramob.ttf
+    Moire-Bold.ttf
+    Moire-ExtraBold.ttf
+    Moire-Light.ttf
+    Moire-Regular.ttf
+    MotorwerkOblique.ttf
+    NGO_____.ttf
+    NGOB____.ttf
+    OcraExt.ttf
+    Peric.ttf
+    Pericl.ttf
+    Pesca.ttf
+    Pescab.ttf
+    QuartMS.ttf
+    SegoeKeycaps.ttf
+    Segoepr.ttf
+    Segoeprb.ttf
+    SegoeUIMono-Bold.ttf
+    SegoeUIMono-Regular.ttf
+    Wscsnbd.ttf
+    Wscsnbdit.ttf
+    Wscsnit.ttf
+    Wscsnrg.ttf
+    

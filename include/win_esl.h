@@ -4,6 +4,8 @@
 #ifndef win_esl_h
 #define win_esl_h
 #include <FL/Fl.H>
+#include <FL/Fl_Choice.H>
+#include <FL/Fl_Ask.H>
 /**
  the esl cannot excced 256 entries because it gets copied into the game save
 */

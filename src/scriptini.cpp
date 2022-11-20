@@ -1,6 +1,15 @@
 #include "scriptini.h"
 
-scriptini* ini;
+ini_list::ini_list (int i, std::string p) {
+    index = i;
+    item = p;
+    }
+
+bool ini_list_comparare(const ini_list lhs, const ini_list rhs) {
+    return lhs.index < rhs.index;
+    }
+
+scriptini* ini = nullptr;
 
 scriptini::scriptini() {
 	//ctor
@@ -181,11 +190,7 @@ void scriptini::string (std::string var_name, std::string var_value, std::string
 
 void scriptini::wstring (std::string var_name, std::wstring var_value, std::string notes, signed int index) {
 	if (var_value.length() > 0) {
-		std::string utf8str = "";
-		utf8str.reserve(var_value.length() * 3);
-		for (unsigned int i = 0; i < var_value.length(); i++) {
-			utf8str += unicode_2_utf8(var_value[i]);
-			}
+		std::string utf8str = unicode_to_utf8(var_value);
 		std::string lne = "";
 		if (index > -1) {
 			lne = padString("  " + var_name, varlen - idxlen, " ", false);
@@ -324,7 +329,7 @@ void scriptini::vector3 (std::string var_name, float var_value_x, float var_valu
 
 	}
 
-void scriptini::open (std::wstring file) {
+bool scriptini::open (std::wstring file) {
 
 	// open file
 	bytestream f;
@@ -367,7 +372,9 @@ void scriptini::open (std::wstring file) {
 					}
 				}
 			}
+        return true;
 		}
+    return false;
 	}
 
 std::string scriptini::get_string (std::string secname, std::string varname) {
@@ -376,14 +383,15 @@ std::string scriptini::get_string (std::string secname, std::string varname) {
 	unsigned int c;
 	unsigned int b;
 	unsigned int bb;
-	bool chk = false;
+	bool chk = false; // switches between search and logging
 
 	secname = tolower(secname);
 	varname = tolower(varname);
 
-
+    // Read Ini line by line
 	for (std::string line; std::getline(iss, line); ) {
 
+        // Skip if line is empty
 		if (line.length() == 0) {continue;}
 
 		// check for comment
@@ -400,7 +408,7 @@ std::string scriptini::get_string (std::string secname, std::string varname) {
 			}
 
 
-
+        // Log Value
 		if (chk) {
 
 			// Check for variable
@@ -420,9 +428,9 @@ std::string scriptini::get_string (std::string secname, std::string varname) {
 					}
 				}
 			}
+
+        // Search for Value
 		else {
-
-
 			if ((b = line.find("[")) != std::string::npos && (bb = line.find("]")) != std::string::npos) {
 
 				if (b + 1 < line.length() && bb > b) {
@@ -465,8 +473,11 @@ signed long long scriptini::get_integer (std::string secname, std::string varnam
 	}
 
 bool scriptini::get_boolean (std::string secname, std::string varname) {
-	std::string val = get_string(secname, varname);
-	if (val.length() > 0) {return convert_to<bool>(val);}
+	std::string val = tolower(get_string(secname, varname));
+	if (val == "true" || val == "t" || val == "1" || val == "on" || val == "yes") {
+        return true;
+        }
+	//if (val.length() > 0) {return convert_to<bool>((val));} // huh not working?
 	return false;
 	}
 
@@ -505,6 +516,95 @@ void scriptini::get_vector3 (std::string secname, std::string varname, float &ve
 			}
 		}
 	}
+
+std::vector<ini_list> scriptini::get_list (std::string secname, std::string varname) {
+	std::string v;
+	std::istringstream iss(txt);
+	unsigned int c;
+	unsigned int b;
+	unsigned int bb;
+	bool chk = false; // switches between search and logging
+    std::vector<ini_list> flist;
+
+	secname = tolower(secname);
+	varname = tolower(varname);
+
+    // Read Ini line by line
+	for (std::string line; std::getline(iss, line); ) {
+
+        // Skip if line is empty
+		if (line.length() == 0) {continue;}
+
+		// check for comment
+		c = line.find(";");
+		if (c != std::string::npos) {
+			if (c == 0) {
+				// skip
+				continue;
+				}
+			else {
+				// remove comment
+				line = line.substr(0, c);
+				}
+			}
+
+
+        // Log Value
+		if (chk) {
+
+			// Check for variable
+			b = line.find("=");
+			if (b != std::string::npos && b > 0) {
+
+
+				// extract variable name
+				v = tolower(trim(line.substr(0, b)));
+
+				// check variable
+				if (v.find(varname) == 0) {
+					if (line.length() > 0 && b + 1 < line.length()) {
+                        // Assing into vector
+                        flist.push_back(
+                            ini_list(
+                                convert_to<int>(separateNumbers(ReplaceAll(trim(line.substr(0, b)), " ", ""))),
+                                trim(line.substr(b + 1))
+                                )
+                            );
+						}
+					}
+				}
+			}
+
+        // Search for Value
+		else {
+			if ((b = line.find("[")) != std::string::npos && (bb = line.find("]")) != std::string::npos) {
+
+				if (b + 1 < line.length() && bb > b) {
+					v = tolower(trim(line.substr(b + 1, bb - b - 1)));
+
+					if (v == secname) {
+						chk = true;
+						}
+
+					}
+				}
+			}
+		}
+
+
+    // sort the array
+    if (flist.size() > 0) {
+        std::sort(flist.begin(), flist.end(), ini_list_comparare);
+        for (unsigned int i = 0; i < flist.size(); i++) {
+
+            std::cout << i << std::endl;
+            std::cout << flist[i].index << std::endl;
+            std::cout << flist[i].item << std::endl;
+            }
+        }
+
+    return flist;
+    }
 
 bool scriptini::find_section (std::string secname) {
 

@@ -179,6 +179,17 @@ std::string unicode_2_utf8 (uint32_t x) {
 	return y;
 	}
 
+std::string unicode_to_utf8 (std::wstring str) {
+    std::string utf8str = "";
+    if (str.length() > 0) {
+        utf8str.reserve(str.length() * 3);
+        for (unsigned int i = 0; i < str.length(); i++) {
+            utf8str.append(unicode_2_utf8(str[i]));
+            }
+        }
+    return utf8str;
+    }
+
 std::wstring utf8_2_unicode (std::string &str) {
 	std::wstring w;
 	uint8_t byte;

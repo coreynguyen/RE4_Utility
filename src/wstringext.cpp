@@ -98,6 +98,16 @@ std::wstring getFilenameTypeW (std::wstring const &path ) {
 	//return ext;
 	}
 
+std::wstring ReplaceAll(std::wstring str, const std::wstring& from, const std::wstring& to) {
+    // https://stackoverflow.com/a/24315631
+    size_t start_pos = 0;
+    while((start_pos = str.find(from, start_pos)) != std::wstring::npos) {
+        str.replace(start_pos, from.length(), to);
+        start_pos += to.length(); // Handles case where 'to' is a substring of 'from'
+        }
+    return str;
+    }
+
 std::wstring string_to_wstring (std::string s) {
 	// http://blog.mijalko.com/2008/06/convert-stdstring-to-stdwstring.html
 	std::wstring ws;

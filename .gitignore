@@ -1,8 +1,8 @@
 bin/*
 res/*
 bak/*
-obj/*
 lib/*
+obj/*
 forms/*
 doxygen/*
 .vs/*

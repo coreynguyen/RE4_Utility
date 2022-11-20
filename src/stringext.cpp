@@ -313,7 +313,7 @@ std::string ReplaceAll(std::string str, const std::string& from, const std::stri
 std::string get_part_date(const std::string &datepart, time_t now) {
     // Visit http://en.cppreference.com/w/cpp/chrono/c/strftime
     // for more information about date/time format
-    
+
     struct tm  tstruct;
     char       buf[80];
 	tstruct = *localtime(&now);
@@ -328,6 +328,15 @@ std::string wstring_to_string (std::wstring ws) {
 	std::string s;
 	return s.assign(ws.begin(), ws.end());
 	}
+std::string separateNumbers (std::string str, bool getNums) {
+    std::string nstr = "";
+    for (unsigned int i = 0; i < str.length(); i++) {
+        if (str[i] > 47 && str[i] < 58) {
+            if (getNums) {nstr += str[i];}
+            } else if (!getNums) {nstr += str[i];}
+        }
+    return nstr;
+    }
 std::string IntToHexString(int number, int length) {
     std::string s;
     std::ostringstream temp;

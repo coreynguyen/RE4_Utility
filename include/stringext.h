@@ -98,6 +98,7 @@ std::string ReplaceAll(std::string str, const std::string& from, const std::stri
 std::string get_part_date(const std::string &datepart, time_t now = time(0));
 std::string IntToHexString(int number, int length);
 std::string wstring_to_string (std::wstring ws);
+std::string separateNumbers (std::string str, bool getNums = true);
 void getFiles (std::string pattern, std::vector<std::string> &v);
 void pause (bool useSystem = false);
 

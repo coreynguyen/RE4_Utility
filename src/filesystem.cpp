@@ -1,5 +1,92 @@
 #include "filesystem.h"
 
+// Win32 incompatibilities
+#if defined(WIN32) && !defined(__GNUC__)
+    #define wcsncasecmp _wcsnicmp
+    #define wcscasecmp _wcsicmp
+    static inline bool isnan(double x) { return x != x; }
+    static inline bool isinf(double x) { return !isnan(x) && isnan(x - x); }
+#endif
+
+std::string win::fixTrailingSlash (std::string path, bool addSlash) {
+    if (!path.empty()) {
+        if ((*path.rbegin() == '/' || *path.rbegin() == '\\')) {
+            if (!addSlash) {
+                path = path.substr(0, path.length() - 1);
+                }
+            }
+        else if (addSlash) {
+            path += '\\';
+            }
+        }
+    return path;
+    }
+std::wstring win::fixTrailingSlashW (std::wstring path, bool addSlash) {
+    if (!path.empty()) {
+        if ((*path.rbegin() == L'/' || *path.rbegin() == L'\\')) {
+            if (!addSlash) {
+                path = path.substr(0, path.length() - 1);
+                }
+            }
+        else if (addSlash) {
+            path += L'\\';
+            }
+        }
+    return path;
+    }
+
+std::string win::amendRelativePath (std::string relPath, std::string basePath) {
+
+    // Buffer to hold combined path.
+    char buffer_1[MAX_PATH] = "";
+    char *lpStr1;
+    lpStr1 = buffer_1;
+
+    PathCombineA(lpStr1,basePath.c_str(),relPath.c_str());
+
+    return lpStr1;
+    }
+
+std::wstring win::amendRelativePathW (std::wstring relPath, std::wstring basePath) {
+
+    // Buffer to hold combined path.
+    wchar_t buffer_1[MAX_PATH] = L"";
+    wchar_t *lpStr1;
+    lpStr1 = buffer_1;
+
+    PathCombineW(lpStr1,basePath.c_str(),relPath.c_str());
+
+    return lpStr1;
+    }
+
+bool win::is_absolute_path (std::string path) {
+        char full[_MAX_PATH];
+        char path_slash[_MAX_PATH];
+        char *p;
+        strncpy(path_slash, path.c_str(), _MAX_PATH);
+        path_slash[_MAX_PATH-1] = '\0';
+        for (p = path_slash; p < path_slash + strlen(path_slash); p++) {
+            if (*p == '/') {
+                *p = '\\';
+                }
+            }
+        return (strcasecmp(_fullpath(full, path_slash, _MAX_PATH), path_slash) == 0);
+        }
+
+bool win::is_absolute_pathW (std::wstring path) {
+        wchar_t full[_MAX_PATH];
+        wchar_t path_slash[_MAX_PATH];
+        wchar_t *p;
+        wcsncpy(path_slash, path.c_str(), _MAX_PATH);
+        path_slash[_MAX_PATH-1] = '\0';
+        for (p = path_slash; p < path_slash + wcslen(path_slash); p++) {
+            if (*p == '/') {
+                *p = '\\';
+                }
+            }
+        return (_wcsicmp(_wfullpath(full, path_slash, _MAX_PATH), path_slash) == 0);
+        }
+
 std::wstring win::openfilenameW(const wchar_t* filter = L"All Files (*.*)\0*.*\0", HWND owner = NULL, unsigned long flags = OFN_EXPLORER | OFN_FILEMUSTEXIST | OFN_HIDEREADONLY) {
 	// add to link -lcomdlg32 -lole32
 	std::wstring filename(MAX_PATH, L'\0');

@@ -1,5 +1,6 @@
-#define MAINICON ICON "icon.ico"
-#define IDI_ICON 101
+#define MAINICON     ICON "icon.ico"
+#define IDI_ICON     101
+#define IDR_DLL_X861 102
 
 
 #define VER_FILEVERSION             3,10,349,0

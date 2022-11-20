@@ -7,9 +7,7 @@ set "HH=%dt:~8,2%" & set "Min=%dt:~10,2%" & set "Sec=%dt:~12,2%" & set "MS=%dt:~
 set "datestamp=%YYYY%-%MM%-%DD%"
 
 
->"%~dp0\\include\version.h" echo char const* appver = "RE4 Utility (Build: %datestamp%)";
-
-
-
-
-
+>"%~dp0\\include\version.h" echo #ifndef appver_h
+>>"%~dp0\\include\version.h" echo #define appver_h
+>>"%~dp0\\include\version.h" echo constexpr char const* appver = "RE4 Utility (Build: %datestamp%)";
+>>"%~dp0\\include\version.h" echo #endif

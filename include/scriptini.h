@@ -11,7 +11,13 @@
 #include "stringext.h"
 #include "stringenc.h"
 
+struct ini_list {
+    int index;
+    std::string item;
+    ini_list (int i = -1, std::string p = "");
+    };
 
+bool ini_list_comparare(const ini_list lhs, const ini_list rhs);
 
 class scriptini {
 public:
@@ -37,7 +43,7 @@ public:
 	void hexnumber (std::string var_name, long unsigned int var_value, unsigned int bytelen = 8, std::string notes = "");
 	void vector2 (std::string var_name, float var_value_x, float var_value_y, bool sep_lines = false, std::string notes = "");
 	void vector3 (std::string var_name, float var_value_x, float var_value_y, float var_value_z, bool sep_lines = false, std::string notes = "");
-	void open (std::wstring file);
+	bool open (std::wstring file);
 	std::string get_string (std::string secname, std::string varname);
 	std::wstring get_wstring (std::string secname, std::string varname);
 	signed long long get_integer (std::string secname, std::string varname);
@@ -45,6 +51,7 @@ public:
 	float get_fraction (std::string secname, std::string varname);
 	void get_vector2 (std::string secname, std::string varname, float &vec1, float &vec2);
 	void get_vector3 (std::string secname, std::string varname, float &vec1, float &vec2, float &vec3);
+	std::vector<ini_list> get_list (std::string secname, std::string varname);
 	bool find_section (std::string secname);
 
 protected:

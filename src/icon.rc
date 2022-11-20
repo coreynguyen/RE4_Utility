@@ -6,11 +6,19 @@
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 
+
 //#include "resource.h"
+#define MAINICON     ICON "icon.ico"
+#define IDI_ICON     101
+#define IDR_DLL_X861 102
 
 IDI_ICON1               ICON "icon.ico"
 101 ICON DISCARDABLE "icon.ico"
+IDR_DLL_X861 DLL_X86 "res\\xcompress\\xcompress32.dll"
 
+//#if !defined(XMEM_RESOURCE_DLL)
+//IDR_DLL_X861            DLL_X86                 "res\\xcompress\\xcompress32.dll"
+//#endif
 
 1 VERSIONINFO
 FILEVERSION 1, 1, 0, 1000
