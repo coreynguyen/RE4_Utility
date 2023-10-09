@@ -10,7 +10,7 @@
 #include "bytestream.h"
 
 
-struct fmtCNS_Room {
+struct fmtCNS_Enable {
 	bool enemy_enabled;
 	bool obj_enabled;
 	bool esp_enabled;
@@ -23,25 +23,35 @@ struct fmtCNS_Room {
 	bool evt_enabled;
 	bool sat_enabled;
 	bool eat_enabled;
-	fmtCNS_Room ();
+	bool val13;
+	bool val14;
+	bool val15;
+	bool val16;
+	bool val17;
+	bool val18;
+	bool val19;
+	bool val20;
+	bool val21;
+	bool val22;
+	bool val23;
+	bool val24;
+	bool val25;
+	bool val26;
+	bool val27;
+	bool val28;
+	bool val29;
+	bool val30;
+	bool val31;
+	bool val32;
+	fmtCNS_Enable ();
 	void read_cns_room_flag (uint32_t val);
 	uint32_t get_cns_room_flag ();
 	};
 
-struct fmtCNS_Core {
-	bool unk1_enabled;
-	bool unk2_enabled;
-	bool unk3_enabled;
-	bool unk4_enabled;
-	fmtCNS_Core ();
-	void read_cns_core_flag (uint32_t val);
-	uint32_t get_cns_core_flag ();
-	};
 
 struct fmtCNS {
-	uint32_t flag1;
-	uint32_t flag2;
-	fmtCNS_Room room_flag;
+	uint32_t count;
+	fmtCNS_Enable enable;
 	uint32_t enemy_num;		// Range [0 - 200]
 	uint32_t obj_num;			// Range [0 - 800]
 	uint32_t esp_num;			// Range [0 - 16384]
@@ -54,11 +64,9 @@ struct fmtCNS {
 	uint32_t evt_num;			// Range [0 - 100]
 	uint32_t sat_num;			// Range [0 - 200]
 	uint32_t eat_num;			// Range [0 - 200]
-	fmtCNS_Core core_flag;
-	uint32_t unk1;
-	uint32_t unk2;
-	uint32_t unk3;
-	uint32_t unk4;
+	uint32_t value[20];
+
+
 	fmtCNS ();
 	void read_cns (bytestream &f);
 	void write_cns (bytestream &s);
